@@ -1,10 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Swiper from 'react-id-swiper';
 import Test from './Test';
+import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
 
-const test = [1, 2, 3, 4, 5]
+import {LOAD_DATA_REQUEST} from '../reducers/portfolio';
 
 const Swip = () => {
+	const dispatch = useDispatch();
+	const { work } = useSelector(state=>state.portfolio);
+
+	useEffect(() => {
+		dispatch({
+			type: LOAD_DATA_REQUEST
+		})
+	}, []);
+
 	const params = {
 		slidesPerView: 1,
 		spaceBetween: 30,
@@ -20,18 +31,22 @@ const Swip = () => {
 	};
 
 	return (
-		<Swiper {...params}>
-			{test.map((v, i) => {
-				return (
-					<div key={v}>
-						<Test text={v} img='./images/test_mac.png'/>
-					</div>
-				);
-			})}
-		</Swiper>
+		<SwipContainer>
+			<Swiper {...params}>
+				{work.map((v, i) => {
+					return (
+						<div key={v.id}>
+							<Test page={v}/>
+						</div>
+					);
+				})}
+			</Swiper>
+		</SwipContainer>
 	);
 };
 
-
+const SwipContainer = styled.div`
+	margin: 5vw 5vh;
+`;
 
 export default Swip;
