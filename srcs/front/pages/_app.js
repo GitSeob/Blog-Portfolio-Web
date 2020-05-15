@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AppLayout from '../containers/AppLayout';
-import App, {Container} from 'next/app'
 import Helmet from 'react-helmet';
+
+// modules for Redux connect
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
 import reducer from '../reducers';
-import sagaMiddleware from '../sagas/middleware';
+// import sagaMiddleware from '../sagas/middleware';
+import createSagaMiddleware from '@redux-saga/core';
 import rootSaga from '../sagas'
 
 const Home = ({ Component, store }) => {
@@ -65,13 +67,14 @@ const Body = {
 	lineHeight: 1.5,
 };
 
-App.propTypes = {
+Home.propTypes = {
 	Component: PropTypes.elementType.isRequired,
 	store: PropTypes.object,
 };
 
-export default withRedux((initialState, options) => {
+const configureStore = (initialState, options) => {
 	// store 커스터마이징
+	const sagaMiddleware = createSagaMiddleware();
 	const middlewares = [sagaMiddleware];
 	// redux는 단순하게 action과 reducer에 따라 state를 바꿔주는 것이기에
 	// 그 외의 기능을 이용하려면 middleware를 사용해야 한다.
@@ -86,4 +89,6 @@ export default withRedux((initialState, options) => {
 	const store = createStore(reducer, initialState, enhancer);
 	sagaMiddleware.run(rootSaga);
 	return store
-})(Home);
+}
+
+export default withRedux(configureStore)(Home);

@@ -1,8 +1,8 @@
-import { combineReducers } from 'redux';
-import portfolio from './portfolio';
+import { combineReducers } from 'redux'
+import portfolio from './portfolio'
 
 const rootReducer = combineReducers({
-	portfolio,
+	portfolio
 })
 
-export default rootReducer;
+export default rootReducer
