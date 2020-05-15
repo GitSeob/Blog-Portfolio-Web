@@ -1,29 +1,27 @@
-import produce from 'immer';
 
-export const initialState = {
-	isLoaded: false,
-	data: {},
-}
-
-const dummy = {
+export const dummy = {
 		about: {
-		title: 'About Myself',
-		subTitle: 'HELLO',
-		content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nInteger scelerisque mattis aliquam.\nInterdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur in felis vitae justo pulvinar varius sed in nisl.\nCurabitur porttitor pretium rhoncus. Nunc vitae lacus a purus mollis laoreet in eget massa. Sed vel tristique lectus. Praesent sit amet sollicitudin urna.\nNunc dolor mi, vehicula non pellentesque id, sagittis non lectus. Quisque finibus dolor dolor, vitae interdum justo pharetra in. Etiam gravida sem vel turpis convallis cursus id nec eros. Pellentesque efficitur tristique lacus.\nMorbi a justo eleifend, imperdiet risus a, sodales leo. Maecenas fringilla quam vitae nunc sollicitudin, a pharetra tortor vulputate. Nam lobortis in lorem at scelerisque. Vestibulum ut velit non sem aliquam mollis accumsan ac justo.',
+			title: 'About Myself',
+			subTitle: 'HELLO',
+			content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nInteger scelerisque mattis aliquam.\nInterdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur in felis vitae justo pulvinar varius sed in nisl.\nCurabitur porttitor pretium rhoncus. Nunc vitae lacus a purus mollis laoreet in eget massa. Sed vel tristique lectus. Praesent sit amet sollicitudin urna.\nNunc dolor mi, vehicula non pellentesque id, sagittis non lectus. Quisque finibus dolor dolor, vitae interdum justo pharetra in. Etiam gravida sem vel turpis convallis cursus id nec eros. Pellentesque efficitur tristique lacus.\nMorbi a justo eleifend, imperdiet risus a, sodales leo. Maecenas fringilla quam vitae nunc sollicitudin, a pharetra tortor vulputate. Nam lobortis in lorem at scelerisque. Vestibulum ut velit non sem aliquam mollis accumsan ac justo.',
 	},
-	abilities: [{
-		id: 0,
-		title: '개잘생김',
-		list: [
-			'눈', '코', '입', '전부다',
-		]
-	},{
-		id: 1,
-		title: '노래잘부름',
-		list: [
-			'2018년 화양리 지그재그 신년회 노래자랑 1등', '2017년 화양리 지그재그 신년회 노래자랑 1등',
-		]
-	}],
+	abilities: {
+		title: 'What can I do',
+		subTitle: 'Abilities',
+		content: [{
+			id: 0,
+			title: '개잘생김',
+			list: [
+				'눈', '코', '입', '전부다',
+			]
+		},{
+			id: 1,
+			title: '노래잘부름',
+			list: [
+				'2018년 화양리 지그재그 신년회 노래자랑 1등', '2017년 화양리 지그재그 신년회 노래자랑 1등',
+			]
+		}],
+	},
 	work : [{
 		id: 1,
 		imgPath: './images/test_mac.png',
@@ -82,22 +80,29 @@ const dummy = {
 	},]
 };
 
+export const initialState = {
+	isLoaded: false,
+	data: dummy,
+}
+
+
 export const LOAD_DATA_REQUEST = 'LOAD_DATA_REQUEST';
 export const LOAD_DATA_SUCCUESS = 'LOAD_DATA_SUCCUESS';
 export const LOAD_DATA_FAILURE = 'LOAD_DATA_FAILURE';
 
 
+export const ADD_DUMY = 'ADD_DUMY';
+
 // ###########################################################################################
 // ###########################################################################################
 // ###########################################################################################
 // ###########################################################################################
 
-const portfolio = (state = initialState, action) => {
+const portfolio = (state=initialState, action) => {
 	switch (action.type) {
 		case LOAD_DATA_REQUEST: {
 			return {
 				...state,
-				data: {},
 			}
 		}
 		case LOAD_DATA_SUCCUESS: {
@@ -111,6 +116,17 @@ const portfolio = (state = initialState, action) => {
 			return {
 				...state,
 				isLoaded: true,
+			}
+		}
+		case ADD_DUMY: {
+			return {
+				...state,
+				data: dummy,
+			}
+		}
+		default: {
+			return {
+				...state,
 			}
 		}
 	}

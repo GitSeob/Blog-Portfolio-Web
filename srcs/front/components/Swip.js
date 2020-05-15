@@ -2,17 +2,15 @@ import React, { useEffect } from 'react';
 import Swiper from 'react-id-swiper';
 import Test from './Test';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 
-import {LOAD_DATA_REQUEST} from '../reducers/portfolio';
-
-const Swip = () => {
+const Swip = ({ data }) => {
 	const dispatch = useDispatch();
-	const { work } = useSelector(state=>state.portfolio);
 
-	useEffect(() => {
+	useEffect(()=> {
 		dispatch({
-			type: LOAD_DATA_REQUEST
+			type: 'HELLO_SAGA',
 		})
 	}, []);
 
@@ -33,7 +31,7 @@ const Swip = () => {
 	return (
 		<SwipContainer>
 			<Swiper {...params}>
-				{work.map((v, i) => {
+				{data.work.map((v, i) => {
 					return (
 						<div key={v.id}>
 							<Test page={v}/>
@@ -48,5 +46,9 @@ const Swip = () => {
 const SwipContainer = styled.div`
 	margin: 5vw 5vh;
 `;
+
+Swip.propTypes = {
+	data: PropTypes.object,
+}
 
 export default Swip;
