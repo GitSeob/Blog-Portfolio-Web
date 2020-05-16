@@ -41,6 +41,12 @@ const Home = ({ Component, store }) => {
 					src: 'https://unpkg.com/react-id-swiper@2.3.1/lib/react-id-swiper.js'
 				}, {
 					src: 'https://unpkg.com/react-id-swiper@2.3.1/lib/react-id-swiper.min.js'
+				}, {
+					src: 'https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/animation.gsap.min.js'
+				}, {
+					src: "https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js"
+				}, {
+					src: 'https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js'
 				}]}
 			/>
 			<body style={Body}>

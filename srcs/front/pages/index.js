@@ -6,6 +6,7 @@ import Ability from '../containers/Ability';
 import Work from '../containers/Work';
 import Contact from '../containers/Contact';
 import Footer from '../containers/Footer';
+// import Scroll from '../components/Scroll';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { LOAD_DATA_REQUEST, ADD_DUMY } from '../reducers/portfolio';
@@ -25,13 +26,14 @@ const Home = props => {
 
 	return (
 		<>
+			{/* <Scroll /> */}
 			<Door />
 			<About about={data.about}/>
 			<Ability abil={data.abilities}/>
-			{/* { data ? <Work work={data.work}/> : <></>} */}
-			<Work data={data}/>
+			{/* { data ? <Work work={data.work}/> : <></>}
+			{/* <Work data={data}/>
 			<Contact />
-			<Footer />
+			<Footer /> */}
 		</>
 	);
 };

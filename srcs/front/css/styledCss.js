@@ -42,8 +42,9 @@ export const H2 = styled.h2`
 `;
 
 export const DoorContainer = styled.div`
+	overflow: hidden;
 	width: 100%;
-	height: 100vh;
+	height: 100%;
 	min-height: 640px;
 	background-color: rgb(252, 188, 126);
 `;
@@ -75,12 +76,25 @@ export const Filter = styled.div`
 	align-items: center;
 	text-align: center;
 	justify-content: center;
+	// padding-top: 680px;
 	&.ability {
 		background-color: rgba( 255, 255, 255, 0.1 );
 	}
 	&.notFilter {
 		background-color: transparent;
 	}
+`;
+
+export const ScrollContainer = styled.div`
+	padding-bottom: 0;
+	display: flex;
+	flex-derction: column;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	align-items: center;
+	text-align: center;
+	justify-content: center;
 `;
 
 export const TestInner = styled.div`
