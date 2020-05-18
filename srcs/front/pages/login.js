@@ -53,6 +53,7 @@ const login = props => {
 			alert('비밀번호를 입력하세요.');
 			return ''
 		}
+		console.log({id, password});
 	}, [id, password]);
 
 	useEffect(() => {
@@ -62,8 +63,13 @@ const login = props => {
 		else {
 			setToggleID('label');
 		}
-		console.log({id, password, toggleID, togglePW});
-	}, [id, password])
+		if (password != ''){
+			setTogglePW('valid');
+		}
+		else {
+			setTogglePW('label');
+		}
+	}, [id, password, toggleID, togglePW])
 
 	return (
 		<div className="App">
