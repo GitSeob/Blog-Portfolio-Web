@@ -11,9 +11,11 @@ import reducer from '../reducers';
 // import sagaMiddleware from '../sagas/middleware';
 import createSagaMiddleware from '@redux-saga/core';
 import rootSaga from '../sagas'
+import '../css/login.css';
 
 const Home = ({ Component, store }) => {
 	return (
+		<body className='body'>
 		<Provider store={store}>
 			<Helmet
 				title='anjoy blog'
@@ -25,8 +27,6 @@ const Home = ({ Component, store }) => {
 					content: 'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=yes,viewport-fit=cover',
 				}]}
 				link={[{
-					rel: 'stylesheet', href: '../styleSheet.css'
-				},{
 					rel: 'stylesheet', href: 'https://unpkg.com/aos@2.3.1/dist/aos.css'
 				},{
 					rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.css'
@@ -41,36 +41,15 @@ const Home = ({ Component, store }) => {
 					src: 'https://unpkg.com/react-id-swiper@2.3.1/lib/react-id-swiper.js'
 				}, {
 					src: 'https://unpkg.com/react-id-swiper@2.3.1/lib/react-id-swiper.min.js'
-				}, {
-					src: 'https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/animation.gsap.min.js'
-				}, {
-					src: "https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js"
-				}, {
-					src: 'https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js'
-				}]}
+				},
+			]}
 			/>
-			<body style={Body}>
-				<AppLayout>
-					<Component />
-				</AppLayout>
-			</body>
+			<AppLayout>
+				<Component />
+			</AppLayout>
 		</Provider>
+		</body>
 	);
-};
-
-const Body = {
-	position: 'relative',
-	minHeight: '100%',
-	width: '100vw',
-	height: '100%',
-	minWidth: '360px',
-	overflowY: 'auto',
-	color: '#141414',
-	testAlign: 'center',
-	margin: 0,
-	padding: 0,
-	fontWeight: 400,
-	lineHeight: 1.5,
 };
 
 Home.propTypes = {

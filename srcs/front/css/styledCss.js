@@ -30,7 +30,7 @@ export const Box = styled.div`
 export const H1 = styled.h1`
 	@font-face {
 		font-family: 'Days';
-		src: url(../fonts/Days.otf) format('opentype');
+		src: url(./fonts/Days.otf) format('opentype');
 	}
 	margin: 10px 0 0 0;
 	font-family: 'Days', sans-serif;
@@ -85,18 +85,6 @@ export const Filter = styled.div`
 	}
 `;
 
-export const ScrollContainer = styled.div`
-	padding-bottom: 0;
-	display: flex;
-	flex-derction: column;
-	position: relative;
-	width: 100%;
-	height: 100%;
-	align-items: center;
-	text-align: center;
-	justify-content: center;
-`;
-
 export const TestInner = styled.div`
 	position: relative;
 	height: inherit;
@@ -144,3 +132,7 @@ export const Bubble = styled.div`
 		text-align: center;
 	}
 `;
+
+// export const Anchor = styled(Button.withComponent("a"))`
+// 	text-decoration:none;
+// `;
