@@ -21,13 +21,13 @@ const dummy = {
 	}]
 };
 
-const Ability = props => {
+const Ability = ({ abil }) => {
 	return (
 		<Box className='ability'>
 			<Filter className='ability'>
-				<Header subTitle='Ability' title='What can I do' />
+				<Header subTitle={abil.subTitle} title={abil.title} />
 				<BubbleContainer>
-					{dummy.abilities.map((v, i) => {
+					{abil.content.map((v, i) => {
 						return (
 							<TalkBubble key={v.id} id={v.id} title={v.title} list={v.list}/>
 						);

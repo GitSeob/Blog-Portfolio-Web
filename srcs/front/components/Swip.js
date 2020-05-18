@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Swiper from 'react-id-swiper';
 import Test from './Test';
+import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 
-const test = [1, 2, 3, 4, 5]
+const Swip = ({ data }) => {
+	const dispatch = useDispatch();
 
-const Swip = () => {
+	useEffect(()=> {
+		dispatch({
+			type: 'HELLO_SAGA',
+		})
+	}, []);
+
 	const params = {
 		slidesPerView: 1,
 		spaceBetween: 30,
@@ -20,18 +29,26 @@ const Swip = () => {
 	};
 
 	return (
-		<Swiper {...params}>
-			{test.map((v, i) => {
-				return (
-					<div key={v}>
-						<Test text={v} img='./images/test_mac.png'/>
-					</div>
-				);
-			})}
-		</Swiper>
+		<SwipContainer>
+			<Swiper {...params}>
+				{data.work.map((v, i) => {
+					return (
+						<div key={v.id}>
+							<Test page={v}/>
+						</div>
+					);
+				})}
+			</Swiper>
+		</SwipContainer>
 	);
 };
 
+const SwipContainer = styled.div`
+	margin: 5vw 5vh;
+`;
 
+Swip.propTypes = {
+	data: PropTypes.object,
+}
 
 export default Swip;
