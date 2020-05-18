@@ -57,13 +57,13 @@ const login = props => {
 	}, [id, password]);
 
 	useEffect(() => {
-		if (id != ''){
+		if (id){
 			setToggleID('valid');
 		}
 		else {
 			setToggleID('label');
 		}
-		if (password != ''){
+		if (password){
 			setTogglePW('valid');
 		}
 		else {
