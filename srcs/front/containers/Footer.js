@@ -11,6 +11,9 @@ const Footer = props => {
 					GITHUB
 				</Linked>
 			</Link>
+			<Link href="/login">
+				<a>로그인</a>
+			</Link>
 		</div>
 	);
 };
