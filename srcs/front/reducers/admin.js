@@ -1,5 +1,5 @@
 const initialState = {
-	isLoggeddIn: false,
+	isLoggedIn: false,
 	isLoggingIn: false,
 	isLoggingOut: false,
 	logInErrorReason: '',
@@ -42,13 +42,40 @@ export const EDIT_BLOG_REQUEST = 'EDIT_BLOG_REQUEST';
 export const EDIT_BLOG_SUCCESS = 'EDIT_BLOG_SUCCESS';
 export const EDIT_BLOG_FAILURE = 'EDIT_BLOG_FAILURE';
 
+const dummy_admin = {
+	id: 'anjoy1234',
+	nickname: 'anjoy',
+	permissionLV: 0,
+}
 
 const admin = (state=initialState, action) => {
 	switch (action.type) {
+		case LOGIN_ADMIN_REQUEST: {
+			return {
+				...state,
+				isLoggingIn: true,
+			};
+		}
+		case LOGIN_ADMIN_SUCCESS: {
+			return {
+				...state,
+				isLoggedIn: true,
+				isLoggingIn: false,
+				admin: dummy_admin
+			};
+		}
+		case LOGOUT_ADMIN_FAILURE: {
+			return {
+				...state,
+				isLoggingIn: false,
+			};
+		}
 		default: {
 			return {
 				...state,
-			}
+			};
 		}
 	}
 }
+
+export default admin;

@@ -2,7 +2,8 @@ import { all, fork, takeLatest, put } from 'redux-saga/effects';
 import { LOGIN_ADMIN_REQUEST, LOGIN_ADMIN_SUCCESS, LOGIN_ADMIN_FAILURE } from '../reducers/admin';
 
 function loginAPI(){
-
+	console.log('login api');
+	return (1);
 };
 
 function* login(action){

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const Edit = props => {
 	return (
 		<div>
-
+			<h1>EDIT</h1>
 		</div>
 	);
 };
