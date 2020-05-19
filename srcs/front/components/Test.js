@@ -27,7 +27,7 @@ const Test = ({ page }) => {
 				<ul style={{width: '80%', margin: '0', textAlign: 'left', lineHeight: '280%'}}>
 					{page.content.map((c) => {
 						return (
-							<li>{c}</li>
+							<li key={(c)}>{c}</li>
 						);
 					})}
 				</ul>

@@ -31,10 +31,10 @@ const Swip = ({ data }) => {
 	return (
 		<SwipContainer>
 			<Swiper {...params}>
-				{data.work.map((v, i) => {
+				{data.work.map((c) => {
 					return (
-						<div key={v.id}>
-							<Test page={v}/>
+						<div key={(c.id)}>
+							<Test page={c}/>
 						</div>
 					);
 				})}

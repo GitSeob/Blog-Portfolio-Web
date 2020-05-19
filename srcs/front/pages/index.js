@@ -31,7 +31,7 @@ const Main = props => {
 			<Ability abil={data.abilities}/>
 			<Work data={data}/>
 			<Contact />
-			<Footer /> *
+			<Footer />
 		</>
 	);
 };

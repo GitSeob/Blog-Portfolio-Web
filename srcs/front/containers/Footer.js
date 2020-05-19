@@ -6,11 +6,9 @@ import style from 'styled-components';
 const Footer = props => {
 	return (
 		<div style={{width: '100%', height: '50px'}}>
-			<Link href="https://github.com/GitSeob">
-				<Linked target="_blank" >
-					GITHUB
-				</Linked>
-			</Link>
+			<a href="https://github.com/GitSeob" target="_blank" >
+				GITHUB
+			</a>
 			<Link href="/login">
 				<a>로그인</a>
 			</Link>

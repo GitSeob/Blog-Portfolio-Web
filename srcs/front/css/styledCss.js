@@ -27,7 +27,7 @@ export const Box = styled.div`
 	}
 `;
 
-export const H1 = styled.h1`
+export const DoorH1 = styled.p`
 	@font-face {
 		font-family: 'Days';
 		src: url(./fonts/Days.otf) format('opentype');
@@ -36,7 +36,7 @@ export const H1 = styled.h1`
 	font-family: 'Days', sans-serif;
 `;
 
-export const H2 = styled.h2`
+export const DoorH2 = styled.h2`
 	margin: -10px 0 100px 0;
 	color: white;
 `;
@@ -132,7 +132,3 @@ export const Bubble = styled.div`
 		text-align: center;
 	}
 `;
-
-// export const Anchor = styled(Button.withComponent("a"))`
-// 	text-decoration:none;
-// `;

@@ -15,7 +15,6 @@ import '../css/login.css';
 
 const Home = ({ Component, store }) => {
 	return (
-		<body className='body'>
 		<Provider store={store}>
 			<Helmet
 				title='anjoy blog'
@@ -48,7 +47,6 @@ const Home = ({ Component, store }) => {
 				<Component />
 			</AppLayout>
 		</Provider>
-		</body>
 	);
 };
 

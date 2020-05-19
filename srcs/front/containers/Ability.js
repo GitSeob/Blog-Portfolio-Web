@@ -27,9 +27,9 @@ const Ability = ({ abil }) => {
 			<Filter className='ability'>
 				<Header subTitle={abil.subTitle} title={abil.title} />
 				<BubbleContainer>
-					{abil.content.map((v, i) => {
+					{abil.content.map((c) => {
 						return (
-							<TalkBubble key={v.id} id={v.id} title={v.title} list={v.list}/>
+							<TalkBubble key={(c.id)} abil={c}/>
 						);
 					})}
 				</BubbleContainer>
