@@ -18,7 +18,7 @@ const Login = props => {
 	const dispatch = useDispatch();
 	const [toggleID, setToggleID] = useState('label');
 	const [togglePW, setTogglePW] = useState('label');
-	const { admin, isloggedIn, isLoggingIn, logInErrorReason } = useSelector(state=>state.admin);
+	const { admin, isloggedIn, isLoggingIn } = useSelector(state=>state.admin);
 
 	const onSubmitForm = useCallback((e) => {
 		e.preventDefault();

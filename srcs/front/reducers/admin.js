@@ -1,9 +1,11 @@
 const initialState = {
-	isLoggedIn: false,
+	isLoggedIn: true,
 	isLoggingIn: false,
 	isLoggingOut: false,
 	logInErrorReason: '',
-	admin: null,
+	isLoadingEditData: false,
+	isLoadedEditData: false,
+	admin: 1,
 }
 
 export const LOGIN_ADMIN_REQUEST = 'LOGIN_ADMIN_REQUEST';
