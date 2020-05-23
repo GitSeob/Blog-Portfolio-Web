@@ -11,7 +11,7 @@ import reducer from '../reducers';
 // import sagaMiddleware from '../sagas/middleware';
 import createSagaMiddleware from '@redux-saga/core';
 import rootSaga from '../sagas'
-import '../css/login.css';
+import '../css/main.css';
 
 const Home = ({ Component, store }) => {
 	return (
