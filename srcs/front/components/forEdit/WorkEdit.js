@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const EditPort = props => {
+const WorkEdit = props => {
 	return (
 		<div>
-			EditPort
+
 		</div>
 	);
 };
 
-EditPort.propTypes = {
+WorkEdit.propTypes = {
 
 };
 
-export default EditPort;
+export default WorkEdit;

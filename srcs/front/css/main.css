@@ -1,0 +1,353 @@
+* {
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif;
+	list-style: none;
+	text-decoration: none;
+	outline: none;
+	border: none;
+}
+
+body, html {
+	position: 'relative';
+	min-height: '100%';
+	width: '100vw';
+	height: '100%';
+	min-width: '360px';
+	overflow-y: 'auto';
+	color: '#141414';
+	text-align: 'center';
+	margin: 0;
+	padding: 0;
+	font-weight: 400;
+	line-height: 1.5;
+}
+
+.App {
+	text-align: center;
+}
+
+.App-logo {
+	position: static;
+	animation: App-logo-spin infinite 20s linear;
+	height: 10vmin;
+}
+
+.App-header {
+	/* background-color: #282c34; */
+	background-image: url(../public/images/bg.jpg);
+	height: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-size: calc(10px + 2vmin);
+	/* color: white; */
+}
+
+.App-link {
+	color: #61dafb;
+}
+
+.Box{
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: 400px;
+		box-sizing: border-box;
+		box-shadow: rgba(0, 0, 0, 0.5) 0px 15px 25px;
+		padding: 40px;
+		background: rgba(0, 0, 0, 0.8);
+		border-radius: 10px;
+}
+
+.Box h2{
+	margin: 0 0 30px;
+	padding: 0;
+	color: #fff;
+	text-align: center;
+}
+
+.Box .InputBox{
+	position: relative;
+}
+.Box .InputBox input{
+	width: 100%;
+	padding: 10px 0;
+	font-size: 16px;
+	color: #fff;
+	margin-bottom: 30px;
+	border: none;
+	border-bottom: 1px solid #fff;
+	outline: none;
+	background: transparent;
+}
+
+.Box .InputBox label{
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 10px 0;
+	font-size: 16px;
+	color: #fff;
+	pointer-events: none;
+	transition: .5s;
+}
+
+.Box .InputBox input:focus ~ label{
+	top: -18px;
+	font-size: 12px;
+	color: #03a9f4;
+	left: 0;
+}
+
+.Box .InputBox .valid{
+	top: -18px;
+	font-size: 12px;
+	color: #03a9f4;
+	left: 0;
+}
+
+/* .Box .InputBox input:valid ~ label{
+	top: -18px;
+	font-size: 12px;
+	color: #03a9f4;
+	left: 0;
+} */
+
+.Box input[type="submit"] {
+	color: rgb(255, 255, 255);
+	cursor: pointer;
+	border-width: initial;
+	border-style: none;
+	border-color: initial;
+	border-image: initial;
+	outline: none;
+	background: rgb(3, 169, 244);
+	padding: 10px 20px;
+	border-radius: 5px;
+}
+
+@keyframes App-logo-spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.bg
+{
+		font-family: sans-serif;
+		margin: 0px;
+		padding: 0px;
+		background-image: url(../public/images/bg.jpg) center center cover no-repeat fixed;
+		background-repeat: no-repeat;
+}
+.box
+{
+	background: black;
+}
+
+.edit-main-menu:target .middle {
+	opacity: 1;
+}
+
+.middle {
+	width: calc(85% - 80px);
+	position: absolute;
+	padding: 40px;
+	left:15%;
+	overflow-y: scroll;
+}
+
+.edit-menu {
+	width: 100%;
+	overflow: scroll;
+	box-shadow: rgba(0, 0, 0, 0.5) 0px 10px 15px;
+	border-radius: 8px;
+}
+
+.edit-list {
+	border-top: 1px solid #333;
+	overflow: hidden;
+}
+
+.list-btn {
+	display: block;
+	padding: 16px 20px;
+	background: #333;
+	color: white;
+	position: relative;
+	z-index: 2;
+}
+
+.list-btn::before {
+	content: "";
+	position: absolute;
+	width: 14px;
+	height: 14px;
+	background: #333;
+	left: 20px;
+	bottom: -7px;
+	transform: rotate(45deg);
+}
+
+.list-btn i {
+	margin-right: 10px;
+}
+
+.list-under-menu{
+	width: 100%;
+	background: #19B3D3;
+	overflow: hidden;
+	transition: max-height 0.3s;
+	/* max-height: 0; */
+}
+
+.list-sub-menu {
+	width: 100%;
+	background: #19B3D3;
+	overflow: hidden;
+	transition: max-height 0.3s;
+	max-height: 0;
+}
+
+.listTitle{
+	width: 90%;
+	text-align: left;
+	display: block;
+	background: inherit;
+	outline: none;
+	border: none;
+	padding: 16px 26px;
+	text-decoration: none;
+	box-sizing: border-box;
+	color: white;
+	font-size: 14px;
+	margin: 4px 0;
+	position: relative;
+}
+
+.deleteButton{
+	width: 10%;
+	display: block;
+	background: inherit;
+	border: none;
+	outline: none;
+	padding: 16px 26px;
+	text-decoration: none;
+	box-sizing: border-box;
+	color: white;
+	font-size: 14px;
+	margin: 4px 0;
+	position: relative;
+	transition: 0.5s;
+}
+
+.deleteButton:hover {
+	color: red;
+}
+
+.list-sub-menu a {
+	display: block;
+	padding: 16px 26px;
+	color: white;
+	font-size: 14px;
+	margin: 4px 0;
+	position: relative;
+}
+
+.list-sub-menu a:before{
+	content: "";
+	position: absolute;
+	width: 6px;
+	height: 100%;
+	background: #19B3D3;
+	left: 0;
+	top: 0;
+	transition: 0.3s;
+	opacity: 0;
+}
+
+.list-header button:before{
+	content: "";
+	position: absolute;
+	width: 6px;
+	height: 100%;
+	background: #19B3D3;
+	left: 0;
+	top: 0;
+	transition: 0.3s;
+	opacity: 0;
+}
+
+.list-sub-menu a:hover:before{
+	opacity: 1;
+}
+
+.edit-list:target .list-sub-menu{
+	max-height: 100em;
+}
+
+.list-under-menu {
+	width: 100%;
+	background: #19B3D3;
+	overflow: hidden;
+	transition: max-height 0.3s;
+	/* max-height: 0; */
+}
+
+.edit-under-menu {
+	overflow: hidden;
+}
+
+.list-wa-menu {
+	width: 100%;
+	overflow: hidden;
+	transition: max-height 0.3s;
+	max-height: 0;
+}
+
+.list-header {
+	background: rgb(40, 40, 40);
+	margin: 0;
+	display: flex;
+}
+
+.list-wrapper {
+	width: 80%;
+	display: flex;
+	flex-wrap: wrap;
+	background: rgb(30, 30, 30);
+}
+
+.list-attribute {
+	margin: 5px 20px;
+	padding: 14px 40px;
+	background: #f4f5f9;
+	text-align: left;
+	border-radius: 18px;
+	position: relative;
+}
+
+.attrDelbtn {
+	background: inherit;
+	color: inherit;
+	position: absolute;
+	right: 0;
+	top: 0;
+	transform: translateY(50%);
+	margin-right: 5px;
+	transition: 0.5s;
+}
+
+.attrDelbtn:hover {
+	color: red;
+}
