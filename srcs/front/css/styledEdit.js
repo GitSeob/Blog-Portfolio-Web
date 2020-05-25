@@ -50,7 +50,7 @@ export const ContentContainer = styled.div`
 	height: 100%;
 	width: 100%;
 	padding: 0;
-	background: #2F323A;
+	// background: #2F323A;
 	overflow: auto;
 `;
 
@@ -147,7 +147,7 @@ export const AttrName = styled.div`
 `;
 
 export const AttrContent = styled.div`
-	width: 80%;
+	width: 100%;
 	padding: 16px 20px;
 	background: #f4f5f9;
 `;

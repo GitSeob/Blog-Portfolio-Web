@@ -1,27 +1,52 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { AEC, EditAttr, AttrName, AttrContent } from '../../css/styledEdit';
+import { Send } from '@material-ui/icons';
+import {useInput} from '../../pages/login';
 
-const Attr = ({ name, data }) => {
+export const Attr = ({ name, value }) => {
 	return (
 		<EditAttr>
 			<AttrName>
 				{name}
 			</AttrName>
 			<AttrContent>
-				{data}
+				{value}
 			</AttrContent>
 		</EditAttr>
 	);
 }
 
-const AboutEdit = props => {
+export const InputAttr = ({ name, rows=1, value, onChangeValue }) => {
+
 	return (
-		<AEC>
-			<Attr name="Title" data="About Myself" />
-			<Attr name="Sub Title" data="Hello" />
-			<Attr name="content" data="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." />
-		</AEC>
+		<EditAttr>
+			<AttrName>
+				{name}
+			</AttrName>
+			<textarea rows={rows} className="edit-input" value={value} type="text" onChange={onChangeValue} />
+		</EditAttr>
+	);
+}
+
+const AboutEdit = ({ data }) => {
+	const [title_value, onChangeTitle] = useInput(data.about.title);
+	const [subTitle_value, onChangeSubTitle] = useInput(data.about.subTitle);
+	const [content_value, onChangeContent] = useInput(data.about.content);
+
+	return (
+		<>
+			<AEC>
+				<InputAttr name="Title" value={title_value} onChangeValue={onChangeTitle}/>
+				<InputAttr name="Sub Title" value={subTitle_value} onChangeValue={onChangeSubTitle}/>
+				<InputAttr name="content" value={content_value} onChangeValue={onChangeContent} rows={10}/>
+			</AEC>
+			<div className="submit-container">
+				<button className="submit-attr-btn">
+					<Send /> Submit
+				</button>
+			</div>
+		</>
 	);
 };
 
