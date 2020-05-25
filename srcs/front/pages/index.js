@@ -6,13 +6,12 @@ import Ability from '../containers/Ability';
 import Work from '../containers/Work';
 import Contact from '../containers/Contact';
 import Footer from '../containers/Footer';
-// import Scroll from '../components/Scroll';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { LOAD_DATA_REQUEST, ADD_DUMY } from '../reducers/portfolio';
 
 
-const Home = props => {
+const Main = props => {
 	const dispatch = useDispatch();
 	const { data } = useSelector(state => state.portfolio);
 
@@ -30,18 +29,17 @@ const Home = props => {
 			<Door />
 			<About about={data.about}/>
 			<Ability abil={data.abilities}/>
-			{/* { data ? <Work work={data.work}/> : <></>}
-			{/* <Work data={data}/>
+			<Work data={data}/>
 			<Contact />
-			<Footer /> */}
+			<Footer />
 		</>
 	);
 };
 
-Home.getInitialProps = async ( context ) => {
-	context.store.dispatch({
-		type: LOAD_DATA_REQUEST,
-	})
-}
+// Main.getInitialProps = async ( context ) => {
+// 	context.store.dispatch({
+// 		type: LOAD_DATA_REQUEST,
+// 	})
+// }
 
-export default Home;
+export default Main;

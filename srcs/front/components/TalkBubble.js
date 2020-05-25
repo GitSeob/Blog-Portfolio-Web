@@ -3,16 +3,16 @@ import PropTypes from 'prop-types';
 import {Bubble} from '../css/styledCss';
 import styled from 'styled-components';
 
-const TalkBubble = props => {
+const TalkBubble = ({ abil }) => {
 	return (
-		<Container className={props.id % 2 == 0 ? 'left' : 'right'}>
+		<Container className={abil.id % 2 == 0 ? 'left' : 'right'}>
 			<Bubble>
-				<h1>{props.title}</h1>
+				<h1>{abil.title}</h1>
 				<ListContainer>
-				{props.list.map((v, i) => {
+				{abil.list.map((c) => {
 					return (
-						<ListOne>
-							<Circle /><p>{v}</p>
+						<ListOne key={(c.id)}>
+							<Circle /><p>{c.content}</p>
 						</ListOne>
 					);
 				})}
