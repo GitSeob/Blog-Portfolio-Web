@@ -1,27 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { AEC, EditAttr, AttrName, AttrContent } from '../../css/styledEdit';
+import {useInput} from '../../pages/login';
+import { AEC } from '../../css/styledEdit';
+import { InputAttr } from './AboutEdit';
+import { Send } from '@material-ui/icons';
 
-const Attr = ({ name, data }) => {
-	return (
-		<EditAttr>
-			<AttrName>
-				{name}
-			</AttrName>
-			<AttrContent>
-				{data}
-			</AttrContent>
-		</EditAttr>
-	);
-}
+const LinkEdit = ({ data }) => {
+	const [github_value, onChangeGithub] = useInput(data.link.github);
+	const [blog_value, onChangeBlog] = useInput(data.link.blog);
+	const [comment_value, onChangeComment] = useInput(data.link.comment);
 
-const LinkEdit = props => {
 	return (
-		<AEC>
-			<Attr name="Github" data="https://github.com/GitSeob" />
-			<Attr name="Blog" data="https://enjoy-with-anjoy.tistory.com/" />
-			<Attr name="Footer Comment" data="@made by anjoy" />
-		</AEC>
+		<>
+			<AEC>
+				<InputAttr name="Github" value={github_value} onChangeValue={onChangeGithub}/>
+				<InputAttr name="Blog" value={blog_value} onChangeValue={onChangeBlog}/>
+				<InputAttr name="Footer Comment" value={comment_value} onChangeValue={onChangeComment} />
+			</AEC>
+			<div className="submit-container">
+				<button className="submit-attr-btn">
+					<Send /> Submit
+				</button>
+			</div>
+		</>
 	);
 };
 

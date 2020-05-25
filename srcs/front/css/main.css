@@ -322,15 +322,18 @@ body, html {
 }
 
 .list-wrapper {
-	width: 80%;
+	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
 	background: rgb(30, 30, 30);
 }
 
 .list-attribute {
+	width: 100%;
 	margin: 5px 20px;
-	padding: 14px 40px;
+	height: 50px;
+	/* padding: 14px 40px; */
+	padding: 0 20px 0 10px;
 	background: #f4f5f9;
 	text-align: left;
 	border-radius: 18px;
@@ -350,4 +353,73 @@ body, html {
 
 .attrDelbtn:hover {
 	color: red;
+}
+
+.add-port-list {
+	width: 100%;
+	height: 100%;
+	color: white;
+	background: rgb(10, 10, 10);
+	padding: 14px 20px;
+	text-align: left;
+	transition: 0.5s;
+}
+
+.add-port-list:hover {
+	background: #03a9f4;
+}
+
+.add-attribute {
+	width: 100%;
+	background: rgb(20, 20, 20);
+	padding: 16px 20px;
+	color: white;
+}
+
+.submit-container {
+	display: flex;
+	width: 100%;
+	text-align: center;
+	font-size: 26px;
+}
+
+.submit-container button {
+	transition: 0.5s;
+}
+
+.submit-container button:hover {
+	background: #03a9f4;
+}
+
+.submit-attr-btn {
+	width: 100%;
+	background: rgb(30, 30, 30);
+	padding: 16px 20px;
+	color: white;
+}
+
+.edit-img-container {
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.edit-img-contents {
+	width: 100%;
+}
+
+.edit-input {
+	width: 100%;
+	padding: 16px 20px;
+	font-size: 16px;
+}
+
+
+.edit-list-input {
+	/* height: 100%; */
+	width: 90%;
+	border-radius: 16px;
+	font-size: 14px;
+	padding: 16px 20px;
+	background: #f4f5f9;
 }

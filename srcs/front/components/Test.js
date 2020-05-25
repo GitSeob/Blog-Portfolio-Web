@@ -18,7 +18,7 @@ const Test = ({ page }) => {
 					</div>
 					<div>
 						<p style={{margin: '0 10%', textAlign: 'left'}}>
-							{page.infomation}
+							{page.description}
 						</p>
 					</div>
 				</div>
