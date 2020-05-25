@@ -27,16 +27,16 @@ export const Box = styled.div`
 	}
 `;
 
-export const H1 = styled.h1`
+export const DoorH1 = styled.p`
 	@font-face {
 		font-family: 'Days';
-		src: url(../fonts/Days.otf) format('opentype');
+		src: url(./fonts/Days.otf) format('opentype');
 	}
 	margin: 10px 0 0 0;
 	font-family: 'Days', sans-serif;
 `;
 
-export const H2 = styled.h2`
+export const DoorH2 = styled.h2`
 	margin: -10px 0 100px 0;
 	color: white;
 `;
@@ -83,18 +83,6 @@ export const Filter = styled.div`
 	&.notFilter {
 		background-color: transparent;
 	}
-`;
-
-export const ScrollContainer = styled.div`
-	padding-bottom: 0;
-	display: flex;
-	flex-derction: column;
-	position: relative;
-	width: 100%;
-	height: 100%;
-	align-items: center;
-	text-align: center;
-	justify-content: center;
 `;
 
 export const TestInner = styled.div`
