@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
 const dotenv = require("dotenv");
 const passport = require('passport');
+const bcrypt = require('bcrypt');
 
 const passportConfig = require('./passport');
 const db = require('./models');

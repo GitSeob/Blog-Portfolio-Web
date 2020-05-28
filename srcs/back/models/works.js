@@ -4,6 +4,14 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.STRING(30),
 			allowNull: false,
 		},
+		description: {
+			type: DataTypes.TEXT,
+			allowNull: false,
+		},
+		content: {
+			type: DataTypes.TEXT,
+			allowNull: false,
+		}
 	}, {
 		charset: 'utf8',
 		collate: 'utf8_general_ci'
@@ -11,7 +19,6 @@ module.exports = (sequelize, DataTypes) => {
 
 	Works.associate = (db) => {
 		db.Works.hasMany(db.Image);
-		db.Works.hasMany(db.Work_list);
 	}
 
 	return Works;
