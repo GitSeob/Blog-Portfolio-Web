@@ -30,9 +30,12 @@ const Login = props => {
 			alert('비밀번호를 입력하세요.');
 			return ;
 		}
-		console.log({id, password});
 		dispatch({
-			type: LOGIN_ADMIN_REQUEST
+			type: LOGIN_ADMIN_REQUEST,
+			data: {
+				userId: id,
+				password,
+			}
 		});
 	}, [id, password]);
 
@@ -66,29 +69,29 @@ const Login = props => {
 						ADMIN Login
 						</h2>
 						<form onSubmit={onSubmitForm}>
-						<div className="InputBox">
+							<div className="InputBox">
+								<input
+								type="text"
+								autoComplete="username"
+								name="id"
+								onChange={onChangeId}
+								reguired=""></input>
+								<label className={toggleID}>Username</label>
+							</div>
+							<div className="InputBox">
+								<input
+								type="password"
+								autoComplete="current-password"
+								name="userPW"
+								onChange={onChangePassword}
+								reguired=""></input>
+								<label className={togglePW}>Password</label>
+							</div>
 							<input
-							type="text"
-							autoComplete="username"
-							name="id"
-							onChange={onChangeId}
-							reguired=""></input>
-							<label className={toggleID}>Username</label>
-						</div>
-						<div className="InputBox">
-							<input
-							type="password"
-							autoComplete="current-password"
-							name="userPW"
-							onChange={onChangePassword}
-							reguired=""></input>
-							<label className={togglePW}>Password</label>
-						</div>
-						<input
-							type="submit"
-							name=""
-							value="submit">
-						</input>
+								type="submit"
+								name=""
+								value="submit">
+							</input>
 						</form>
 					</div>
 				</header>
