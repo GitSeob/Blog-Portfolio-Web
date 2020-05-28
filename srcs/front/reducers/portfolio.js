@@ -186,7 +186,7 @@ const portfolio = (state=initialState, action) => {
 		case LOAD_DATA_FAILURE: {
 			return {
 				...state,
-				isLoaded: true,
+				isLoaded: false,
 			}
 		}
 		case ADD_DUMY: {
