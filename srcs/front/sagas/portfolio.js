@@ -19,7 +19,7 @@ function* loadPortfolio(action){
 		// const result = yield call(loadPortfolioAPI)
 		yield put({
 			type: LOAD_DATA_SUCCUESS,
-			data: result.data
+			// data: result.data
 		})
 	} catch(e){
 		yield put({

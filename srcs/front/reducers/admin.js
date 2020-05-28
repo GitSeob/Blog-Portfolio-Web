@@ -1,11 +1,11 @@
 const initialState = {
-	isLoggedIn: true,
+	isLoggedIn: false,
 	isLoggingIn: false,
 	isLoggingOut: false,
 	logInErrorReason: '',
 	isLoadingEditData: false,
 	isLoadedEditData: false,
-	admin: 1,
+	admin: null,
 }
 
 export const LOGIN_ADMIN_REQUEST = 'LOGIN_ADMIN_REQUEST';
@@ -63,13 +63,14 @@ const admin = (state=initialState, action) => {
 				...state,
 				isLoggedIn: true,
 				isLoggingIn: false,
-				admin: dummy_admin
+				admin: action.data,
 			};
 		}
 		case LOGOUT_ADMIN_FAILURE: {
 			return {
 				...state,
 				isLoggingIn: false,
+				admin: null,
 			};
 		}
 		default: {
