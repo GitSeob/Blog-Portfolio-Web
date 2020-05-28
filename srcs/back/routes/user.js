@@ -5,13 +5,14 @@ const passport = require('passport');
 
 const router = express.Router();
 
-router.post('login', (req, res, next) => {
-	passport.authenticate('local', (err, uexr, info) => {
+router.post('/login', (req, res, next) => {
+	passport.authenticate('local', (err, next, info) => {
 		if (err){
 			console.errer(err);
 			return next(err);
 		}
 		if (info) {
+			console.log(info)
 			return res.status(401).send(info.reason);
 		}
 		return req.login(user, async (loginErr) => {

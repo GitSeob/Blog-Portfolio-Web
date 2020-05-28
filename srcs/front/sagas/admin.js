@@ -1,16 +1,19 @@
-import { all, fork, takeLatest, put } from 'redux-saga/effects';
+import axios from 'axios';
+import { call, all, fork, takeLatest, put } from 'redux-saga/effects';
 import { LOGIN_ADMIN_REQUEST, LOGIN_ADMIN_SUCCESS, LOGIN_ADMIN_FAILURE } from '../reducers/admin';
 
-function loginAPI(){
-	console.log('login api');
-	return (1);
+function loginAPI(loginData){
+	 return axios.post('/user/login', loginData, {
+		 withCredentials: true, // 도메인간 쿠키 주고 받는 옵션
+	 })
 };
 
 function* login(action){
 	try {
-		const result = yield(loginAPI, action.data);
+		const result = yield call(loginAPI, action.data);
 		yield put({
-			type: LOGIN_ADMIN_SUCCESS
+			type: LOGIN_ADMIN_SUCCESS,
+			data: result.data,
 		});
 	} catch(e) {
 		console.error(e);

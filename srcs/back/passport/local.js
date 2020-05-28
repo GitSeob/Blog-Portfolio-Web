@@ -15,9 +15,14 @@ module.exports = () => {
 				}
 			}) // 기존 사용자인지 확인한다.
 			if (!user) {
-				return done(null, false, { resone: '존재하지 않는 사용자입니다.'});
+				return done(null, false, { reason: '존재하지 않는 사용자입니다.'});
 			}
 			const result = await bcrypt.compare(password, user.password);
+			console.log({
+				password: password,
+				user_password : user.password,
+				result: result,
+			})
 			if (result) {
 				return done(null, user)
 			} // 비밀번호가 일치하면 성공을 보낸다.

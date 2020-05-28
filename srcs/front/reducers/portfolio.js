@@ -110,7 +110,7 @@ export const dummy = {
 
 export const initialState = {
 	isLoaded: false,
-	data: null,
+	data: dummy,
 }
 
 
