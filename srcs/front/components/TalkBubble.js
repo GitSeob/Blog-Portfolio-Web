@@ -2,51 +2,63 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Bubble} from '../css/styledCss';
 import styled from 'styled-components';
+import {CheckCircle} from '@material-ui/icons'
 
 const TalkBubble = ({ abil }) => {
 	return (
-		<Container className={abil.id % 2 == 0 ? 'left' : 'right'}>
+		<Container>
 			<Bubble>
-				<h1>{abil.title}</h1>
+				<figcaption>{abil.title}</figcaption>
 				<ListContainer>
-				{abil.list.map((c) => {
-					return (
-						<ListOne key={(c.id)}>
-							<Circle /><p>{c.content}</p>
-						</ListOne>
-					);
-				})}
+					{abil.list.map((c) => {
+						return (
+							<ListOne key={(c.id)}>
+								<CheckCircle style={{width: '14px'}}/><p>{c.content}</p>
+							</ListOne>
+						);
+					})}
 				</ListContainer>
 			</Bubble>
 		</Container>
 	);
 };
 
-const Container = styled.div`
+const Container = styled.figure`
+	color: white;
 	width: 100%;
 	display: flex;
-	margin: 30px 0 0 5%;
-	&.right{
-		justify-content: flex-end;
-		margin: 30px 5% 0 0;
-	}
 `;
 
-const ListContainer = styled.div`
-	margin: -10px 0 10px 20px;
+const ListContainer = styled.ul`
 	display: flex;
-	flex-wrap: wrap;
+	flex-direction: column;
 	position: relative;
+	max-width: 40em;
+	padding: 0;
+	margin-bottom: 2em;
+	// margin-left: auto;
+	// margin-right: auto;
+
+	// li {
+	// 	display: list-item;
+	// 	margin: 0;
+	// 	padding-right: 1em;
+	// 	position: relative;
+	// 	text-align: -webkit-match-parent;
+	// }
 `;
 
-const ListOne = styled.div`
+const ListOne = styled.li`
 	display: flex;
 	flex-direction: row;
-	align-items: center;
-	padding-right: 30px;
+	margin: 0;
+	padding-right: 1em;
+	margin-bottom: .5em;
 
 	& p {
-		font-size: 15pt;
+		margin-left: .5em;
+		font-size: 14px;
+		text-align: left;
 		font-weight: 500;
 	}
 `;

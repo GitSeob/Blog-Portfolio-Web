@@ -1,21 +1,13 @@
 import styled from 'styled-components';
 
-export const Box = styled.div`
+export const Box = styled.section`
 	position: relative;
 	// background-color: rgb(255, 188, 126, 0.2);
-	display: flex;
+	// display: flex;
 	flexDirection: column;
 
-	&.about {
-		background-color: #FCBC98;
-	}
-
-	&.ability {
-		background-color: #FFBC98;
-	}
-
 	&.work {
-		background-color: #FCF7F7;
+		background-color: white;
 	}
 
 	&.pr {
@@ -45,22 +37,18 @@ export const DoorContainer = styled.div`
 	overflow: hidden;
 	width: 100%;
 	height: 100%;
-	min-height: 640px;
+	min-height: 100vh;
 	background-color: rgb(252, 188, 126);
 `;
 
-export const InnerContent = styled.div`
+export const InnerContent = styled.section`
+	display: block;
 	position: relative;
-	z-index: 1;
 	width: inherit;
 	height: 100%;
 	min-height: inherit;
-	max-width: 2560px;
-	margin: 0 auto;
-	background-size: cover;
-	// background-image: url(images/background.jpg);
-	// background-color: rgb(252, 188, 126);
-	background-repeat: no-repeat;
+	box-sizing: border-box;
+	padding: 100px 5vw;
 `;
 
 export const Filter = styled.div`
@@ -94,14 +82,17 @@ export const TestInner = styled.div`
 `;
 
 export const AboutContent = styled.div`
-	margin: 100px 0;
 	color: #FFFFFF;
 	font-size: 12pt;
 	font-align: center;
-	padding: 0 100px;
+	margin-top: 5rem;
+	margin-left: auto;
 `;
 
 export const UnderLine = styled.div`
+	position: absolute;
+	bottom: 0;
+	left: 50%;
 	height: 50px;
 	width: 0px;
 	border-left: 1px solid #FFFFFF;
@@ -112,22 +103,22 @@ export const UnderLine = styled.div`
 `;
 
 export const Bubble = styled.div`
-	background: #ffffff;
-	width: 40%;
+	width: 100%;
 	display: flex;
 	flex-direction: column;
-	border-radius: 10px;
-	border: 3px solid #FCBC84;
+	padding: 0;
+
+	& figcaption {
+		margin-bottom: 1em;
+	}
 
 	& h1 {
-		color: #818080;
 		text-align: left;
-		margin-left: 20px;
+		font-size: 20px;
 	}
 
 	& div {
-		color: #5C5353;
-		font-size: 15pt;
+		font-size: 12px;
 		font-weight: 300;
 		text-align: center;
 	}

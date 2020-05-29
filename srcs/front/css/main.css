@@ -6,6 +6,7 @@
 	text-decoration: none;
 	outline: none;
 	border: none;
+	font-size: 14px;
 }
 
 body, html {
@@ -21,6 +22,131 @@ body, html {
 	padding: 0;
 	font-weight: 400;
 	line-height: 1.5;
+}
+
+figure {
+	margin: 0;
+	display: block;
+    margin-block-end: 1em;
+    margin-inline-start: 40px;
+    margin-inline-end: 40px;
+}
+
+figcaption {
+	display: block;
+	font-size: 20px;
+}
+
+section, div {
+	display: block;
+}
+
+.l-section {
+	padding: 100px 5vw;
+	background: white;
+	min-height: 100vh;
+	position: relative;
+	box-sizing: border-box;
+}
+
+.l-section.l-split {
+	display: table;
+	width: 100%;
+	padding: 0;
+	border-spacing: 0;
+	table-layout: fixed;
+}
+
+.l-section.l-split>.l-section {
+	display:table-cell;
+}
+
+.l-section .copyright {
+	position: absolute;
+	top: 3vh;
+	width: 100%;
+	left: 0;
+	text-align: center;
+	white-space: nowrap;
+}
+
+.logo-container {
+	position: absolute;
+	display: block;
+	width: 100%;
+	top: 50%;
+	left: 0;
+	transform: translateY(-50%);
+}
+
+.logo-container #logo-h1 {
+	margin: 0 auto;
+	width: 420px;
+	/* height: 300px; */
+}
+
+.logo-svg {
+	width: 100%;
+	height: auto;
+}
+
+.logo-container #catchphrase {
+	height: 30px;
+	margin: -50px 0 0;
+	line-height: 30px;
+	text-align: center;
+	font-size: 14px;
+}
+
+.continue {
+	display: block;
+	overflow: hidden;
+	position: absolute;
+	bottom: 0;
+	left: calc(50% - 44px);
+	font-family: 14px;
+}
+
+#about {
+	background-color: #1895c5;
+	text-align: right;
+	width: 50%;
+	min-height: 100vh;
+}
+
+#ability {
+	background-color: #1ca8dd;
+	min-height: 100vh;
+	width: 50%;
+	text-align: left;
+}
+
+.continue::after {
+	background-color: #282a2f;
+	display: block;
+	width: 1px;
+	height: 50px;
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transition: height .4s;
+	content: "";
+}
+
+.continue:hover::after {
+	height: 30px;
+}
+
+.continue #continuebtn {
+	color: inherit;
+	display: block;
+	width: 88px;
+	height: 88px;
+	position: relative;
+	letter-spacing: .25em;
+	text-align: center;
+	text-transform: uppercase;
+	font-size: 11px;
 }
 
 .App {
