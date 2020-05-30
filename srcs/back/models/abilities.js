@@ -9,4 +9,6 @@ module.exports = (sequelize, DataTypes) => {
 	Abilities.associate = (db) => {
 		db.Abilities.hasMany(db.Ab_list);
 	}
+
+	return Abilities
 }

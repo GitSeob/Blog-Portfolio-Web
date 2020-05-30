@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const Header = ({ classname, title, subTitle }) => {
 	return (
 		<Container className={classname}>
-			{/* <Line className={props.className}/> */}
+			{classname === 'work' && <Line className={classname}/>}
 			<SubTitle className={classname}>
 				{subTitle}
 			</SubTitle>
@@ -34,6 +34,8 @@ const Container = styled.h2`
 `;
 
 const Line = styled.div`
+	position: absolute;
+	top: 0;
 	width: 0px;
 	height: 50px;
 	border-left: 1px solid #FFFFFF;

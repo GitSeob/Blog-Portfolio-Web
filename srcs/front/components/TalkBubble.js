@@ -6,14 +6,14 @@ import {CheckCircle} from '@material-ui/icons'
 
 const TalkBubble = ({ abil }) => {
 	return (
-		<Container>
+		<Container className="abil">
 			<Bubble>
-				<figcaption>{abil.title}</figcaption>
+				<figcaption>{abil.name}</figcaption>
 				<ListContainer>
-					{abil.list.map((c) => {
+					{abil.list.map((c, i) => {
 						return (
-							<ListOne key={(c.id)}>
-								<CheckCircle style={{width: '14px'}}/><p>{c.content}</p>
+							<ListOne key={(i)}>
+								<CheckCircle style={{width: '14px'}}/><p>{c}</p>
 							</ListOne>
 						);
 					})}
@@ -27,6 +27,12 @@ const Container = styled.figure`
 	color: white;
 	width: 100%;
 	display: flex;
+
+	&.abil {
+		margin-block-end: 1em;
+		margin-inline-start: 40px;
+		margin-inline-end: 40px;
+	}
 `;
 
 const ListContainer = styled.ul`

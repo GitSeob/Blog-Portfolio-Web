@@ -17,9 +17,9 @@ module.exports = (sequelize, DataTypes) => {
 		collate: 'utf8_general_ci'
 	})
 
-	Works.associate = (db) => {
-		db.Works.hasMany(db.Image);
-	}
+	// Works.associate = (db) => {
+	// 	db.Works.hasMany(db.Image);
+	// }
 
 	return Works;
 }
