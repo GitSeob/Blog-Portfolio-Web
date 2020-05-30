@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import About from '../components/About';
 import Ability from '../components/Ability';
 
-const Introduction = ({ id, data }) => {
+const Introduction = ({ data }) => {
 	return (
 		<div id="introduction" className="l-section l-split">
-			<About about={data.about}/>
-			<Ability abil={data.abilities}/>
+			<About data={data}/>
+			<Ability data={data}/>
 		</div>
 	);
 };

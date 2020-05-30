@@ -9,4 +9,6 @@ module.exports = (sequelize, DataTypes) => {
 	Ab_list.associate = (db) => {
 		db.Ab_list.belongsTo(db.Abilities);
 	}
+
+	return Ab_list
 }

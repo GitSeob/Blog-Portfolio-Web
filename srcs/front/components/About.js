@@ -2,13 +2,13 @@ import React from 'react';
 import {Box, Filter, AboutContent, UnderLine} from '../css/styledCss';
 import Header from './Header';
 
-const About = ({ id, about }) => {
+const About = ({ data }) => {
 	return (
 		<Box id='about' role='region' className="l-section">
 			<div className="l-section-inner">
-				<Header classname="right" subTitle={about.subTitle} title={about.title}/>
+				<Header classname="right" subTitle={data.about_sub_title} title={data.about_title}/>
 				<AboutContent>
-					{about.content}
+					{data.about_content}
 				</AboutContent>
 			</div>
 		</Box>
