@@ -29,8 +29,9 @@ const Swip = ({ data }) => {
 	};
 
 	return (
-		<SwipContainer>
-			<Swiper {...params}>
+		<>
+		{/* // <SwipContainer>
+		// 	<Swiper {...params}> */}
 				{data.work.map((c) => {
 					return (
 						<div key={(c.id)}>
@@ -38,8 +39,9 @@ const Swip = ({ data }) => {
 						</div>
 					);
 				})}
-			</Swiper>
-		</SwipContainer>
+		{/* // 	</Swiper>
+		// </SwipContainer> */}
+		</>
 	);
 };
 

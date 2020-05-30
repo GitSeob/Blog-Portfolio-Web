@@ -1,111 +1,66 @@
-
 export const dummy = {
-	about: {
-		title: 'About Myself',
-		subTitle: 'HELLO',
-		content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nInteger scelerisque mattis aliquam.\nInterdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur in felis vitae justo pulvinar varius sed in nisl.\nCurabitur porttitor pretium rhoncus. Nunc vitae lacus a purus mollis laoreet in eget massa. Sed vel tristique lectus. Praesent sit amet sollicitudin urna.\nNunc dolor mi, vehicula non pellentesque id, sagittis non lectus. Quisque finibus dolor dolor, vitae interdum justo pharetra in. Etiam gravida sem vel turpis convallis cursus id nec eros. Pellentesque efficitur tristique lacus.\nMorbi a justo eleifend, imperdiet risus a, sodales leo. Maecenas fringilla quam vitae nunc sollicitudin, a pharetra tortor vulputate. Nam lobortis in lorem at scelerisque. Vestibulum ut velit non sem aliquam mollis accumsan ac justo.',
-	},
-	abilities: {
-		title: 'What can I do',
-		subTitle: 'Abilities',
-		content: [{
-			id: 0,
-			title: '개잘생김',
-			list: [
-				{
-					id: 0,
-					content: '눈'
-				},{
-					id: 1,
-					content: '코'
-				},{
-					id: 2,
-					content: '입'
-				},{
-					id: 3,
-					content: '섹시'
-				},
-			]
+	about_title: "About Myself",
+	about_sub_title: "HELLO",
+	about_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur a dui sapien. Praesent ornare augue sit amet tellus aliquam volutpat. Nam ornare sagittis sapien ut dictum. Pellentesque laoreet augue risus, sit amet suscipit metus pellentesque id. Sed sit amet luctus neque. Ut rhoncus magna eu suscipit commodo. Aliquam eu aliquam augue. Morbi quam justo, eleifend eget velit vel, tempus sodales elit. Mauris consequat viverra finibus. Integer dignissim, elit vel suscipit bibendum, dolor ipsum scelerisque nulla, non vehicula massa magna non leo. Cras sapien nulla, mollis eget velit ac, condimentum hendrerit odio. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec non velit eget metus consequat ornare.\nSed et erat a tellus euismod iaculis vel vitae massa. Vivamus et sem scelerisque, finibus est quis, mattis sapien. Nunc ullamcorper purus quis aliquet maximus. Sed ornare, lacus non congue elementum, elit neque ornare ipsum, vel fermentum ligula arcu in ante. Vestibulum ante sem, consectetur nec maximus in, feugiat et urna. Suspendisse porttitor nulla sed suscipit venenatis. Etiam a turpis finibus, dapibus nisi at, viverra tellus. Aenean quis ultrices arcu, in pharetra neque. Sed posuere rhoncus aliquam. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed quis odio elit. Ut eu scelerisque tortor, sed tincidunt risus. Sed sagittis urna diam, at commodo enim mollis sit amet.",
+	ability_title: "What can I do",
+	ability_sub_title: "Abilities",
+	work_title: "My Works",
+	work_sub_title: "Portfolio",
+	email: "anhs0220@gmail.com",
+	github: "https://github.com/GitSeob/MyPortfolio",
+	kakao: "ewq1a",
+	comment: "지존 홍섭S2",
+	ability_attribute: [{
+			name: '개잘생김',
+			list: ["test1", "test2", "test3", "test4"]
 		},{
-			id: 1,
-			title: '노래잘부름',
-			list: [
-				{
-					id: 0,
-					content: '2017년 화양리 지그재그 신년회 노래자랑 1등'
-				},{
-					id: 1,
-					content: '2018년 화양리 지그재그 신년회 노래자랑 1등'
-				},
-			]
-		}],
-	},
-	work : [{
-		id: 1,
+			name: '노래잘부름',
+			list: ['2017년 화양리 지그재그 신년회 노래자랑 1등',
+					'2018년 화양리 지그재그 신년회 노래자랑 1등',]
+	}],
+	work_attribute : [{
 		imgPath: './images/test_mac.png',
-		title: 'SEMO:세모',
-		description: '대통령은 국무회의의 의장이 되고, 국무총리는 부의장이 된다. 국가는 전통문화의 계승·발전과 민족문화의 창달에 노력하여야 한다. 모든 국민은 고문을 받지 아니하며, 형사상 자기에게 불리한 진술을 강요당하지 아니한다.<br/><br/>\n국무위원은 국정에 관하여 대통령을 보좌하며, 국무회의의 구성원으로서 국정을 심의한다. 평화통일정책의 수립에 관한 대통령의 자문에 응하기 위하여 민주평화통일자문회의를 둘 수 있다.<br/><br/>\n군인은 현역을 면한 후가 아니면 국무총리로 임명될 수 없다. 이 헌법시행 당시의 법령과 조약은 이 헌법에 위배되지 아니하는 한 그 효력을 지속한다. 국회의원이 회기전에 체포 또는 구금된 때에는 현행범인이 아닌 한 국회의 요구가 있으면 회기중 석방된다.',
-		content: [
-			'국가는 여자의 복지와 권익의 향상을 위하여 노력하여야 한다. 국가안전보장에 관련되는 대외정책·군사정책과 국내정책의 수립에 관하여 국무회의의 심의에 앞서 대통령의 자문에 응하기 위하여 국가안전보장회의를 둔다.',
-			'대통령이 임시회의 집회를 요구할 때에는 기간과 집회요구의 이유를 명시하여야 한다. 여자의 근로는 특별한 보호를 받으며, 고용·임금 및 근로조건에 있어서 부당한 차별을 받지 아니한다.',
-			'모든 국민은 고문을 받지 아니하며, 형사상 자기에게 불리한 진술을 강요당하지 아니한다. 국회의원의 선거구와 비례대표제 기타 선거에 관한 사항은 법률로 정한다.',
-			'군인은 현역을 면한 후가 아니면 국무위원으로 임명될 수 없다. 대법원장의 임기는 6년으로 하며, 중임할 수 없다. 모든 국민은 주거의 자유를 침해받지 아니한다. 주거에 대한 압수나 수색을 할 때에는 검사의 신청에 의하여 법관이 발부한 영장을 제시하여야 한다.',
-		],
+		proj_name: 'SEMO:세모',
+		category: 'web',
+		period: "2020-01-01 ~ 2020-01-02",
+		members: 4,
+		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi at venenatis neque, sed scelerisque risus. Vivamus nulla tortor, imperdiet vitae tempor et, vestibulum id dui. Aenean dignissim, nisl non tristique dignissim, nisl lorem ultrices nibh, suscipit consectetur ipsum mauris sit.',
+		repo: 'https://github.com/GitSeob/MyPortfolio',
+		table_rows: [{
+			col1: '11111111',
+			col2: '22222222',
+			col3: '33333333',
+		},{
+			col1: '11111111',
+			col2: '22222222',
+			col3: '33333333',
+		}, {
+			col1: '11111111',
+			col2: '22222222',
+			col3: '33333333',
+		}]
 	},{
-		id: 2,
 		imgPath: './images/test_mac.png',
-		title: 'SEMO:세모',
-		description: '대통령은 국무회의의 의장이 되고, 국무총리는 부의장이 된다. 국가는 전통문화의 계승·발전과 민족문화의 창달에 노력하여야 한다. 모든 국민은 고문을 받지 아니하며, 형사상 자기에게 불리한 진술을 강요당하지 아니한다.<br/><br/>\n국무위원은 국정에 관하여 대통령을 보좌하며, 국무회의의 구성원으로서 국정을 심의한다. 평화통일정책의 수립에 관한 대통령의 자문에 응하기 위하여 민주평화통일자문회의를 둘 수 있다.<br/><br/>\n군인은 현역을 면한 후가 아니면 국무총리로 임명될 수 없다. 이 헌법시행 당시의 법령과 조약은 이 헌법에 위배되지 아니하는 한 그 효력을 지속한다. 국회의원이 회기전에 체포 또는 구금된 때에는 현행범인이 아닌 한 국회의 요구가 있으면 회기중 석방된다.',
-		content: [
-			'국가는 여자의 복지와 권익의 향상을 위하여 노력하여야 한다. 국가안전보장에 관련되는 대외정책·군사정책과 국내정책의 수립에 관하여 국무회의의 심의에 앞서 대통령의 자문에 응하기 위하여 국가안전보장회의를 둔다.',
-			'대통령이 임시회의 집회를 요구할 때에는 기간과 집회요구의 이유를 명시하여야 한다. 여자의 근로는 특별한 보호를 받으며, 고용·임금 및 근로조건에 있어서 부당한 차별을 받지 아니한다.',
-			'모든 국민은 고문을 받지 아니하며, 형사상 자기에게 불리한 진술을 강요당하지 아니한다. 국회의원의 선거구와 비례대표제 기타 선거에 관한 사항은 법률로 정한다.',
-			'군인은 현역을 면한 후가 아니면 국무위원으로 임명될 수 없다. 대법원장의 임기는 6년으로 하며, 중임할 수 없다. 모든 국민은 주거의 자유를 침해받지 아니한다. 주거에 대한 압수나 수색을 할 때에는 검사의 신청에 의하여 법관이 발부한 영장을 제시하여야 한다.',
-		],
-	},{
-		id: 3,
-		imgPath: './images/test_mac.png',
-		title: 'SEMO:세모',
-		description: '대통령은 국무회의의 의장이 되고, 국무총리는 부의장이 된다. 국가는 전통문화의 계승·발전과 민족문화의 창달에 노력하여야 한다. 모든 국민은 고문을 받지 아니하며, 형사상 자기에게 불리한 진술을 강요당하지 아니한다.<br/><br/>\n국무위원은 국정에 관하여 대통령을 보좌하며, 국무회의의 구성원으로서 국정을 심의한다. 평화통일정책의 수립에 관한 대통령의 자문에 응하기 위하여 민주평화통일자문회의를 둘 수 있다.<br/><br/>\n군인은 현역을 면한 후가 아니면 국무총리로 임명될 수 없다. 이 헌법시행 당시의 법령과 조약은 이 헌법에 위배되지 아니하는 한 그 효력을 지속한다. 국회의원이 회기전에 체포 또는 구금된 때에는 현행범인이 아닌 한 국회의 요구가 있으면 회기중 석방된다.',
-		content: [
-			'국가는 여자의 복지와 권익의 향상을 위하여 노력하여야 한다. 국가안전보장에 관련되는 대외정책·군사정책과 국내정책의 수립에 관하여 국무회의의 심의에 앞서 대통령의 자문에 응하기 위하여 국가안전보장회의를 둔다.',
-			'대통령이 임시회의 집회를 요구할 때에는 기간과 집회요구의 이유를 명시하여야 한다. 여자의 근로는 특별한 보호를 받으며, 고용·임금 및 근로조건에 있어서 부당한 차별을 받지 아니한다.',
-			'모든 국민은 고문을 받지 아니하며, 형사상 자기에게 불리한 진술을 강요당하지 아니한다. 국회의원의 선거구와 비례대표제 기타 선거에 관한 사항은 법률로 정한다.',
-			'군인은 현역을 면한 후가 아니면 국무위원으로 임명될 수 없다. 대법원장의 임기는 6년으로 하며, 중임할 수 없다. 모든 국민은 주거의 자유를 침해받지 아니한다. 주거에 대한 압수나 수색을 할 때에는 검사의 신청에 의하여 법관이 발부한 영장을 제시하여야 한다.',
-		],
-	},{
-		id: 4,
-		imgPath: './images/test_mac.png',
-		title: 'SEMO:세모',
-		description: '대통령은 국무회의의 의장이 되고, 국무총리는 부의장이 된다. 국가는 전통문화의 계승·발전과 민족문화의 창달에 노력하여야 한다. 모든 국민은 고문을 받지 아니하며, 형사상 자기에게 불리한 진술을 강요당하지 아니한다.<br/><br/>\n국무위원은 국정에 관하여 대통령을 보좌하며, 국무회의의 구성원으로서 국정을 심의한다. 평화통일정책의 수립에 관한 대통령의 자문에 응하기 위하여 민주평화통일자문회의를 둘 수 있다.<br/><br/>\n군인은 현역을 면한 후가 아니면 국무총리로 임명될 수 없다. 이 헌법시행 당시의 법령과 조약은 이 헌법에 위배되지 아니하는 한 그 효력을 지속한다. 국회의원이 회기전에 체포 또는 구금된 때에는 현행범인이 아닌 한 국회의 요구가 있으면 회기중 석방된다.',
-		content: [
-			'국가는 여자의 복지와 권익의 향상을 위하여 노력하여야 한다. 국가안전보장에 관련되는 대외정책·군사정책과 국내정책의 수립에 관하여 국무회의의 심의에 앞서 대통령의 자문에 응하기 위하여 국가안전보장회의를 둔다.',
-			'대통령이 임시회의 집회를 요구할 때에는 기간과 집회요구의 이유를 명시하여야 한다. 여자의 근로는 특별한 보호를 받으며, 고용·임금 및 근로조건에 있어서 부당한 차별을 받지 아니한다.',
-			'모든 국민은 고문을 받지 아니하며, 형사상 자기에게 불리한 진술을 강요당하지 아니한다. 국회의원의 선거구와 비례대표제 기타 선거에 관한 사항은 법률로 정한다.',
-			'군인은 현역을 면한 후가 아니면 국무위원으로 임명될 수 없다. 대법원장의 임기는 6년으로 하며, 중임할 수 없다. 모든 국민은 주거의 자유를 침해받지 아니한다. 주거에 대한 압수나 수색을 할 때에는 검사의 신청에 의하여 법관이 발부한 영장을 제시하여야 한다.',
-		],
-	},{
-		id: 5,
-		imgPath: './images/test_mac.png',
-		title: 'SEMO:세모',
-		description: '대통령은 국무회의의 의장이 되고, 국무총리는 부의장이 된다. 국가는 전통문화의 계승·발전과 민족문화의 창달에 노력하여야 한다. 모든 국민은 고문을 받지 아니하며, 형사상 자기에게 불리한 진술을 강요당하지 아니한다.<br/><br/>\n국무위원은 국정에 관하여 대통령을 보좌하며, 국무회의의 구성원으로서 국정을 심의한다. 평화통일정책의 수립에 관한 대통령의 자문에 응하기 위하여 민주평화통일자문회의를 둘 수 있다.<br/><br/>\n군인은 현역을 면한 후가 아니면 국무총리로 임명될 수 없다. 이 헌법시행 당시의 법령과 조약은 이 헌법에 위배되지 아니하는 한 그 효력을 지속한다. 국회의원이 회기전에 체포 또는 구금된 때에는 현행범인이 아닌 한 국회의 요구가 있으면 회기중 석방된다.',
-		content: [
-			'국가는 여자의 복지와 권익의 향상을 위하여 노력하여야 한다. 국가안전보장에 관련되는 대외정책·군사정책과 국내정책의 수립에 관하여 국무회의의 심의에 앞서 대통령의 자문에 응하기 위하여 국가안전보장회의를 둔다.',
-			'대통령이 임시회의 집회를 요구할 때에는 기간과 집회요구의 이유를 명시하여야 한다. 여자의 근로는 특별한 보호를 받으며, 고용·임금 및 근로조건에 있어서 부당한 차별을 받지 아니한다.',
-			'모든 국민은 고문을 받지 아니하며, 형사상 자기에게 불리한 진술을 강요당하지 아니한다. 국회의원의 선거구와 비례대표제 기타 선거에 관한 사항은 법률로 정한다.',
-			'군인은 현역을 면한 후가 아니면 국무위원으로 임명될 수 없다. 대법원장의 임기는 6년으로 하며, 중임할 수 없다. 모든 국민은 주거의 자유를 침해받지 아니한다. 주거에 대한 압수나 수색을 할 때에는 검사의 신청에 의하여 법관이 발부한 영장을 제시하여야 한다.',
-		],
+		proj_name: 'SEMO:세모',
+		category: 'web',
+		period: "2020-01-01 ~ 2020-01-02",
+		members: 4,
+		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi at venenatis neque, sed scelerisque risus. Vivamus nulla tortor, imperdiet vitae tempor et, vestibulum id dui. Aenean dignissim, nisl non tristique dignissim, nisl lorem ultrices nibh, suscipit consectetur ipsum mauris sit.',
+		repo: 'https://github.com/GitSeob/MyPortfolio',
+		table_rows: [{
+			col1: '11111111',
+			col2: '22222222',
+			col3: '33333333',
+		},{
+			col1: '11111111',
+			col2: '22222222',
+			col3: '33333333',
+		}, {
+			col1: '11111111',
+			col2: '22222222',
+			col3: '33333333',
+		}]
 	},],
-	footer: {
-		title: "All right, let's talk !",
-		email: "anhs0220@gmail.com",
-		comment: "if you send me an email,\nI will reply to you within 3 days",
-	},
-	link: {
-		github: "https://github.com/GitSeob",
-		blog: "https://enjoy-with-anjoy.tistory.com",
-		comment: "@made by anjoy",
-	}
 };
 
 export const initialState = {
