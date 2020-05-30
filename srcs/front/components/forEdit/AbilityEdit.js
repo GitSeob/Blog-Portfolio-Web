@@ -11,7 +11,7 @@ export const AttrOfList = ({ value }) => {
 
 	return (
 		<div className="list-attribute">
-			<textarea className="edit-list-input" rows={1} type="text" value={at} onChange={OCA} />
+			<input className="edit-list-input" type="text" value={at} onChange={OCA} />
 			<button className='attrDelbtn'>
 				<Cancel />
 			</button>
@@ -20,7 +20,7 @@ export const AttrOfList = ({ value }) => {
 }
 
 const ListAbil = ({ index, ActivateTab, ActiveTab, data }) => {
-	const [title_value, onChangeTitle] = useInput(data.title);
+	const [title_value, onChangeTitle] = useInput(data.name);
 	const isActive = ActiveTab === index;
 	const innerHeight = {
 		maxHeight: `${isActive ? 100 : 0}em`
@@ -30,7 +30,7 @@ const ListAbil = ({ index, ActivateTab, ActiveTab, data }) => {
 		<div className="">
 			<ul className="list-under-menu" id="work-1">
 				<div className="list-header">
-					<button onClick={ActivateTab} className="listTitle">{data.title}</button>
+					<button onClick={ActivateTab} className="listTitle">{data.name}</button>
 					<button className="deleteButton"><Cancel /></button>
 				</div>
 				<div className="list-wa-menu" style={innerHeight}>
@@ -41,7 +41,7 @@ const ListAbil = ({ index, ActivateTab, ActiveTab, data }) => {
 							<div className="list-wrapper">
 								{data.list.map((c, i) => {
 									return (
-										<AttrOfList key={(i)} value={c.content} />
+										<AttrOfList key={(i)} value={c} />
 									);
 								})}
 							</div>
@@ -63,6 +63,8 @@ const ListAbil = ({ index, ActivateTab, ActiveTab, data }) => {
 
 const AbilityEdit = ({ data }) => {
 	const [currentIndex, setIndex] = useState(-1);
+	const [title, OCTitle] = useInput(data.ability_title);
+	const [subTitle, OCSubTitle] = useInput(data.ability_sub_title);
 
 	const ActivateTab = (index) => {
 		if (currentIndex === index){
@@ -74,14 +76,18 @@ const AbilityEdit = ({ data }) => {
 
 	return (
 		<>
-			{data.abilities.content.map((c, i) => {
+			<AEC>
+				<InputAttr name="Title" value={title} onChangeValue={OCTitle}/>
+				<InputAttr name="Sub Title" value={subTitle} onChangeValue={OCSubTitle}/>
+			</AEC>
+			{data.ability_attribute.map((c, i) => {
 				return (
-					<ListAbil key={(c.id)} index={i} ActiveTab={currentIndex} ActivateTab={ActivateTab.bind(null, i)} data={c} />
+					<ListAbil key={(i)} index={i} ActiveTab={currentIndex} ActivateTab={ActivateTab.bind(null, i)} data={c} />
 				);
 			})}
 			<AEC>
 				<button className="add-port-list">
-					<PlaylistAdd/> Add Abilities
+					<PlaylistAdd/> Add Abilitiess
 				</button>
 			</AEC>
 		</>

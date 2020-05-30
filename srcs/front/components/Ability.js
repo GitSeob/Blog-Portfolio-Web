@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Box, UnderLine, Filter} from '../css/styledCss';
-import TalkBubble from '../components/TalkBubble';
-import Header from '../components/Header';
+import TalkBubble from './TalkBubble';
+import Header from './Header';
 import styled from 'styled-components';
 
 const dummy = {
@@ -21,20 +21,17 @@ const dummy = {
 	}]
 };
 
-const Ability = ({ abil }) => {
+const Ability = ({ data }) => {
 	return (
-		<Box className='ability'>
-			<Filter className='ability'>
-				<Header subTitle={abil.subTitle} title={abil.title} />
-				<BubbleContainer>
-					{abil.content.map((c) => {
-						return (
-							<TalkBubble key={(c.id)} abil={c}/>
-						);
-					})}
-				</BubbleContainer>
-				<UnderLine />
-			</Filter>
+		<Box id='ability' role='region' className="l-section">
+			<Header classname="left" subTitle={data.ability_sub_title} title={data.ability_title} />
+			<BubbleContainer>
+				{data.ability_attribute.map((c) => {
+					return (
+						<TalkBubble key={(c.id)} abil={c}/>
+					);
+				})}
+			</BubbleContainer>
 		</Box>
 	);
 };
@@ -47,6 +44,7 @@ const BubbleContainer = styled.div`
 	align-items: center;
 	justify-content: center;
 	margin-bottom: 30px;
+	margin-top: 5rem;
 `;
 
 Ability.propTypes = {

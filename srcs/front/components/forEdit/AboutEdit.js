@@ -17,7 +17,20 @@ export const Attr = ({ name, value }) => {
 	);
 }
 
+
 export const InputAttr = ({ name, rows=1, value, onChangeValue }) => {
+
+	return (
+		<EditAttr>
+			<AttrName>
+				{name}
+			</AttrName>
+			<input className="edit-input" value={value} type="text" onChange={onChangeValue} />
+		</EditAttr>
+	);
+}
+
+export const TextAttr = ({ name, rows=1, value, onChangeValue }) => {
 
 	return (
 		<EditAttr>
@@ -30,16 +43,16 @@ export const InputAttr = ({ name, rows=1, value, onChangeValue }) => {
 }
 
 const AboutEdit = ({ data }) => {
-	const [title_value, onChangeTitle] = useInput(data.about.title);
-	const [subTitle_value, onChangeSubTitle] = useInput(data.about.subTitle);
-	const [content_value, onChangeContent] = useInput(data.about.content);
+	const [title_value, onChangeTitle] = useInput(data.about_title);
+	const [subTitle_value, onChangeSubTitle] = useInput(data.about_sub_title);
+	const [content_value, onChangeContent] = useInput(data.about_content);
 
 	return (
 		<>
 			<AEC>
 				<InputAttr name="Title" value={title_value} onChangeValue={onChangeTitle}/>
 				<InputAttr name="Sub Title" value={subTitle_value} onChangeValue={onChangeSubTitle}/>
-				<InputAttr name="content" value={content_value} onChangeValue={onChangeContent} rows={10}/>
+				<TextAttr name="content" value={content_value} onChangeValue={onChangeContent} rows={10}/>
 			</AEC>
 			<div className="submit-container">
 				<button className="submit-attr-btn">

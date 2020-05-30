@@ -3,19 +3,21 @@ import PropTypes from 'prop-types';
 import {Box, Filter, UnderLine} from '../css/styledCss';
 import Header from '../components/Header';
 import Port from '../components/Port';
-import Swip from '../components/Swip';
+import Test from '../components/Test';
 
 const Work = ({ data }) => {
 	return (
-		<Box className='work'>
-			<Filter className='notFilter'>
-				<Header className='work' subTitle='Portfolio' title='My works' />
-				{/* <Port /> */}
-				<div style={{width:'100vw', marginBottom: '20px'}}>
-					<Swip data={data}/>
-				</div>
-				<UnderLine className='work'/>
-			</Filter>
+		<Box className='work' role='region' className="l-section">
+			<Header classname='work' subTitle={data.work_sub_title} title={data.work_title} />
+			{/* <Port /> */}
+			<div id="portfolio" className="section-content gallery alternate">
+				{data.work_attribute.map((c, i) => {
+					return (
+						<Test key={(i)} page={c} />
+					);
+				})}
+			</div>
+			<UnderLine className='work'/>
 		</Box>
 	);
 };
