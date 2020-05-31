@@ -117,7 +117,7 @@ const PostList = () => {
 											2020. 01. 01. 00:00
 										</div>
 									</div>
-									<a href="/" classname="post-link-article">
+									<a href="/" className="post-link-article">
 										<p className="post-txt-post">
 										Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
 										</p>
@@ -130,7 +130,7 @@ const PostList = () => {
 				}
 			</ul>
 		</div>
-		<a href="/blog" className="posting-btn">
+		<a href="/posting" className="posting-btn">
 			<Edit />
 		</a>
 		</>
@@ -193,7 +193,7 @@ const OnePost = () => {
 }
 
 const PostMain = () => {
-	const [allPost, setAP] = useState(true);
+	const [allPost, setAP] = useState(false);
 	return (
 		<div id="post-container">
 			<MainHeader />
