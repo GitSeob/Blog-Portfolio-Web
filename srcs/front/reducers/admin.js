@@ -5,7 +5,7 @@ const initialState = {
 	logInErrorReason: '',
 	isLoadingEditData: false,
 	isLoadedEditData: false,
-	admin: null,
+	admin: 1,
 }
 
 export const LOGIN_ADMIN_REQUEST = 'LOGIN_ADMIN_REQUEST';
