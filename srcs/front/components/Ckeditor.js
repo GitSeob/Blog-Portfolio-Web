@@ -1,31 +1,32 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { useInput } from '../pages/login';
 
 const Ckeditor = props => {
-	const [ckval, OCV] = useInput('');
+	const [ckval, OCV] = useState('<h1>hello ckeditor</h1>');
+
+	useEffect(()=>{
+		console.log(ckval)
+	}, [ckval])
+
 	return (
 		<div className="App">
 			<div className="container">
 				<div className="wrapper">
 					<form className="form-group">
-						<div className="form-group">
-							<label>Name</label>
-							<input type="text" name="name" className="form-control"/>
-						</div>
-						<div className="form-group">
-							<label>email</label>
-							<input type="text" name="email" className="form-control"/>
-						</div>
+
 						<div className="form-group">
 							<CKEditor
 								editor={ClassicEditor}
 								onInit={ editor=>{
 									console.log(editor);
 								}}
-								value={ckval}
-								onChange={OCV}
+								data={ckval}
+								onChange={(event, editor) =>{
+									const data = editor.getData();
+									OCV(data);
+									// console.log( { event, editor, data } );
+								}}
 							/>
 						</div>
 					</form>
