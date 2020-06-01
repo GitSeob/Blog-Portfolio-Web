@@ -12,7 +12,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"@ckeditor/ckeditor5-basic-styles": "^19.0.1",
-		"@ckeditor/ckeditor5-build-classic": "^19.0.1",
+		"@ckeditor/ckeditor5-build-classic": "^19.0.2",
 		"@ckeditor/ckeditor5-dev-utils": "^20.0.0",
 		"@ckeditor/ckeditor5-editor-classic": "^19.0.1",
 		"@ckeditor/ckeditor5-essentials": "^19.0.1",
@@ -24,6 +24,7 @@
 		"@zeit/next-css": "^1.0.1",
 		"axios": "^0.19.2",
 		"babel-plugin-styled-components": "^1.10.7",
+		"bootstrap": "^4.5.0",
 		"cookie-parser": "^1.4.4",
 		"express": "^4.17.1",
 		"express-session": "^1.17.0",

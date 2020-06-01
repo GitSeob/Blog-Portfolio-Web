@@ -1,8 +1,14 @@
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+// import { ClassicEditor } from '@ckeditor/ckeditor5-build-classic'
+// import CKEditor from '@ckeditor/ckeditor5-react'
+import { useInput } from './login';
+
 import dynamic from 'next/dynamic'
 // import Ckeditor from '../components/Ckeditor'
 
-const Editor = dynamic(() => import("../components/Ckeditor"), {
+const Ckeditor = dynamic(() => import ("../components/Ckeditor"), {
 	ssr: false
 })
 
@@ -10,10 +16,7 @@ const Editor = dynamic(() => import("../components/Ckeditor"), {
 
 const Posting = props => {
 	return (
-		<div style={{width: '100%', height: '100%'}}>
-			<h2>nextjs + ckeditor5</h2>
-			<Editor />
-		</div>
+		<Ckeditor />
 	);
 };
 
