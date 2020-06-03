@@ -6,7 +6,7 @@ import posts from './posts';
 const rootReducer = combineReducers({
 	portfolio,
 	admin,
-	posts
+	posts,
 })
 
 export default rootReducer
