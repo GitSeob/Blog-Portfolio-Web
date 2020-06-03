@@ -26,9 +26,9 @@ const Ability = ({ data }) => {
 		<Box id='ability' role='region' className="l-section">
 			<Header classname="left" subTitle={data.ability_sub_title} title={data.ability_title} />
 			<BubbleContainer>
-				{data.ability_attribute.map((c) => {
+				{data.ability_attribute.map((c, i) => {
 					return (
-						<TalkBubble key={(c.id)} abil={c}/>
+						<TalkBubble key={(i)} abil={c}/>
 					);
 				})}
 			</BubbleContainer>

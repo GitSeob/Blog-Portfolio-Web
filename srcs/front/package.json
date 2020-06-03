@@ -11,16 +11,27 @@
 	"author": "anjoy",
 	"license": "MIT",
 	"dependencies": {
+		"@ckeditor/ckeditor5-basic-styles": "^19.0.1",
+		"@ckeditor/ckeditor5-build-classic": "^19.0.2",
+		"@ckeditor/ckeditor5-dev-utils": "^20.0.0",
+		"@ckeditor/ckeditor5-editor-classic": "^19.0.1",
+		"@ckeditor/ckeditor5-essentials": "^19.0.1",
+		"@ckeditor/ckeditor5-paragraph": "^19.1.0",
+		"@ckeditor/ckeditor5-react": "^2.1.0",
+		"@ckeditor/ckeditor5-theme-lark": "^19.1.0",
 		"@material-ui/core": "^4.9.12",
 		"@material-ui/icons": "^4.9.1",
+		"@zeit/next-css": "^1.0.1",
 		"axios": "^0.19.2",
 		"babel-plugin-styled-components": "^1.10.7",
+		"bootstrap": "^4.5.0",
 		"cookie-parser": "^1.4.4",
 		"express": "^4.17.1",
 		"express-session": "^1.17.0",
 		"gsap": "^3.2.6",
 		"immer": "^5.3.6",
 		"next": "^9.2.2",
+		"next-images": "^1.4.0",
 		"next-redux-saga": "^4.1.2",
 		"next-redux-wrapper": "^5.0.0",
 		"prop-types": "^15.7.2",
@@ -48,27 +59,31 @@
 	"babel": {
 		"env": {
 			"development": {
-				"presets": ["next/babel"],
+				"presets": [
+					"next/babel"
+				],
 				"plugins": [
-				[
-					"styled-components",
-					{
-					"ssr": true,
-					"displayName": true
-					}
-				]
+					[
+						"styled-components",
+						{
+							"ssr": true,
+							"displayName": true
+						}
+					]
 				]
 			},
 			"production": {
-				"presets": ["next/babel"],
+				"presets": [
+					"next/babel"
+				],
 				"plugins": [
-				[
-					"styled-components",
-					{
-					"ssr": true,
-					"displayName": false
-					}
-				]
+					[
+						"styled-components",
+						{
+							"ssr": true,
+							"displayName": false
+						}
+					]
 				]
 			}
 		}
