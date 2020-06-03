@@ -841,15 +841,9 @@ a {
 	height: 100%;
 }
 
-
-
 .menu-navigation {
 	padding: 40px 0 0 21px;
 	color: #666;
-}
-
-.area-menu .m-sidebar {
-
 }
 
 ul {
@@ -861,28 +855,8 @@ ul {
 	padding-inline-start: 40px;
 }
 
-.list-gnb {
-
-}
-
-.t_menu {
-
-}
-
-.link-gnb {
-
-}
-
-.link-lnb {
-
-}
-
 .tt-category {
 	padding-left: 0;
-}
-
-.link-item {
-
 }
 
 .area-menu .list-gnb .link-gnb {
@@ -893,6 +867,10 @@ ul {
 	color: #666;
 	font-size: 16px;
 	text-decoration: none;
+}
+
+.list-gnb {
+	padding: 0px;
 }
 
 #post-header {
@@ -967,9 +945,6 @@ ul {
 	outline: none;
 }
 
-.post-icon-menu {
-
-}
 
 .inner-header .post-btn-menu .post-icon-close {
 	display: none;
@@ -978,10 +953,6 @@ ul {
 .inner-header .post-btn-search {
 	font-size: 28px;
 	right: 0px;
-}
-
-.post-icon-search {
-
 }
 
 .post-area-search {
@@ -1025,10 +996,6 @@ ul {
 	overflow: hidden;
 }
 
-.post-category-list {
-
-}
-
 .index-type-common {
 	clear: both;
 }
@@ -1057,10 +1024,6 @@ ul {
 	clear: both;
 }
 
-.thumbnail-zone {
-
-}
-
 .index-type-horizontal .thumbnail-post {
 	width: 192px;
 	height: 192px;
@@ -1069,12 +1032,6 @@ ul {
 	background-size: cover;
 	background-position: 50% 50%;
 }
-
-.post-box-content {
-
-}
-
-
 
 .article-content .post-link-title {
 	display: block;
@@ -1105,10 +1062,6 @@ ul {
 	padding-bottom: 23px;
 }
 
-.post-link-category {
-
-}
-
 .post-category {
 	color: #888;
 	text-decoration: underline;
@@ -1119,10 +1072,6 @@ ul {
 	margin-left: 5px;
 	padding-left: 9px;
 	color: #888;
-}
-
-.post-link-article {
-
 }
 
 .index-type-horizontal .post-txt-post {
@@ -1197,4 +1146,151 @@ ul {
 
 .posting-btn:hover {
 	color: #19B3D3;
+}
+
+.post-title-ipt {
+	width: 100%;
+	height: 40px;
+	font-size: 30px;
+	border-bottom: 1px solid rgba(200, 200, 200, 0.4);
+	margin: 10px 0;
+	padding-bottom: 20px;
+}
+
+.cateSelect {
+	display: block;
+	width: 100%;
+	height: 30px;
+	margin: 46px auto 0;
+	position: relative;
+}
+
+.cateSelect .cs-ipt-btn {
+	display: inline-block;
+	position: relative;
+	width: auto;
+	height: auto;
+	cursor: pointer;
+}
+
+.cs-btn {
+	width: 170px;
+	min-width: 27px;
+	height: 29px;
+	margin: 0 1px 0 0;
+	padding: 0 5px;
+	border: 0;
+	font-size: 0;
+	line-height: 0;
+	border-radius: 2px;
+	border: 1px solid #e9e9e9;
+	color: #909090;
+	position: relative;
+	text-align: center;
+	box-sizing: border-box;
+
+	cursor: pointer;
+}
+
+.cs-text {
+	position: absolute;
+	top: 6px;
+	left: 6px;
+	width: 140px;
+	height: auto;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	text-align: left;
+	font-size: 13px;
+	line-height: 15px;
+	font-style: normal;
+}
+
+.cs-icon {
+	position: absolute;
+	top: 50%;
+	right: 9px;
+	margin: 0;
+	vertical-align: top;
+	color: #909090;
+	transition: all ease .3s;
+}
+
+.cs-list-wrap {
+	z-index: 99;
+	position: absolute;
+	width: auto;
+	background-color: #fff;
+	box-shadow: 0 0 1px rgba(0,0,0,.3), 0 2px 5px rgba(0,0,0,.1);
+	box-sizing: border-box;
+	border-radius: 1px;
+	margin-top: 10px;
+}
+
+.cs-list-container {
+	width: 170px;
+	max-height: 270px;
+	overflow-y: auto;
+	padding-top: 10px;
+	display: inline-block;
+}
+
+.cs-list-container::after {
+	content: "";
+	display: block;
+	position: absolute;
+	top: -6px;
+	left: 50%;
+	width: 10px;
+	height: 10px;
+	margin-left: -5px;
+	border-left: 1px solid #ddd;
+	border-top: 1px solid #ddd;
+	background-color: #fff;
+	transform: rotate(45deg);
+}
+
+.cs-list-container .cs-list-attr {
+	padding: 6px 12px;
+	text-overflow: ellipsis;
+    box-sizing: border-box;
+    cursor: pointer;
+	white-space: nowrap;
+	font-size: 14px;
+	font-weight: 400;
+	color: #909090;
+	width: 100%;
+	text-align: left;
+}
+
+.cs-list-container .cs-list-attr:hover {
+	background: #eee;
+}
+
+.ck-editor__editable_inline {
+	min-height: 500px;
+}
+
+.submit-wrap {
+	width: 100%;
+	height: 40px;
+	position: relative;
+}
+
+.submit-wrap .post-submit-btn {
+	position: absolute;
+	right: 0;
+	top: 50%;
+	width: 100px;
+	height: 38px;
+	background: #333;
+	color: white;
+	cursor: pointer;
+	border-radius: 20px;
+	transition: 0.3s;
+}
+
+.submit-wrap .post-submit-btn:hover {
+	background: #f55;
 }
