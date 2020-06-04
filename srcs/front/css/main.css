@@ -1126,6 +1126,10 @@ ul {
 	line-height: 28px;
 }
 
+.posting-wrap {
+	margin-bottom: 50px;
+}
+
 .posting-btn {
 	position: fixed;
 	display: flex;

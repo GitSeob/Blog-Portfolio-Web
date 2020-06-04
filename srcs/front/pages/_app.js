@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import AppLayout from '../containers/AppLayout';
 import Helmet from 'react-helmet';
@@ -8,12 +8,13 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
 import reducer from '../reducers';
-// import sagaMiddleware from '../sagas/middleware';
 import createSagaMiddleware from '@redux-saga/core';
 import rootSaga from '../sagas'
+
 import '../css/main.css';
 
-const Home = ({ Component, store }) => {
+const Home = ({ pathname, Component, store }) => {
+
 	return (
 		<Provider store={store}>
 			<Helmet
@@ -25,27 +26,14 @@ const Home = ({ Component, store }) => {
 					name: 'viewport',
 					content: 'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=yes,viewport-fit=cover',
 				}]}
-				link={[{
-					rel: 'stylesheet', href: 'https://unpkg.com/aos@2.3.1/dist/aos.css'
-				},{
-					rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.css'
-				},{
-					rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.min.css'
-				}]}
-				script={[{
-					src: '//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js'
-				},{
-					src: 'https://unpkg.com/aos@2.3.1/dist/aos.js'
-				},{
-					src: 'https://unpkg.com/react-id-swiper@2.3.1/lib/react-id-swiper.js'
-				}, {
-					src: 'https://unpkg.com/react-id-swiper@2.3.1/lib/react-id-swiper.min.js'
-				},
-			]}
 			/>
-			<AppLayout>
-				<Component />
-			</AppLayout>
+			{pathname==="/portfolio" ?
+				<><Component/></>
+				:
+				<AppLayout>
+					<Component />
+				</AppLayout>
+			}
 		</Provider>
 	);
 };
@@ -53,6 +41,16 @@ const Home = ({ Component, store }) => {
 Home.propTypes = {
 	Component: PropTypes.elementType.isRequired,
 	store: PropTypes.object,
+};
+
+Home.getInitialProps = async (context) => {
+	const { ctx, Component } = context;
+	let pageProps = {}
+	if (Component.getInitialProps) {
+		pageProps = await Component.getInitialProps(ctx);
+	}
+	// console.log(ctx);
+	return { pageProps, pathname: ctx.pathname };
 };
 
 const configureStore = (initialState, options) => {
