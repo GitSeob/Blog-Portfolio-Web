@@ -82,16 +82,15 @@ const Ckeditor = ({ data="" }) => {
 				title: postTitle,
 				category_index: category_index,
 				content: ckval,
-				category: category_list[category_index],
-				createdAt: '2020. 06. 03. 23:11',
+				category: category_index,
 			}
 		})
 	})
 
 	useEffect(() => {
 		if (isAddedPost) {
-			alert("글이 등록되었습니다.")
-			Router.push('/blog');
+			alert("글이 등록되었습니다.");
+			Router.push('/');
 		}
 	}, [isAddedPost])
 

@@ -1,49 +1,61 @@
 const initialState = {
-	onMenu: false,
-	onSearch: false,
 	category_list: [
 		'카테고리 없음', 'test1', 'test2',
 	],
-	mainPosts: [{
-		title: 'test',
-		thumbnail_path: './images/profileImage.jpg',
-		category: 'test_category',
-		createdAt: '2020. 01. 01. 00:00',
-		content: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'
-	},{
-		title: 'test',
-		thumbnail_path: './images/profileImage.jpg',
-		category: 'test_category',
-		createdAt: '2020. 01. 01. 00:00',
-		content: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'
-	},{
-		title: 'test',
-		thumbnail_path: './images/profileImage.jpg',
-		category: 'test_category',
-		createdAt: '2020. 01. 01. 00:00',
-		content: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'
-	},{
-		title: 'test',
-		thumbnail_path: './images/profileImage.jpg',
-		category: 'test_category',
-		createdAt: '2020. 01. 01. 00:00',
-		content: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'
-	},],
+	mainPosts: null,
 	// 아래는 posting
 	isAddingPost: false,
 	isAddedPost: false,
-	title: '',
-	category_index: 0,
-	content: '이곳에 내용을 입력해주세요',
+	postData: null,
+	isEdittingPost: false,
+	isEditedPost: false,
+	isRemovingPost: false,
+	isRemovedPost: false,
 	errorReason: '',
 }
+
+export const LOAD_MAIN_POSTS_REQUEST = 'LOAD_MAIN_POSTS_REQUEST';
+export const LOAD_MAIN_POSTS_SUCCESS = 'LOAD_MAIN_POSTS_SUCCESS';
+export const LOAD_MAIN_POSTS_FAILURE = 'LOAD_MAIN_POSTS_FAILURE';
 
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
 export const ADD_POST_FAILURE = 'ADD_POST_FAILURE';
 
+export const EDIT_POST_REQUEST = 'EDIT_POST_REQUEST';
+export const EDIT_POST_SUCCESS = 'EDIT_POST_SUCCESS';
+export const EDIT_POST_FAILURE = 'EDIT_POST_FAILURE';
+
+export const REMOVE_POST_REQUEST = 'REMOVE_POST_REQUEST';
+export const REMOVE_POST_SUCCESS = 'REMOVE_POST_SUCCESS';
+export const REMOVE_POST_FAILURE = 'REMOVE_POST_FAILURE';
+
+export const LOAD_ONE_POST_REQUEST = 'LOAD_ONE_POST_REQUEST';
+export const LOAD_ONE_POST_SUCCESS = 'LOAD_ONE_POST_SUCCESS';
+export const LOAD_ONE_POST_FAILURE = 'LOAD_ONE_POST_FAILURE';
+
+export const CHANGE_MODE = 'CHANGE_MODE';
+
 const posts = (state=initialState, action) => {
 	switch (action.type) {
+		case LOAD_MAIN_POSTS_REQUEST: {
+			return {
+				...state,
+				mainPosts: [],
+			};
+		}
+		case LOAD_MAIN_POSTS_SUCCESS: {
+			return {
+				...state,
+				mainPosts: action.data,
+			}
+		}
+		case LOAD_MAIN_POSTS_FAILURE: {
+			return {
+				...state,
+			}
+		}
+
 		case ADD_POST_REQUEST: {
 			return {
 				...state,
@@ -62,9 +74,53 @@ const posts = (state=initialState, action) => {
 			return {
 				...state,
 				isAddingPost: false,
-				errorReason: '어떠어떠해서 실패',
+				errorReason: action.error,
 			}
 		}
+
+		case EDIT_POST_REQUEST: {
+			return {
+				...state,
+				isEdittingPost: true,
+			}
+		}
+		case EDIT_POST_SUCCESS: {
+			return {
+				...state,
+				isEdittingPost: false,
+				isEditedPost: true,
+				postData: action.data,
+			}
+		}
+		case EDIT_POST_FAILURE: {
+			return {
+				...state,
+				isEdittingPost: false,
+				errorReason: action.error,
+			}
+		}
+
+		case REMOVE_POST_REQUEST: {
+			return {
+				...state,
+				isRemovingPost: true,
+			}
+		}
+		case REMOVE_POST_SUCCESS: {
+			return {
+				...state,
+				isRemovingPost: false,
+				isRemovedPost: true,
+			}
+		}
+		case REMOVE_POST_FAILURE: {
+			return {
+				...state,
+				isRemovingPost: false,
+				errorReason: action.error,
+			}
+		}
+
 		default: {
 			return {
 				...state,

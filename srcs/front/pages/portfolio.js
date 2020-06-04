@@ -37,7 +37,9 @@ Portfolio.propTypes = {
 };
 
 Portfolio.getInitialProps = async ( context ) => {
-	// console.log('portfolio getinitialProps', context);
+	context.store.dispatch({
+		type: LOAD_DATA_REQUEST,
+	})
 }
 
 export default Portfolio;
