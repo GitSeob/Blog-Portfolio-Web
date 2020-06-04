@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
 	const Ab_list = sequelize.define('Ab_list', {
-		content: {
+		list_attribute: {
 			type: DataTypes.STRING(100),
 			allowNull: false,
 		}

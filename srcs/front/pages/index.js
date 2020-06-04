@@ -1,8 +1,8 @@
 import React ,{useState, useCallback, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {Close, Menu, Search, Edit} from '@material-ui/icons'
-import { useInput } from './login';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { LOAD_MAIN_POSTS_REQUEST } from '../reducers/posts';
 
 export const MenuBar = ({onMenu}) => {
 	const openMenu = {
@@ -90,8 +90,7 @@ export const MainHeader = ({ onMenu, changeMenu, onSearch, changeSearch}) => {
 	);
 }
 
-const PostList = () => {
-	const {mainPosts} = useSelector(state=>state.posts)
+const PostList = ({ mainPosts }) => {
 
 	return (
 		<>
@@ -130,7 +129,7 @@ const PostList = () => {
 									</div>
 									<a href="/blog" className="post-link-article">
 										<p className="post-txt-post">
-											{c.content}
+											{c.thumbnail_content}
 										</p>
 									</a>
 								</div>
@@ -198,9 +197,29 @@ export const BlogBackground = ({ Component }) => {
 };
 
 const Blog = () => {
+	const {mainPosts} = useSelector(state=>state.posts)
+	// const dispatch = useDispatch();
+	// useEffect(() => {
+	// 	dispatch({
+	// 	  type: LOAD_MAIN_POSTS_REQUEST,
+	// 	});
+	//   }, []);
+
 	return (
-		<PostList />
+		<PostList mainPosts={mainPosts}/>
 	);
+}
+
+Blog.getInitialProps = async ( context ) =>{
+	const state = context.store.getState();
+
+	console.log(state);
+
+	if ( !state.posts.mainPosts ) {
+		context.store.dispatch({
+			type: LOAD_MAIN_POSTS_REQUEST,
+		});
+	}
 }
 
 Blog.propTypes = {
