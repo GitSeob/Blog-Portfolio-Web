@@ -16,21 +16,15 @@ const Portfolio = props => {
 	const { data, isLoaded } = useSelector(state => state.portfolio);
 
 	return (
-		<Background>
+		<>
 			<Door />
 			<Introduction id="introduction" data={data}/>
 			<Work data={data}/>
 			<Contact />
 			<Footer />
-		</Background>
+		</>
 	);
 };
-
-const Background = styled.div`
-	position: relative;
-	width: 100%;
-	margin: 0;
-`;
 
 Portfolio.propTypes = {
 

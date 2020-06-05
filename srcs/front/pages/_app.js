@@ -14,6 +14,8 @@ import reducer from '../reducers';
 import createSagaMiddleware from '@redux-saga/core';
 import rootSaga from '../sagas'
 
+import styled from 'styled-components';
+
 import withReduxSaga from 'next-redux-saga' // SSR 렌더링을 위한 사가 설정
 
 import '../css/main.css';
@@ -26,8 +28,10 @@ const Home = ({ pathname, Component, store }) => {
 			<Head>
 				<title>anjoy의 블로그와 포트폴리오</title>
 			</Head>
-			{pathname==="/portfolio" ?
-				<><Component/></>
+			{pathname==="/portfolio" || pathname === "/login" ?
+				<Background>
+					<Component/>
+				</Background>
 				:
 				<AppLayout>
 					<Component />
@@ -36,6 +40,13 @@ const Home = ({ pathname, Component, store }) => {
 		</Provider>
 	);
 };
+
+const Background = styled.div`
+	position: relative;
+	width: 100%;
+	height: 100vh;
+	margin: 0;
+`;
 
 Home.propTypes = {
 	Component: PropTypes.elementType.isRequired,
@@ -47,20 +58,13 @@ Home.getInitialProps = async (context) => {
 	let pageProps = {}
 	const state = ctx.store.getState();
 	const cookie = ctx.isServer ? ctx.req.headers.cookie : '' ; // cookie
+
 	if (ctx.isServer && cookie) { // 클라이언트일 경우에는 브라우저가 있으므로 서버사이드 렌더링일 경우에만 실행
 		axios.defaults.headers.Cookie = cookie; // 프론트 서버에서 백 서버로 보낼 때 쿠키를 동봉해준다는 코드
 	}
-
-	if (!state.posts.mainPosts) {
-		ctx.store.dispatch({
-			type: LOAD_MAIN_POSTS_REQUEST
-		})
-	}
-
 	if (Component.getInitialProps) {
 		pageProps = await Component.getInitialProps(ctx);
 	}
-	// console.log(ctx);
 	return { pageProps, pathname: ctx.pathname };
 };
 

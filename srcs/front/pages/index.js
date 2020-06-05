@@ -52,7 +52,7 @@ export const MainHeader = ({ onMenu, changeMenu, onSearch, changeSearch}) => {
 		<header id="post-header">
 			<div className="inner-header">
 				<h1 className="post-logo">
-					<a href="/blog" title="title" className="post-link-logo">
+					<a href="/" title="title" className="post-link-logo">
 						<span className="blind">
 							title
 						</span>
@@ -107,18 +107,18 @@ const PostList = ({ mainPosts }) => {
 						<li key={(i)} className="list-horizontal-item">
 							<div className="article-content">
 								<div className="thumbnail-zone">
-									<a href="/blog" className="thumbnail-post" style={{
+									<a href="/" className="thumbnail-post" style={{
 										backgroundImage: `url(\'${c.thumbnail_path}\')`,
 									}}></a>
 								</div>
 								<div className="post-box-content">
-									<a 	href="/blog" className="post-link-title">
+									<a 	href="/" className="post-link-title">
 										<strong className="post-title-post">
 											{c.title}
 										</strong>
 									</a>
 									<div className="post-info-post">
-										<a href="/blog" className="post-link-category">
+										<a href="/" className="post-link-category">
 											<span className="post-category">
 												{c.category}
 											</span>
@@ -127,7 +127,7 @@ const PostList = ({ mainPosts }) => {
 											{c.createdAt}
 										</div>
 									</div>
-									<a href="/blog" className="post-link-article">
+									<a href="/" className="post-link-article">
 										<p className="post-txt-post">
 											{c.thumbnail_content}
 										</p>
@@ -198,12 +198,6 @@ export const BlogBackground = ({ Component }) => {
 
 const Blog = () => {
 	const {mainPosts} = useSelector(state=>state.posts)
-	// const dispatch = useDispatch();
-	// useEffect(() => {
-	// 	dispatch({
-	// 	  type: LOAD_MAIN_POSTS_REQUEST,
-	// 	});
-	//   }, []);
 
 	return (
 		<PostList mainPosts={mainPosts}/>
@@ -213,9 +207,7 @@ const Blog = () => {
 Blog.getInitialProps = async ( context ) =>{
 	const state = context.store.getState();
 
-	console.log(state);
-
-	if ( !state.posts.mainPosts ) {
+	if (!state.posts.mainPosts ) {
 		context.store.dispatch({
 			type: LOAD_MAIN_POSTS_REQUEST,
 		});
