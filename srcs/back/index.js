@@ -11,6 +11,8 @@ const passportConfig = require('./passport');
 const db = require('./models');
 // const portAPIRouter = require('/routes/port');
 const userAPIRouter = require('./routes/user');
+const postAPIRouter = require('./routes/post');
+const postsAPIRouter = require('./routes/posts');
 
 dotenv.config();
 
@@ -45,7 +47,14 @@ app.use(passport.session());
 
 // api는 다른 서비스가 내 서비스의 기능을 실행할 수 있게 열어두는 창구으디ㅏ.
 app.use('/api/user', userAPIRouter);
+app.use('/api/post', postAPIRouter);
+app.use('/api/posts', postsAPIRouter);
 // app.use('/api/portfolio');
+
+const t = async () => {
+    const tt = await bcrypt.hash('3309anhs', 12);
+    console.log(tt);
+}
 
 app.listen(3065, () => {
 	console.log('server is running on localhost:3065 !');

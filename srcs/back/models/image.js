@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
     })
 
     Image.associate = (db) =>{
-        db.Image.belongsTo(db.Work_list);
+        db.Image.belongsTo(db.Works);
+        // db.Image.belongsTo(db.Posts);
     }
 
     return Image
