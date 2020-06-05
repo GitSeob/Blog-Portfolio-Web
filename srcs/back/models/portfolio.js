@@ -24,30 +24,26 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.STRING(40),
 			allowNull: false,
 		},
-		footer_title: {
+		work_sub_title: {
 			type: DataTypes.STRING(40),
 			allowNull: false,
 		},
-		footer_email: {
+		email: {
 			type: DataTypes.STRING(60),
 			allowNull: false,
 		},
-		footer_comment: {
+		github: {
 			type: DataTypes.TEXT,
 			allowNull: false,
 		},
-		link_github: {
+		kakao: {
 			type: DataTypes.TEXT,
 			allowNull: false,
 		},
-		link_blog: {
+		commnet: {
 			type: DataTypes.TEXT,
 			allowNull: false,
-		},
-		link_comment: {
-			type: DataTypes.TEXT,
-			allowNull: false,
-		},
+		}
 	}, {
 		charset: 'utf8',
 		collate: 'utf8_general_ci'

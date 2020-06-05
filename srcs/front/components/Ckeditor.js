@@ -76,63 +76,53 @@ const Ckeditor = ({ data="" }) => {
 			alert('제목을 입력해주세요.');
 			return ;
 		}
-		console.log({
-			title: postTitle,
-			category_index: category_index,
-			content: ckval,
-		})
 		dispatch({
 			type: ADD_POST_REQUEST,
 			data: {
 				title: postTitle,
 				category_index: category_index,
 				content: ckval,
-				category: category_list[category_index],
-				createdAt: '2020. 06. 03. 23:11',
+				category: category_index,
 			}
 		})
 	})
 
 	useEffect(() => {
 		if (isAddedPost) {
-			alert("글이 등록되었습니다.")
-			Router.push('/blog');
+			alert("글이 등록되었습니다.");
+			Router.push('/');
 		}
 	}, [isAddedPost])
 
 	return (
-		<div className="post-category-list index-type-common index-type-horizontal">
-			<ul className="post-list-horizontal">
-				<li className="category-content-area">
-					<div className="area-view-content">
-						<form className="article-content" onSubmit={onSubmitPost}>
-							<SelectCate category_list={category_list} setCategory={setCategory}/>
-							<input value={postTitle} onChange={OCPT} className=" post-title-ipt " placeholder="제목을 입력해주세요"/>
-							<CKEditor
-								editor={ClassicEditor}
-								onInit={ editor=>{
-									console.log(editor);
-								}}
-								data={ckval}
-								onChange={(event, editor) =>{
-									const data = editor.getData();
-									OCV(data);
-									// console.log( { event, editor, data } );
-								}}
-							/>
-							<div className="submit-wrap">
-								<input
-									className="post-submit-btn"
-									type="submit"
-									name=""
-									value="submit"
-									disabled={isAddingPost}>
-								</input>
-							</div>
-						</form>
+		<div className="post-category-list index-type-common index-type-horizontal posting-wrap">
+			<div className="area-view-content posting-container">
+				<form className="article-content posting-wrap" onSubmit={onSubmitPost}>
+					<SelectCate category_list={category_list} setCategory={setCategory}/>
+					<input value={postTitle} onChange={OCPT} className=" post-title-ipt " placeholder="제목을 입력해주세요"/>
+					<CKEditor
+						editor={ClassicEditor}
+						onInit={ editor=>{
+							console.log(editor);
+						}}
+						data={ckval}
+						onChange={(event, editor) =>{
+							const data = editor.getData();
+							OCV(data);
+							// console.log( { event, editor, data } );
+						}}
+					/>
+					<div className="submit-wrap">
+						<input
+							className="post-submit-btn"
+							type="submit"
+							name=""
+							value="submit"
+							disabled={isAddingPost}>
+						</input>
 					</div>
-				</li>
-			</ul>
+				</form>
+			</div>
 		</div>
 	);
 };
