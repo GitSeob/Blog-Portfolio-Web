@@ -2,7 +2,7 @@ const initialState = {
 	category_list: [
 		'카테고리 없음', 'test1', 'test2',
 	],
-	mainPosts: null,
+	mainPosts: [],
 	// 아래는 posting
 	isAddingPost: false,
 	isAddedPost: false,
@@ -76,6 +76,25 @@ const posts = (state=initialState, action) => {
 				isAddingPost: false,
 				errorReason: action.error,
 			}
+		}
+
+		case LOAD_ONE_POST_REQUEST: {
+			return {
+				...state,
+				postData: null,
+			};
+		}
+		case LOAD_ONE_POST_SUCCESS: {
+			return {
+				...state,
+				postData: action.data,
+			};
+		}
+		case LOAD_ONE_POST_FAILURE: {
+			return {
+				...state,
+				errorReason: action.error,
+			};
 		}
 
 		case EDIT_POST_REQUEST: {

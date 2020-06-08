@@ -50,7 +50,7 @@ export const MainHeader = ({ onMenu, changeMenu, onSearch, changeSearch}) => {
 		<header id="post-header">
 			<div className="inner-header">
 				<h1 className="post-logo">
-					<a href="/blog" title="title" className="post-link-logo">
+					<a href="/" title="title" className="post-link-logo">
 						<span className="blind">
 							title
 						</span>

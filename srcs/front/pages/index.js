@@ -1,5 +1,7 @@
 import React ,{useState, useCallback, useEffect} from 'react';
 import PropTypes from 'prop-types';
+import Link from 'next/link';
+
 import {Close, Menu, Search, Edit} from '@material-ui/icons'
 import { useSelector, useDispatch } from 'react-redux';
 import { LOAD_MAIN_POSTS_REQUEST } from '../reducers/posts';
@@ -107,16 +109,32 @@ const PostList = ({ mainPosts }) => {
 						<li key={(i)} className="list-horizontal-item">
 							<div className="article-content">
 								<div className="thumbnail-zone">
-									<a href="/" className="thumbnail-post" style={{
-										backgroundImage: `url(\'${c.thumbnail_path}\')`,
-									}}></a>
+									<Link href={{
+										pathname: '/post',
+										query: {id : c.id},
+										}}
+										as={`/post/${c.id}`}
+									>
+										<a
+											className="thumbnail-post" style={{
+											backgroundImage: `url(\'${c.thumbnail_path}\')`,
+										}}></a>
+									</Link>
 								</div>
 								<div className="post-box-content">
-									<a 	href="/" className="post-link-title">
-										<strong className="post-title-post">
-											{c.title}
-										</strong>
-									</a>
+									<Link 	href={{
+										pathname: '/post',
+										query: {id: c.id},
+										}}
+										as={`/post/${c.id}`}
+										>
+										<a
+											className="post-link-title">
+											<strong className="post-title-post">
+												{c.title}
+											</strong>
+										</a>
+									</Link>
 									<div className="post-info-post">
 										<a href="/" className="post-link-category">
 											<span className="post-category">
@@ -127,11 +145,19 @@ const PostList = ({ mainPosts }) => {
 											{c.createdAt}
 										</div>
 									</div>
-									<a href="/" className="post-link-article">
-										<p className="post-txt-post">
-											{c.thumbnail_content}
-										</p>
-									</a>
+									<Link href={{
+										pathname: '/post',
+										query: {id: c.id},
+										}}
+										as={`/post/${c.id}`}
+									>
+										<a
+											className="post-link-article">
+											<p className="post-txt-post">
+												{c.thumbnail_content}
+											</p>
+										</a>
+									</Link>
 								</div>
 							</div>
 						</li>
@@ -205,13 +231,9 @@ const Blog = () => {
 }
 
 Blog.getInitialProps = async ( context ) =>{
-	const state = context.store.getState();
-
-	if (!state.posts.mainPosts ) {
-		context.store.dispatch({
-			type: LOAD_MAIN_POSTS_REQUEST,
-		});
-	}
+	context.store.dispatch({
+		type: LOAD_MAIN_POSTS_REQUEST,
+	});
 }
 
 Blog.propTypes = {
