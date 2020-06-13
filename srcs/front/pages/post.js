@@ -7,8 +7,17 @@ const OnePost = ({ postData }) => {
 	const [isAdmin, setIsAdmin] = useState(true);
 
 	const Content = () => {
-		return (<div dangerouslySetInnerHTML={{ __html: postData.content }} />);
+		console.log(postData.content);
+		return (
+			<div
+				className = "post-content-html-source"
+				dangerouslySetInnerHTML={{
+					__html: postData.content
+				}}
+			/>
+		);
 	}
+
 	return (
 		<div className="post-category-list index-type-common index-type-horizontal">
 			<ul className="post-list-horizontal">
@@ -69,6 +78,7 @@ const Post = ({ id }) => {
 };
 
 Post.getInitialProps = async ( context ) =>{
+	console.log(context.query.id);
 	context.store.dispatch({
 		type: LOAD_ONE_POST_REQUEST,
 		data: context.query.id,
