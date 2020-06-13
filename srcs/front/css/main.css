@@ -6,7 +6,6 @@
 	text-decoration: none;
 	outline: none;
 	border: none;
-	font-size: 14px;
 }
 
 body, html {
@@ -28,12 +27,11 @@ div {
 	display: block;
 }
 
-h1, h2, h3, h4, h5, h6 {
+/* h1, h2, h3, h4, h5, h6 {
 	margin: 0;
 	line-height: 1.2;
-	/* font-family: "Quicksand",sans-serif; */
 	font-weight: normal;
-}
+} */
 
 figure {
 	margin: 0;
@@ -42,7 +40,7 @@ figure {
 
 figcaption {
 	display: block;
-	font-size: 20px;
+	font-size: 14px;
 }
 
 table {
@@ -87,6 +85,10 @@ a {
 /* ################################################################################## */
 /* ################################################################################## */
 /* ################################################################################## */
+
+.port-wrap {
+	font-size: 12px;
+}
 
 .l-section {
 	padding: 100px 5vw;
@@ -1018,6 +1020,7 @@ ul {
 .list-horizontal-item {
 	margin-bottom: 60px;
 	height: 200px;
+	list-style: none;
 }
 
 .article-content {
@@ -1072,6 +1075,7 @@ ul {
 	margin-left: 5px;
 	padding-left: 9px;
 	color: #888;
+	font-size: 14px;
 }
 
 .index-type-horizontal .post-txt-post {
@@ -1079,6 +1083,7 @@ ul {
 	margin-bottom: 20px;
 	line-height: 24px;
 	line-clamp: 2;
+	font-size: 12px;
 	color: #666;
 }
 
@@ -1097,9 +1102,9 @@ ul {
 }
 
 .category-content-area {
-	width: 100% !important;
-	height: auto !important;
-	margin-bottom: 60px !important;
+	width: 100%;
+	height: auto;
+	margin-bottom: 60px;
 }
 
 .category-content-area .area-view-content {

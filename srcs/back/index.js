@@ -34,7 +34,7 @@ app.use(expressSession({
     secret: process.env.COOKIE_SECRET, // 쿠키 보안코드
     cookie: {
         httpOnly: true, // 자바스크립트에서 쿠키에 접근 불가 옵션
-        secure: true, // https를 쓸 때 true로 해주면 된다.
+        secure: false, // https를 쓸 때 true로 해주면 된다.
     },
     name: 'anjoy_blog' // cookie이름을 바꿔야함 conect.sid면 express를 쓰는 걸 들킨다
 }))

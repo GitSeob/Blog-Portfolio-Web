@@ -25,13 +25,18 @@ app.prepare().then(()=> {
 		secret: process.env.COOKIE_SECRET,
 		cookie: {
 			httpOnly: true,
-			secure: true,
+			secure: false,
 		},
 		name: 'anjoy_blog'
 	}));
 
 	server.get('*', (req, res) => {
 		return handle(req, res);
+	})
+
+	server.get('/post/:id', (req, res) => {
+		console.log(req.params.id);
+		return app.render(req, res, '/post', { id: req.params.id });
 	})
 
 	server.listen(3060, () => {
