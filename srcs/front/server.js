@@ -16,8 +16,13 @@ app.prepare().then(()=> {
 	const server = express();
 
 	server.use(morgan('dev'));
-	server.use(express.json());
-	server.use(express.urlencoded({ extended: true }));
+	server.use(express.json({
+		limit: "50mb",
+	}));
+	server.use(express.urlencoded({
+		extended: true,
+		limit: "50mb",
+	}));
 	server.use(cookieParser(process.env.COOKIE_SECRET));
 	server.use(expressSession({
 		resave: false,

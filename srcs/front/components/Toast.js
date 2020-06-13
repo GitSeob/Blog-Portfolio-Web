@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
 import { Editor } from '@toast-ui/react-editor';
 
@@ -11,6 +12,14 @@ const Toast = ({ editorValue, OCV}) => {
 		OCV(editorRef.current.getInstance().getHtml());
 	}, [editorValue]);
 
+	const uploadImage = async (blob) => {
+		// console.log(blob);
+		const imageData = {
+			data: blob
+		};
+		const res = await axios.post('http://localhost:3065/api/image', imageData);
+		return (res.imageURL);
+	};
 
 	return (
 		<Editor
@@ -22,6 +31,14 @@ const Toast = ({ editorValue, OCV}) => {
 			useCommandShortcut={true}
 			ref={editorRef}
 			onChange={handleChange}
+			hooks = {{
+				addImageBlobHook : (file, callback, source) => {
+					console.log(file);
+					const uploadedImageURL = uploadImage(file);
+					callback(uploadedImageURL, "alt text");
+					return false;
+				}
+			}}
 		/>
 	);
 };

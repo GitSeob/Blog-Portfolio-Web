@@ -1303,3 +1303,7 @@ ul {
 .submit-wrap .post-submit-btn:hover {
 	background: #f55;
 }
+
+.post-content-html-source img {
+	width: 90%;
+}
