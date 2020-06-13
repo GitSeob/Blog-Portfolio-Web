@@ -16,13 +16,13 @@ const Portfolio = props => {
 	const { data, isLoaded } = useSelector(state => state.portfolio);
 
 	return (
-		<>
+		<div className="port-wrap">
 			<Door />
 			<Introduction id="introduction" data={data}/>
 			<Work data={data}/>
 			<Contact />
 			<Footer />
-		</>
+		</div>
 	);
 };
 
