@@ -2,8 +2,9 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import { LOAD_ONE_POST_REQUEST } from '../reducers/posts';
 import { useSelector } from 'react-redux';
+import Head from 'next/head';
 
-const OnePost = ({ postData }) => {
+const OnePost = ({ id, postData }) => {
 	const [isAdmin, setIsAdmin] = useState(true);
 
 	const Content = () => {
@@ -19,6 +20,11 @@ const OnePost = ({ postData }) => {
 	}
 
 	return (
+		<>
+		<Head>
+			<title>post page</title>
+			<meta property="og:url" content={`http://localhost:3060/post/${id}`} />
+		</Head>
 		<div className="post-category-list index-type-common index-type-horizontal">
 			<ul className="post-list-horizontal">
 				<li className="category-content-area">
@@ -60,6 +66,7 @@ const OnePost = ({ postData }) => {
 				</li>
 			</ul>
 		</div>
+		</>
 	);
 }
 

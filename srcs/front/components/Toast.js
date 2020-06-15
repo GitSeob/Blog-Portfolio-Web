@@ -9,17 +9,26 @@ const Toast = ({ editorValue, OCV}) => {
 	const editorRef = useRef();
 
 	const handleChange = useCallback((e) => {
+		console.log({
+			// instance: editorRef.current.getValue(),
+			html: editorRef.current.getInstance().getHtml(),
+			markdown: editorRef.current.getInstance().getMarkdown()
+		});
 		OCV(editorRef.current.getInstance().getHtml());
 	}, [editorValue]);
 
-	const uploadImage = async (blob) => {
-		// console.log(blob);
-		const imageData = {
-			data: blob
-		};
-		const res = await axios.post('http://localhost:3065/api/image', imageData);
-		return (res.imageURL);
-	};
+	// const uploadImage = (blob) => {
+	// 	let imageFormData = new FormData();
+	// 	imageFormData.append('image', blob);
+	// 	axios.post(
+	// 		'http://localhost:3065/api/post/images', imageFormData, {
+	// 			withCredentials: true,
+	// 		}
+	// 	).then(res => {
+	// 		console.log(res.data.url);
+	// 		return res.data.url;
+	// 	})
+	// };
 
 	return (
 		<Editor
@@ -32,11 +41,17 @@ const Toast = ({ editorValue, OCV}) => {
 			ref={editorRef}
 			onChange={handleChange}
 			hooks = {{
-				addImageBlobHook : (file, callback, source) => {
-					console.log(file);
-					const uploadedImageURL = uploadImage(file);
-					callback(uploadedImageURL, "alt text");
-					return false;
+				addImageBlobHook : (blob, callback, source) => {
+					let imageFormData = new FormData();
+					imageFormData.append('image', blob);
+					axios.post(
+						'http://localhost:3065/api/post/images', imageFormData, {
+							withCredentials: true,
+						}
+					).then(res => {
+						callback(res.data.url, "alt text");
+						return false;
+					})
 				}
 			}}
 		/>

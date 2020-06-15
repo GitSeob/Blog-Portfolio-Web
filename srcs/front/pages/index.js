@@ -166,9 +166,6 @@ const PostList = ({ mainPosts }) => {
 				}
 			</ul>
 		</div>
-		<a href="/posting" className="posting-btn">
-			<Edit />
-		</a>
 		</>
 	);
 }

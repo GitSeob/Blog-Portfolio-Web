@@ -130,6 +130,9 @@ const AppLayout = ({ children }) => {
 		<div id="post-wrap">
 			<MenuBar onMenu={onMenu}/>
 			<PostMain onMenu={onMenu} changeMenu={changeMenu.bind(null, onMenu)} onSearch={onSearch} changeSearch={changeSearch.bind(null, onSearch)} Component={children}/>
+			<a href="/posting" className="posting-btn">
+				<Edit />
+			</a>
 		</div>
 	);
 };
