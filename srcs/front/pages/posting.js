@@ -80,6 +80,8 @@ const Posting = () => {
 		e.preventDefault();
 		if (!postTitle) {
 				alert('제목을 입력해주세요.');
+		} else if (!editorValue) {
+			alert('본문을 작성해주세요.')
 		} else {
 			dispatch({
 				type: ADD_POST_REQUEST,

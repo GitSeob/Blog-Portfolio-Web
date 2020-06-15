@@ -1,4 +1,4 @@
-express = require('express');
+const express = require('express');
 const multer = require('multer')
 const path = require('path')
 const db = require('../models')
@@ -6,14 +6,42 @@ const db = require('../models')
 
 const router = express.Router()
 
+const upload = multer({
+	storage: multer.diskStorage({
+		destination(req, file, done) {
+			done(null, 'uploads')
+		},
+		filename(req, file, done){
+			let ext = path.extname(file.originalname);
+			let basename = path.basename(file.originalname, ext);
+			let savename = basename + new Date() + ext;
+			savename = savename.replace(/\s/g, "_");
+			done(null, savename);
+		}
+	}),
+	limits: {fileSize: 20*1024*1024},
+});
+
 router.post('/', async (req, res, next) => {
 	try {
-		const thumb_content = req.body.content.replace(/(<([^>]+)>)/ig," ")
+		let reg = /<img[^>]+src="([^">]+)/g;
+		let thumb_content = req.body.content.replace(/(<([^>]+)>)/ig," ")
+		let thumb_imgs = req.body.content.match(reg);
+		let thumb_img = '';
+
+		console.log("!!!!!!!!!!! post !!!!!!!!!!!!!");
+
+		if (thumb_imgs) {
+			thumb_img = thumb_imgs[0].replace(/<img[^>]+src="/g, "");
+		} else {
+			thumb_img = "http://localhost:3065/globalImg/noImg.png";
+		}
 		const newPost = await db.Posts.create({
 			title: req.body.title,
 			CategoryId: req.body.category_id,
 			content: req.body.content,
 			thumbnail_content: thumb_content,
+			thumbnail_img: thumb_img,
 		})
 		const fullPosts = await db.Posts.findOne({
 			where: {id: newPost.id },
@@ -37,11 +65,19 @@ router.get('/:id', async (req, res, next) => {
 		if (!post) {
 			return res.status(401).send('포스트가 존재하지 않습니다.');
 		}
+		console.log(post.content);
 		return res.json(post);
 	} catch(e) {
 		console.error(e);
 		return next(e);
 	}
 })
+
+router.post('/images', upload.array('image'), (req, res) => {
+	// let imgURL = URL.createObjectURL(req.files[0]);
+	res.json({
+		url: `http://localhost:3065/${req.files[0].filename}`
+	});
+});
 
 module.exports = router

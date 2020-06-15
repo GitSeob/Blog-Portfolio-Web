@@ -16,8 +16,13 @@ app.prepare().then(()=> {
 	const server = express();
 
 	server.use(morgan('dev'));
-	server.use(express.json());
-	server.use(express.urlencoded({ extended: true }));
+	server.use(express.json({
+		limit: "50mb",
+	}));
+	server.use(express.urlencoded({
+		extended: true,
+		limit: "50mb",
+	}));
 	server.use(cookieParser(process.env.COOKIE_SECRET));
 	server.use(expressSession({
 		resave: false,
@@ -30,13 +35,13 @@ app.prepare().then(()=> {
 		name: 'anjoy_blog'
 	}));
 
-	server.get('*', (req, res) => {
-		return handle(req, res);
-	})
-
 	server.get('/post/:id', (req, res) => {
 		console.log(req.params.id);
 		return app.render(req, res, '/post', { id: req.params.id });
+	})
+
+	server.get('*', (req, res) => {
+		return handle(req, res);
 	})
 
 	server.listen(3060, () => {
