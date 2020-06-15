@@ -35,13 +35,13 @@ app.prepare().then(()=> {
 		name: 'anjoy_blog'
 	}));
 
-	server.get('*', (req, res) => {
-		return handle(req, res);
-	})
-
 	server.get('/post/:id', (req, res) => {
 		console.log(req.params.id);
 		return app.render(req, res, '/post', { id: req.params.id });
+	})
+
+	server.get('*', (req, res) => {
+		return handle(req, res);
 	})
 
 	server.listen(3060, () => {
