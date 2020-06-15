@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import Head from 'next/head';
 
 const OnePost = ({ id, postData }) => {
-	const [isAdmin, setIsAdmin] = useState(true);
+	const { admin } = useSelector(state=>state.admin);
 
 	const Content = () => {
 		console.log(postData.content);
@@ -46,7 +46,7 @@ const OnePost = ({ id, postData }) => {
 										{postData.createdAt}
 									</span>
 								</div>
-								{ isAdmin &&
+								{ admin &&
 									<div className="edit-post">
 										<a href="/blog">
 											수정
