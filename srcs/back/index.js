@@ -22,6 +22,7 @@ db.sequelize.sync();
 passportConfig();
 
 app.use(morgan('dev')) // 요청들어오면 log가 남음
+app.use('/globalImg', express.static('globalImg'));
 app.use('/', express.static('uploads')) // uploads 폴더를 다른 서버에서 자유롭게 가져갈 수 있게 해준다
 app.use(cors({
     origin: true, // 요청 주소랑 같게
