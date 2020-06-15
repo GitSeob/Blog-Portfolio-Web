@@ -63,11 +63,12 @@ Home.getInitialProps = async (context) => {
 	const state = ctx.store.getState();
 	const cookie = ctx.isServer ? ctx.req.headers.cookie : '' ; // cookie
 
-	// if (!state.posts.mainPosts ) {
-	// 	ctx.store.dispatch({
-	// 		type: LOAD_MAIN_POSTS_REQUEST,
-	// 	});
-	// }
+	if(!state.admin.admin) {
+		ctx.store.dispatch({
+			type: LOAD_ADMIN,
+		})
+	}
+
 	if (ctx.isServer && cookie) { // 클라이언트일 경우에는 브라우저가 있으므로 서버사이드 렌더링일 경우에만 실행
 		axios.defaults.headers.Cookie = cookie; // 프론트 서버에서 백 서버로 보낼 때 쿠키를 동봉해준다는 코드
 	}
@@ -87,7 +88,6 @@ const configureStore = (initialState, options) => {
 	}];
 	// redux는 단순하게 action과 reducer에 따라 state를 바꿔주는 것이기에
 	// 그 외의 기능을 이용하려면 middleware를 사용해야 한다.
-
 
 	const enhancer = process.env.NODE_ENV === 'production'
 		? compose(applyMiddleware(...middlewares), )
