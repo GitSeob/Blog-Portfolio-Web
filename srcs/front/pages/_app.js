@@ -24,6 +24,7 @@ import 'codemirror/lib/codemirror.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { LOAD_MAIN_POSTS_REQUEST } from '../reducers/posts';
+import { LOAD_ADMIN_REQUEST } from '../reducers/admin';
 
 const Home = ({ pathname, Component, store }) => {
 
@@ -65,10 +66,9 @@ Home.getInitialProps = async (context) => {
 
 	if(!state.admin.admin) {
 		ctx.store.dispatch({
-			type: LOAD_ADMIN,
+			type: LOAD_ADMIN_REQUEST,
 		})
 	}
-
 	if (ctx.isServer && cookie) { // 클라이언트일 경우에는 브라우저가 있으므로 서버사이드 렌더링일 경우에만 실행
 		axios.defaults.headers.Cookie = cookie; // 프론트 서버에서 백 서버로 보낼 때 쿠키를 동봉해준다는 코드
 	}

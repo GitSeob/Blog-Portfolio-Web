@@ -2,6 +2,7 @@ import React ,{useState, useCallback, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {Close, Menu, Search, Edit} from '@material-ui/icons'
 import { useSelector } from 'react-redux';
+import Link from 'next/link';
 
 export const MenuBar = ({onMenu}) => {
 	const openMenu = {
@@ -15,9 +16,12 @@ export const MenuBar = ({onMenu}) => {
 			<nav className="menu-navigation">
 				<ul className="list-gnb">
 					<li className="t_menu">
-						<a href="/" className="link-gnb link-lnb">
-							홈
-						</a>
+						<Link
+							href="/">
+							<a className="link-gnb link-lnb">
+								홈
+							</a>
+						</Link>
 					</li>
 				</ul>
 				<ul className="tt-category">
@@ -27,9 +31,11 @@ export const MenuBar = ({onMenu}) => {
 								dummy_list.map((c, i) => {
 									return (
 										<li key={(i)} className="">
-											<a href="/" className="link-item link-gnb link-lnb">
-												{c}
-											</a>
+											<Link href="/" >
+												<a className="link-item link-gnb link-lnb">
+													{c}
+												</a>
+											</Link>
 										</li>
 									);
 								})
@@ -51,14 +57,16 @@ export const MainHeader = ({ onMenu, changeMenu, onSearch, changeSearch}) => {
 		<header id="post-header">
 			<div className="inner-header">
 				<h1 className="post-logo">
-					<a href="/" title="title" className="post-link-logo">
-						<span className="blind">
-							title
-						</span>
-						<span className="post-title-text">
-							title
-						</span>
-					</a>
+					<Link href="/">
+						<a className="post-link-logo" title="title">
+							<span className="blind">
+								title
+							</span>
+							<span className="post-title-text">
+								title
+							</span>
+						</a>
+					</Link>
 				</h1>
 				<button type="button" className="post-btn-menu" onClick={changeMenu}>
 					<span className="post-icon-menu">
@@ -90,8 +98,6 @@ const PostMain = ({ onMenu, changeMenu, onSearch, changeSearch, Component}) => {
 	const openMenu = {
 		left: `${onMenu ? 380 : 0}px`
 	};
-
-	const [allPost, setAP] = useState(true);
 
 	return (
 		<div id="post-container" style={openMenu}>
@@ -132,9 +138,12 @@ const AppLayout = ({ pathname, children }) => {
 			<MenuBar onMenu={onMenu}/>
 			<PostMain onMenu={onMenu} changeMenu={changeMenu.bind(null, onMenu)} onSearch={onSearch} changeSearch={changeSearch.bind(null, onSearch)} Component={children}/>
 			{
-				( !admin && pathname !== '/posting') && <a href="/posting" className="posting-btn">
-					<Edit />
-				</a>
+				( admin && pathname !== '/posting') &&
+					<Link href="/posting">
+						<a className="posting-btn">
+							<Edit />
+						</a>
+					</Link>
 			}
 		</div>
 	);
