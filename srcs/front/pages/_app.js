@@ -37,7 +37,7 @@ const Home = ({ pathname, Component, store }) => {
 					<Component/>
 				</Background>
 				:
-				<AppLayout>
+				<AppLayout pathname={pathname}>
 					<Component />
 				</AppLayout>
 			}

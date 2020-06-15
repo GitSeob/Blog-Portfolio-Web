@@ -117,7 +117,7 @@ const PostList = ({ mainPosts }) => {
 									>
 										<a
 											className="thumbnail-post" style={{
-											backgroundImage: `url(\'${c.thumbnail_path}\')`,
+											backgroundImage: `url(\'${c.thumbnail_img}\')`,
 										}}></a>
 									</Link>
 								</div>
