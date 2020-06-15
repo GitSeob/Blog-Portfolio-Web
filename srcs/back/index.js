@@ -13,6 +13,7 @@ const db = require('./models');
 const userAPIRouter = require('./routes/user');
 const postAPIRouter = require('./routes/post');
 const postsAPIRouter = require('./routes/posts');
+const imageAPIRouter = require('./routes/image');
 
 dotenv.config();
 
@@ -21,12 +22,20 @@ db.sequelize.sync();
 passportConfig();
 
 app.use(morgan('dev')) // 요청들어오면 log가 남음
+app.use('/globalImg', express.static('globalImg'));
+app.use('/', express.static('uploads')) // uploads 폴더를 다른 서버에서 자유롭게 가져갈 수 있게 해준다
 app.use(cors({
     origin: true, // 요청 주소랑 같게
     credentials: true, // 서버쪽에서도 쿠키 주고받을 수 있게
 })) // 다른 서버에서 요청을 받을 수 있게 허용하게 해준다. 추가안하면 서버에서 거절함
-app.use(express.json()) // json 사용하기 위해
-app.use(express.urlencoded({ extended: true })) // form형식으로 전달하기 위해
+app.use(express.json({
+    limit: "50mb",
+})) // json 사용하기 위해
+app.use(express.urlencoded({
+    extended: true,
+    limit: "50mb",
+    parameterLimit: 1000000,
+})) // form형식으로 전달하기 위해
 app.use(cookieParser(process.env.COOKIE_SECRET))
 app.use(expressSession({
     resave: false, // 매번 새션 강제 저장
@@ -49,6 +58,7 @@ app.use(passport.session());
 app.use('/api/user', userAPIRouter);
 app.use('/api/post', postAPIRouter);
 app.use('/api/posts', postsAPIRouter);
+app.use('/api/image', imageAPIRouter);
 // app.use('/api/portfolio');
 
 const t = async () => {

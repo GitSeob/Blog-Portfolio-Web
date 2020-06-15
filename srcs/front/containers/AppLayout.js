@@ -1,6 +1,7 @@
 import React ,{useState, useCallback, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {Close, Menu, Search, Edit} from '@material-ui/icons'
+import { useSelector } from 'react-redux';
 
 export const MenuBar = ({onMenu}) => {
 	const openMenu = {
@@ -107,8 +108,8 @@ const PostMain = ({ onMenu, changeMenu, onSearch, changeSearch, Component}) => {
 	);
 }
 
-const AppLayout = ({ children }) => {
-
+const AppLayout = ({ pathname, children }) => {
+	const { admin } = useSelector(state=>state.admin);
 	const [onMenu, setMenu] = useState(false);
 	const [onSearch, setSearch] = useState(false);
 
@@ -130,6 +131,11 @@ const AppLayout = ({ children }) => {
 		<div id="post-wrap">
 			<MenuBar onMenu={onMenu}/>
 			<PostMain onMenu={onMenu} changeMenu={changeMenu.bind(null, onMenu)} onSearch={onSearch} changeSearch={changeSearch.bind(null, onSearch)} Component={children}/>
+			{
+				( !admin && pathname !== '/posting') && <a href="/posting" className="posting-btn">
+					<Edit />
+				</a>
+			}
 		</div>
 	);
 };
