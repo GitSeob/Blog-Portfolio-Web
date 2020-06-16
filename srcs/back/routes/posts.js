@@ -31,4 +31,26 @@ router.get('/category', async (req, res, next) => {
 	}
 })
 
+router.get('/category/:name', async (req, res, next) => {
+	try {
+		const posts = await db.Posts.findAll({
+			include: [{
+				model: db.Category,
+				where: {
+					name: decodeURIComponent(req.params.name)
+				},
+				attributes: ['id', 'name'],
+			}],
+			order: [['createdAt', 'DESC']],
+		})
+		res.json({
+			name: decodeURIComponent(req.params.name),
+			posts: posts
+		})
+	} catch(e) {
+		console.error(e);
+		next(e);
+	}
+})
+
 module.exports = router;

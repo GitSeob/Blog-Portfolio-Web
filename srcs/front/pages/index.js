@@ -4,22 +4,32 @@ import Link from 'next/link';
 
 import {Close, Menu, Search, Edit} from '@material-ui/icons'
 import { useSelector, useDispatch } from 'react-redux';
-import { LOAD_MAIN_POSTS_REQUEST } from '../reducers/posts';
+import { LOAD_MAIN_POSTS_REQUEST, LOAD_CATEGORY_POSTS_REQUEST } from '../reducers/posts';
 
-const PostList = ({ mainPosts }) => {
+export const PostList = ({ mainPosts, boardTitle }) => {
+	const dispatch = useDispatch();
+
+	const getCategoryPosts = useCallback(name => () => {
+		if (name === ''){
+			return ;
+		}
+		dispatch({
+			type: LOAD_CATEGORY_POSTS_REQUEST,
+			data: name,
+		})
+	}, []);
 
 	return (
 		<>
 		<div className="post-category-list index-type-common index-type-horizontal">
 			<h2 className="post-title-category">
-				전체
+				{boardTitle}
 			</h2>
 		</div>
 		<div className="post-category-list index-type-common index-type-horizontal">
 			<ul className="post-list-horizontal">
 			{
 				mainPosts.map((c, i) => {
-					console.log(c.Category);
 					return (
 						<li key={(i)} className="list-horizontal-item">
 							<div className="article-content">
@@ -51,11 +61,11 @@ const PostList = ({ mainPosts }) => {
 										</a>
 									</Link>
 									<div className="post-info-post">
-										<a href="/" className="post-link-category">
+										<button className="post-link-category" onClick={getCategoryPosts(c.Category ? c.Category.name : '')}>
 											<span className="post-category">
 												{c.Category && c.Category.name}
 											</span>
-										</a>
+										</button>
 										<div className="post-date">
 											{c.createdAt}
 										</div>
@@ -85,33 +95,11 @@ const PostList = ({ mainPosts }) => {
 	);
 }
 
-const PostMain = ({ onMenu, changeMenu, onSearch, changeSearch, Component}) => {
-	const openMenu = {
-		left: `${onMenu ? 380 : 0}px`
-	};
-
-	const [allPost, setAP] = useState(true);
-
-	return (
-		<div id="post-container" style={openMenu}>
-			<MainHeader onMenu={onMenu} changeMenu={changeMenu.bind(null, onMenu)} onSearch={onSearch} changeSearch={changeSearch.bind(null, onSearch)}/>
-			<main id="post-main">
-				<div className="post-inner-index">
-					{Component}
-				</div>
-			</main>
-			<footer id="post-footer">
-				copy tistory
-			</footer>
-		</div>
-	);
-}
-
 const Blog = () => {
-	const {mainPosts} = useSelector(state=>state.posts)
+	const {mainPosts, boardTitle} = useSelector(state=>state.posts)
 
 	return (
-		<PostList mainPosts={mainPosts}/>
+		<PostList mainPosts={mainPosts} boardTitle={boardTitle}/>
 	);
 }
 

@@ -84,11 +84,11 @@ Home.getInitialProps = async (context) => {
 const configureStore = (initialState, options) => {
 	// store 커스터마이징
 	const sagaMiddleware = createSagaMiddleware();
-	// const middlewares = [sagaMiddleware];
-	const middlewares = [sagaMiddleware, (store) => (next) => (action) => {
-		console.log(action);
-		next(action);
-	}];
+	const middlewares = [sagaMiddleware];
+	// const middlewares = [sagaMiddleware, (store) => (next) => (action) => {
+	// 	console.log(action);
+	// 	next(action);
+	// }];
 	// redux는 단순하게 action과 reducer에 따라 state를 바꿔주는 것이기에
 	// 그 외의 기능을 이용하려면 middleware를 사용해야 한다.
 
