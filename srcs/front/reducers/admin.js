@@ -8,6 +8,10 @@ const initialState = {
 	admin: null,
 }
 
+export const LOAD_ADMIN_REQUEST = 'LOAD_ADMIN_REQUEST';
+export const LOAD_ADMIN_SUCCESS = 'LOAD_ADMIN_SUCCESS';
+export const LOAD_ADMIN_FAILURE = 'LOAD_ADMIN_FAILURE';
+
 export const LOGIN_ADMIN_REQUEST = 'LOGIN_ADMIN_REQUEST';
 export const LOGIN_ADMIN_SUCCESS = 'LOGIN_ADMIN_SUCCESS';
 export const LOGIN_ADMIN_FAILURE = 'LOGIN_ADMIN_FAILURE';
@@ -52,6 +56,23 @@ const dummy_admin = {
 
 const admin = (state=initialState, action) => {
 	switch (action.type) {
+		case LOAD_ADMIN_REQUEST: {
+			return {
+				...state,
+			}
+		}
+		case LOAD_ADMIN_SUCCESS: {
+			return {
+				...state,
+				admin: action.data,
+			}
+		}
+		case LOAD_ADMIN_FAILURE: {
+			return {
+				...state,
+			}
+		}
+
 		case LOGIN_ADMIN_REQUEST: {
 			return {
 				...state,
@@ -66,12 +87,33 @@ const admin = (state=initialState, action) => {
 				admin: action.data,
 			};
 		}
-		case LOGOUT_ADMIN_FAILURE: {
+		case LOGIN_ADMIN_FAILURE: {
 			return {
 				...state,
 				isLoggingIn: false,
 				admin: null,
 			};
+		}
+
+		case LOGOUT_ADMIN_REQUEST: {
+			return {
+				...state,
+				isLoggingOut: true,
+			}
+		}
+		case LOGOUT_ADMIN_SUCCESS: {
+			return {
+				...state,
+				isLoggingOut: false,
+				isLoggedIn: false,
+				admin: null,
+			}
+		}
+		case LOGOUT_ADMIN_FAILURE: {
+			return {
+				...state,
+				isLoggingOut: false,
+			}
 		}
 		default: {
 			return {

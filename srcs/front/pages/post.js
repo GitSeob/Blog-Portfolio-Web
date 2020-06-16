@@ -1,14 +1,33 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import { LOAD_ONE_POST_REQUEST } from '../reducers/posts';
-import { useSelector } from 'react-redux';
+import { LOAD_ONE_POST_REQUEST, REMOVE_POST_REQUEST } from '../reducers/posts';
+import { useSelector, useDispatch } from 'react-redux';
 import Head from 'next/head';
+import Router from 'next/router';
+import { isLoggedIn } from '../../back/routes/middleware';
 
 const OnePost = ({ id, postData }) => {
-	const [isAdmin, setIsAdmin] = useState(true);
+	const { admin, isLoggedIn } = useSelector(state=>state.admin);
+	const { isRemovedPost } = useSelector(state=>state.posts);
+	const dispatch = useDispatch();
+
+	const deletePost = useCallback(() => {
+		if (window.confirm('글을 삭제하시겠습니까?')) {
+			dispatch({
+				type: REMOVE_POST_REQUEST,
+				data: postData.id,
+			})
+		}
+	}, []);
+
+	useEffect(() => {
+		if(isRemovedPost) {
+			alert('글이 삭제되었습니다!');
+			Router.push('/');
+		}
+	}, [isRemovedPost]);
 
 	const Content = () => {
-		console.log(postData.content);
 		return (
 			<div
 				className = "post-content-html-source"
@@ -46,15 +65,15 @@ const OnePost = ({ id, postData }) => {
 										{postData.createdAt}
 									</span>
 								</div>
-								{ isAdmin &&
+								{(isLoggedIn && admin.id) === postData.UserId &&
 									<div className="edit-post">
 										<a href="/blog">
 											수정
 										</a>
 										|
-										<a href="/blog">
+										<button onClick={deletePost}>
 											삭제
-										</a>
+										</button>
 									</div>
 								}
 							</div>
@@ -85,7 +104,6 @@ const Post = ({ id }) => {
 };
 
 Post.getInitialProps = async ( context ) =>{
-	console.log(context.query.id);
 	context.store.dispatch({
 		type: LOAD_ONE_POST_REQUEST,
 		data: context.query.id,

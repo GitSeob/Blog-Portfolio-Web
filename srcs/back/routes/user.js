@@ -3,7 +3,15 @@ const db = require('../models');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 
+const { isLoggedIn } = require('./middleware');
+
 const router = express.Router();
+
+router.get('/', isLoggedIn, (req, res) => {
+	const user = Object.assign({}, req.user.toJSON());
+	delete user.password;
+	return res.json(user);
+})
 
 router.post('/login', (req, res, next) => {
 	passport.authenticate('local', (err, user, info) => {
@@ -35,6 +43,12 @@ router.post('/login', (req, res, next) => {
 			}
 		})
 	})(req, res, next)
+})
+
+router.post('/logout', (req, res) => {
+	req.logout();
+	req.session.destroy();
+	res.send('logout 성공');
 })
 
 module.exports = router;

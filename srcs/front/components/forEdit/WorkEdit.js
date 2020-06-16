@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import { useInput } from '../../pages/login';
+import { useInput } from '../LoginForm';
 import { PlaylistAdd, Send, Cancel, AddPhotoAlternate, AddBox } from '@material-ui/icons';
 import { InputAttr, TextAttr, Attr } from './AboutEdit';
 import { AEC } from '../../css/styledEdit';

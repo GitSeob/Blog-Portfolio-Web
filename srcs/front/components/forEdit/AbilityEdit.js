@@ -4,7 +4,7 @@ import { AEC } from '../../css/styledEdit';
 import { EditAttr, AttrName, AttrContent} from '../../css/styledEdit'
 import { Cancel, PlaylistAdd, AddBox, Send } from '@material-ui/icons'
 import { InputAttr } from './AboutEdit';
-import { useInput } from '../../pages/login';
+import { useInput } from '../LoginForm';
 
 export const AttrOfList = ({ value }) => {
 	const [at, OCA] = useInput(value);

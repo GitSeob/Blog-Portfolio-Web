@@ -1,40 +1,76 @@
 import React ,{useState, useCallback, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {Close, Menu, Search, Edit} from '@material-ui/icons'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import Link from 'next/link';
 
-export const MenuBar = ({onMenu}) => {
+import { LOAD_CATEGORY_REQUEST } from '../reducers/posts';
+import {Person, ExitToApp} from '@material-ui/icons';
+import { LOGOUT_ADMIN_REQUEST } from '../reducers/admin';
+import LoginForm from '../components/LoginForm';
+
+export const MenuBar = ({onMenu, clickedLoginBtn, setClickedLogin}) => {
+	const { admin } = useSelector(state=>state.admin);
+	const { category_list } = useSelector(state=>state.posts)
+	const dispatch = useDispatch();
+
 	const openMenu = {
 		left: `${onMenu ? 0 : -380}px`
 	};
 
-	const dummy_list = ['test1', 'test2', 'test3', 'test4']
+	const logoutCliked = useCallback(() => {
+		dispatch({
+			type: LOGOUT_ADMIN_REQUEST,
+		})
+	});
+
+	const loginClicked = useCallback(() => {
+		setClickedLogin(true);
+	}, [clickedLoginBtn]);
 
 	return (
 		<div className="area-menu " style={openMenu}>
 			<nav className="menu-navigation">
 				<ul className="list-gnb">
 					<li className="t_menu">
-						<a href="/" className="link-gnb link-lnb">
-							홈
-						</a>
+						<Link
+							href="/">
+							<a className="link-gnb link-lnb">
+								홈
+							</a>
+						</Link>
 					</li>
 				</ul>
 				<ul className="tt-category">
 					<li>
 						<ul className="post-category-list list-gnb" >
 							{
-								dummy_list.map((c, i) => {
+								category_list.map((c, i) => {
 									return (
 										<li key={(i)} className="">
-											<a href="/" className="link-item link-gnb link-lnb">
-												{c}
-											</a>
+											<Link href="/" >
+												<a className="link-item link-gnb link-lnb">
+													{c.name}
+												</a>
+											</Link>
 										</li>
 									);
 								})
 							}
 						</ul>
+					</li>
+				</ul>
+				<ul className="header-login-btn-wrap">
+					<li>
+						{!admin ?
+							<button className="header-login-btn" onClick={loginClicked}>
+								<Person /> 로그인
+							</button>
+							:
+							<button className="header-login-btn" onClick={logoutCliked}>
+								<ExitToApp /> 로그아웃
+							</button>
+						}
 					</li>
 				</ul>
 			</nav>
@@ -51,14 +87,16 @@ export const MainHeader = ({ onMenu, changeMenu, onSearch, changeSearch}) => {
 		<header id="post-header">
 			<div className="inner-header">
 				<h1 className="post-logo">
-					<a href="/" title="title" className="post-link-logo">
-						<span className="blind">
-							title
-						</span>
-						<span className="post-title-text">
-							title
-						</span>
-					</a>
+					<Link href="/">
+						<a className="post-link-logo" title="title">
+							<span className="blind">
+								title
+							</span>
+							<span className="post-title-text">
+								title
+							</span>
+						</a>
+					</Link>
 				</h1>
 				<button type="button" className="post-btn-menu" onClick={changeMenu}>
 					<span className="post-icon-menu">
@@ -91,8 +129,6 @@ const PostMain = ({ onMenu, changeMenu, onSearch, changeSearch, Component}) => {
 		left: `${onMenu ? 380 : 0}px`
 	};
 
-	const [allPost, setAP] = useState(true);
-
 	return (
 		<div id="post-container" style={openMenu}>
 			<MainHeader onMenu={onMenu} changeMenu={changeMenu.bind(null, onMenu)} onSearch={onSearch} changeSearch={changeSearch.bind(null, onSearch)}/>
@@ -109,7 +145,8 @@ const PostMain = ({ onMenu, changeMenu, onSearch, changeSearch, Component}) => {
 }
 
 const AppLayout = ({ pathname, children }) => {
-	const { admin } = useSelector(state=>state.admin);
+	const { admin, isLoggedIn } = useSelector(state=>state.admin);
+	const [clickedLoginBtn, setClickedLogin] = useState(false);
 	const [onMenu, setMenu] = useState(false);
 	const [onSearch, setSearch] = useState(false);
 
@@ -127,15 +164,26 @@ const AppLayout = ({ pathname, children }) => {
 			setSearch(true);
 		}
 	};
+
+	useEffect(() => {
+		if (isLoggedIn) {
+			setClickedLogin(false);
+		}
+	}, [isLoggedIn]);
+
 	return (
 		<div id="post-wrap">
-			<MenuBar onMenu={onMenu}/>
+			<MenuBar onMenu={onMenu} clickedLoginBtn={clickedLoginBtn} setClickedLogin={setClickedLogin}/>
 			<PostMain onMenu={onMenu} changeMenu={changeMenu.bind(null, onMenu)} onSearch={onSearch} changeSearch={changeSearch.bind(null, onSearch)} Component={children}/>
 			{
-				( !admin && pathname !== '/posting') && <a href="/posting" className="posting-btn">
-					<Edit />
-				</a>
+				( admin && pathname !== '/posting') &&
+					<Link href="/posting">
+						<a className="posting-btn">
+							<Edit />
+						</a>
+					</Link>
 			}
+			{ clickedLoginBtn && <LoginForm setClickedLogin={setClickedLogin}/> }
 		</div>
 	);
 };
