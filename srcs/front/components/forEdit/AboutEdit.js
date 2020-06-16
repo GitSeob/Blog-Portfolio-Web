@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { AEC, EditAttr, AttrName, AttrContent } from '../../css/styledEdit';
 import { Send } from '@material-ui/icons';
-import {useInput} from '../../pages/login';
+import {useInput} from '../LoginForm';
 
 export const Attr = ({ name, value }) => {
 	return (

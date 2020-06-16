@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
 
 	Posts.associate = (db) =>{
 		db.Posts.belongsTo(db.Category);
-		// db.posts.hasOne(db.Works);
+		db.Posts.belongsTo(db.User);
 	};
 
 	return Posts;

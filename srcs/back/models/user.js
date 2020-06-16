@@ -18,9 +18,9 @@ module.exports = (sequelize, DataTypes) => {
 		collate: 'utf8_general_ci'
 	})
 
-	// User.associate = (db) => {
-
-	// }
+	User.associate = (db) => {
+		db.User.hasMany(db.Posts);
+	}
 	// 블로깅 기능 추가할 때 작성
 
 	return User;

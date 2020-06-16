@@ -1,7 +1,5 @@
 const initialState = {
-	category_list: [
-		'카테고리 없음', 'test1', 'test2',
-	],
+	category_list: [],
 	mainPosts: [],
 	// 아래는 posting
 	isAddingPost: false,
@@ -17,6 +15,10 @@ const initialState = {
 export const LOAD_MAIN_POSTS_REQUEST = 'LOAD_MAIN_POSTS_REQUEST';
 export const LOAD_MAIN_POSTS_SUCCESS = 'LOAD_MAIN_POSTS_SUCCESS';
 export const LOAD_MAIN_POSTS_FAILURE = 'LOAD_MAIN_POSTS_FAILURE';
+
+export const LOAD_CATEGORY_REQUEST = 'LOAD_CATEGORY_REQUEST';
+export const LOAD_CATEGORY_SUCCESS = 'LOAD_CATEGORY_SUCCESS';
+export const LOAD_CATEGORY_FAILURE = 'LOAD_CATEGORY_FAILURE';
 
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
@@ -51,6 +53,24 @@ const posts = (state=initialState, action) => {
 			}
 		}
 		case LOAD_MAIN_POSTS_FAILURE: {
+			return {
+				...state,
+			}
+		}
+
+		case LOAD_CATEGORY_REQUEST: {
+			return {
+				...state,
+				category_list: [],
+			};
+		}
+		case LOAD_CATEGORY_SUCCESS: {
+			return {
+				...state,
+				category_list: action.data,
+			}
+		}
+		case LOAD_CATEGORY_FAILURE: {
 			return {
 				...state,
 			}
@@ -130,6 +150,7 @@ const posts = (state=initialState, action) => {
 				...state,
 				isRemovingPost: false,
 				isRemovedPost: true,
+				mainPosts: state.mainPosts.filter(v => v.id !== action.data),
 			}
 		}
 		case REMOVE_POST_FAILURE: {

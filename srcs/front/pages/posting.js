@@ -2,9 +2,9 @@ import React, {useState, useEffect, useCallback, useRef} from 'react';
 import Router from 'next/router';
 
 import {KeyboardArrowDown} from '@material-ui/icons'
-import {useInput} from '../pages/login';
+import {useInput} from '../components/LoginForm';
 import { useSelector, useDispatch } from 'react-redux';
-import {ADD_POST_REQUEST} from '../reducers/posts';
+import {ADD_POST_REQUEST, LOAD_CATEGORY_REQUEST} from '../reducers/posts';
 import dynamic from 'next/dynamic';
 
 const Editor = dynamic(import ('../components/Toast'), {
@@ -34,7 +34,7 @@ const SelectCate = ({category_list, setCategory}) => {
 	const onChangeCate = useCallback(i =>(e) => {
 		e.preventDefault();
 		setCategory(i);
-		setCateName(category_list[i]);
+		setCateName(category_list[i].name);
 		setClick(false);
 	}, []);
 
@@ -53,7 +53,7 @@ const SelectCate = ({category_list, setCategory}) => {
 							return (
 								<button key={(i)} className="cs-list-attr" onClick={onChangeCate(i)}>
 									<div key={(i)} className="cs-list-attr-text">
-										{c}
+										{c.name}
 									</div>
 								</button>
 							);
@@ -67,6 +67,7 @@ const SelectCate = ({category_list, setCategory}) => {
 
 const Posting = () => {
 	const { category_list, isAddedPost, isAddingPost } = useSelector(state=>state.posts);
+	const { admin } = useSelector(state=>state.admin);
 	const dispatch = useDispatch();
 
 	const [editorValue, OCV] = useState('');
@@ -79,7 +80,7 @@ const Posting = () => {
 	const onSubmitPost = useCallback((e) => {
 		e.preventDefault();
 		if (!postTitle) {
-				alert('제목을 입력해주세요.');
+			alert('제목을 입력해주세요.');
 		} else if (!editorValue) {
 			alert('본문을 작성해주세요.')
 		} else {
@@ -106,7 +107,7 @@ const Posting = () => {
 		<div className="post-category-list index-type-common index-type-horizontal posting-wrap">
 			<div className="area-view-content posting-container">
 				<form className="article-content posting-wrap" onSubmit={defaultSubmit}>
-					<SelectCate category_list={category_list} setCategory={setCategory}/>
+					{ category_list !== [] && <SelectCate category_list={category_list} setCategory={setCategory}/> }
 					<input value={postTitle} onChange={OCPT} className=" post-title-ipt " placeholder="제목을 입력해주세요"/>
 					<Editor
 						editorValue={editorValue}
@@ -137,6 +138,9 @@ const Posting = () => {
 Posting.getinitialProps = async (context) => {
 	console.log('posting getinitialProps', context.query.post_id);
 	const post_id = !context.query.post_id ? -1 : context.query.post_id;
+	context.store.dispatch({
+		type: LOAD_CATEGORY_REQUEST,
+	})
 	return { post_id: post_id};
 }
 
