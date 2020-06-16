@@ -4,9 +4,8 @@ import { LOAD_ONE_POST_REQUEST, REMOVE_POST_REQUEST } from '../reducers/posts';
 import { useSelector, useDispatch } from 'react-redux';
 import Head from 'next/head';
 import Router from 'next/router';
-import { isLoggedIn } from '../../back/routes/middleware';
 
-const OnePost = ({ id, postData }) => {
+const OnePost = ({ id, postData, category_list }) => {
 	const { admin, isLoggedIn } = useSelector(state=>state.admin);
 	const { isRemovedPost } = useSelector(state=>state.posts);
 	const dispatch = useDispatch();
@@ -50,15 +49,13 @@ const OnePost = ({ id, postData }) => {
 					<div className="area-view-content">
 						<div className="article-content">
 							<div className="post-info-post">
-								<a href="/blog" className="post-link-title">
-									<div className="title-view">
-										{postData.title}
-									</div>
-								</a>
+								<div className="post-link-title title-view">
+									{postData.title}
+								</div>
 								<div className="view-info-post">
-									<a href="/blog" className="post-link-category">
+									<a href="/" className="post-link-category">
 										<span className="post-category">
-											category
+											{postData.CategoryId ? category_list[postData.CategoryId -1].name : '카테고리없음'}
 										</span>
 									</a>
 									<span className='post-date'>

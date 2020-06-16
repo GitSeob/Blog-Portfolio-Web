@@ -835,6 +835,7 @@ a {
 }
 
 .area-menu {
+	background: white;
 	position: fixed;
 	width: 380px;
 	height: 100%;

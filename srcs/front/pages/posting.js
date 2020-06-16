@@ -90,7 +90,7 @@ const Posting = () => {
 					title: postTitle,
 					category_index: category_index,
 					content: editorValue,
-					category: category_index,
+					category_id: category_index + 1,
 				}
 			})
 		}
