@@ -1,6 +1,7 @@
 const initialState = {
 	category_list: [],
 	mainPosts: [],
+	boardTitle: '전체',
 	// 아래는 posting
 	isAddingPost: false,
 	isAddedPost: false,
@@ -9,6 +10,8 @@ const initialState = {
 	isEditedPost: false,
 	isRemovingPost: false,
 	isRemovedPost: false,
+	isLoadingPosts: false,
+	isLoadedPosts: false,
 	errorReason: '',
 }
 
@@ -36,7 +39,9 @@ export const LOAD_ONE_POST_REQUEST = 'LOAD_ONE_POST_REQUEST';
 export const LOAD_ONE_POST_SUCCESS = 'LOAD_ONE_POST_SUCCESS';
 export const LOAD_ONE_POST_FAILURE = 'LOAD_ONE_POST_FAILURE';
 
-export const CHANGE_MODE = 'CHANGE_MODE';
+export const LOAD_CATEGORY_POSTS_REQUEST = 'LOAD_CATEGORY_POSTS_REQUEST';
+export const LOAD_CATEGORY_POSTS_SUCCESS = 'LOAD_CATEGORY_POSTS_SUCCESS';
+export const LOAD_CATEGORY_POSTS_FAILURE = 'LOAD_CATEGORY_POSTS_FAILURE';
 
 const posts = (state=initialState, action) => {
 	switch (action.type) {
@@ -53,11 +58,34 @@ const posts = (state=initialState, action) => {
 				isAddedPost: false,
 				isEditedPost: false,
 				isRemovedPost: false,
+				boardTitle: '전체',
 			}
 		}
 		case LOAD_MAIN_POSTS_FAILURE: {
 			return {
 				...state,
+			}
+		}
+
+		case LOAD_CATEGORY_POSTS_REQUEST: {
+			return {
+				...state,
+				isLoadingPosts: true,
+			};
+		}
+		case LOAD_CATEGORY_POSTS_SUCCESS: {
+			return {
+				...state,
+				isLoadingPosts: false,
+				mainPosts: action.data.posts,
+				boardTitle: action.data.name,
+			};
+		}
+		case LOAD_CATEGORY_POSTS_FAILURE: {
+			return {
+				...state,
+				isLoadingPosts: false,
+				errorReason: action.error,
 			}
 		}
 
@@ -78,6 +106,7 @@ const posts = (state=initialState, action) => {
 				...state,
 			}
 		}
+
 
 		case ADD_POST_REQUEST: {
 			return {

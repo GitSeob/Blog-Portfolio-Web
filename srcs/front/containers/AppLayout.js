@@ -4,7 +4,7 @@ import {Close, Menu, Search, Edit} from '@material-ui/icons'
 import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
 
-import { LOAD_CATEGORY_REQUEST } from '../reducers/posts';
+import { LOAD_CATEGORY_REQUEST, LOAD_CATEGORY_POSTS_REQUEST } from '../reducers/posts';
 import {Person, ExitToApp} from '@material-ui/icons';
 import { LOGOUT_ADMIN_REQUEST } from '../reducers/admin';
 import LoginForm from '../components/LoginForm';
@@ -13,6 +13,13 @@ export const MenuBar = ({onMenu, clickedLoginBtn, setClickedLogin}) => {
 	const { admin } = useSelector(state=>state.admin);
 	const { category_list } = useSelector(state=>state.posts)
 	const dispatch = useDispatch();
+
+	const getCategoryPosts = useCallback(name => () => {
+		dispatch({
+			type: LOAD_CATEGORY_POSTS_REQUEST,
+			data: name,
+		})
+	}, []);
 
 	const openMenu = {
 		left: `${onMenu ? 0 : -380}px`
@@ -48,11 +55,11 @@ export const MenuBar = ({onMenu, clickedLoginBtn, setClickedLogin}) => {
 								category_list.map((c, i) => {
 									return (
 										<li key={(i)} className="">
-											<Link href="/" >
+											<button onClick={getCategoryPosts(c.name)} >
 												<a className="link-item link-gnb link-lnb">
 													{c.name}
 												</a>
-											</Link>
+											</button>
 										</li>
 									);
 								})

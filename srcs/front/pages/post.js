@@ -1,8 +1,9 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import { LOAD_ONE_POST_REQUEST, REMOVE_POST_REQUEST } from '../reducers/posts';
+import { LOAD_ONE_POST_REQUEST, REMOVE_POST_REQUEST, LOAD_CATEGORY_POSTS_REQUEST } from '../reducers/posts';
 import { useSelector, useDispatch } from 'react-redux';
 import Head from 'next/head';
+import Link from 'next/link';
 import Router from 'next/router';
 
 const OnePost = ({ id, postData, category_list }) => {
@@ -17,6 +18,16 @@ const OnePost = ({ id, postData, category_list }) => {
 				data: postData.id,
 			})
 		}
+	}, []);
+
+	const getCategoryPosts = useCallback(name => () => {
+		if (name === ''){
+			return ;
+		}
+		dispatch({
+			type: LOAD_CATEGORY_POSTS_REQUEST,
+			data: name,
+		})
 	}, []);
 
 	useEffect(() => {
@@ -53,16 +64,18 @@ const OnePost = ({ id, postData, category_list }) => {
 									{postData.title}
 								</div>
 								<div className="view-info-post">
-									<a href="/" className="post-link-category">
-										<span className="post-category">
-											{postData.CategoryId ? category_list[postData.CategoryId -1].name : '카테고리없음'}
-										</span>
-									</a>
+									<Link href={`/category/${postData.CategoryId ? category_list[postData.CategoryId -1].name : '/'}`}>
+										<a className="post-link-category">
+											<span className="post-category">
+												{postData.CategoryId ? category_list[postData.CategoryId -1].name : '카테고리없음'}
+											</span>
+										</a>
+									</Link>
 									<span className='post-date'>
 										{postData.createdAt}
 									</span>
 								</div>
-								{(isLoggedIn && admin.id) === postData.UserId &&
+								{(admin && admin.id) === postData.UserId &&
 									<div className="edit-post">
 										<a href="/blog">
 											수정
