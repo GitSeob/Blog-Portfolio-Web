@@ -105,6 +105,7 @@ const admin = (state=initialState, action) => {
 			return {
 				...state,
 				isLoggingOut: false,
+				isLoggedIn: false,
 				admin: null,
 			}
 		}

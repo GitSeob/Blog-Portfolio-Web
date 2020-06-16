@@ -82,5 +82,6 @@ export default function* adminSaga(){
 		fork(watchLogin),
 		fork(watchLoadUser),
 		fork(watchLogin),
+		fork(watchLogout),
 	])
 }

@@ -683,7 +683,13 @@ a {
 
 
 .App {
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	top: 0;
+	left: 0;
 	text-align: center;
+	z-index: 9999;
 }
 
 .App-logo {
@@ -696,6 +702,7 @@ a {
 	/* background-color: #282c34; */
 	/* background-image: url(../public/images/bg.jpg); */
 	height: 100%;
+	background: rgba(20, 20, 20, 0.3);
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -824,17 +831,18 @@ a {
 
 #post-wrap {
 	position: relative;
-	height: 100%;
+	height: 100vh;
 }
 
 .area-menu {
-	position: relative;
+	position: fixed;
 	width: 380px;
 	height: 100%;
 	left: -380px;
 	transition: left 0.2s ease-out;
 	border-right: 1px solid #eee;
 	overflow: auto;
+	z-index: 3;
 }
 
 .area-menu .menu-on {
@@ -844,6 +852,8 @@ a {
 }
 
 .menu-navigation {
+	position: relative;
+	height: 100%;
 	padding: 40px 0 0 21px;
 	color: #666;
 }
@@ -876,12 +886,15 @@ ul {
 }
 
 #post-header {
-	position: relative;
+	position: fixed;
+	z-index: 2;
 	border-bottom: 1px solid #eee;
 }
 
 .inner-header {
 	position: relative;
+	background: white;
+	width: 100vw;
 	max-width: 1600px;
 	height: 160px;
 	margin: 0 auto;
@@ -989,6 +1002,7 @@ ul {
 
 #post-main {
 	display: block;
+	margin-top: 160px;
 }
 
 .post-inner-index {
@@ -1116,8 +1130,10 @@ ul {
 	font-size: 30px;
 }
 
-.edit-post a{
+.edit-post a, button{
 	color: #888;
+	cursor: pointer;
+	margin: 0 5px;
 }
 
 .area-view-content .view-info-post,
@@ -1307,4 +1323,20 @@ ul {
 
 .post-content-html-source img {
 	width: 90%;
+}
+
+.header-login-btn-wrap {
+	position: absolute;
+	bottom: 16px;
+	transform: translateY(-50%);
+	width: calc(100% - 40px);
+	padding-left: 0;
+}
+
+.header-login-btn-wrap .header-login-btn {
+	font-size: 16px;
+	height: 100%;
+	width: 100%;
+	text-align: left;
+	cursor: pointer;
 }

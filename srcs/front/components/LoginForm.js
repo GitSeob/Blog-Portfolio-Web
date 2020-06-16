@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import Router from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { LOGIN_ADMIN_REQUEST } from '../reducers/admin';
 import { CarrotSvg } from '../containers/Door';
@@ -12,7 +13,7 @@ export const useInput = (initValue = null) => {
     return [value, handler]
 }
 
-const Login = props => {
+const LoginForm = ({setClickedLogin}) => {
 	const [id, onChangeId] = useInput('')
 	const [password, onChangePassword] = useInput('')
 	const dispatch = useDispatch();
@@ -54,12 +55,8 @@ const Login = props => {
 		}
 	}, [id, password, toggleID, togglePW])
 
-	if (admin){
 		return (
-			<Edit />
-		);
-	} else {
-		return (
+			<div className="login-form-wrap">
 			<div className="App">
 				<header className="App-header">
 					<div className="Box">
@@ -96,12 +93,13 @@ const Login = props => {
 					</div>
 				</header>
 			</div>
+			</div>
 		);
-	}
+// }
 };
 
-Login.propTypes = {
+LoginForm.propTypes = {
 
 };
 
-export default Login;
+export default LoginForm;

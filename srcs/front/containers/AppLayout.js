@@ -1,15 +1,32 @@
 import React ,{useState, useCallback, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {Close, Menu, Search, Edit} from '@material-ui/icons'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
 
-export const MenuBar = ({onMenu}) => {
+import { LOAD_CATEGORY_REQUEST } from '../reducers/posts';
+import {Person, ExitToApp} from '@material-ui/icons';
+import { LOGOUT_ADMIN_REQUEST } from '../reducers/admin';
+import LoginForm from '../components/LoginForm';
+
+export const MenuBar = ({onMenu, clickedLoginBtn, setClickedLogin}) => {
+	const { admin } = useSelector(state=>state.admin);
+	const { category_list } = useSelector(state=>state.posts)
+	const dispatch = useDispatch();
+
 	const openMenu = {
 		left: `${onMenu ? 0 : -380}px`
 	};
 
-	const dummy_list = ['test1', 'test2', 'test3', 'test4']
+	const logoutCliked = useCallback(() => {
+		dispatch({
+			type: LOGOUT_ADMIN_REQUEST,
+		})
+	});
+
+	const loginClicked = useCallback(() => {
+		setClickedLogin(true);
+	}, [clickedLoginBtn]);
 
 	return (
 		<div className="area-menu " style={openMenu}>
@@ -28,12 +45,12 @@ export const MenuBar = ({onMenu}) => {
 					<li>
 						<ul className="post-category-list list-gnb" >
 							{
-								dummy_list.map((c, i) => {
+								category_list.map((c, i) => {
 									return (
 										<li key={(i)} className="">
 											<Link href="/" >
 												<a className="link-item link-gnb link-lnb">
-													{c}
+													{c.name}
 												</a>
 											</Link>
 										</li>
@@ -41,6 +58,19 @@ export const MenuBar = ({onMenu}) => {
 								})
 							}
 						</ul>
+					</li>
+				</ul>
+				<ul className="header-login-btn-wrap">
+					<li>
+						{!admin ?
+							<button className="header-login-btn" onClick={loginClicked}>
+								<Person /> 로그인
+							</button>
+							:
+							<button className="header-login-btn" onClick={logoutCliked}>
+								<ExitToApp /> 로그아웃
+							</button>
+						}
 					</li>
 				</ul>
 			</nav>
@@ -115,7 +145,8 @@ const PostMain = ({ onMenu, changeMenu, onSearch, changeSearch, Component}) => {
 }
 
 const AppLayout = ({ pathname, children }) => {
-	const { admin } = useSelector(state=>state.admin);
+	const { admin, isLoggedIn } = useSelector(state=>state.admin);
+	const [clickedLoginBtn, setClickedLogin] = useState(false);
 	const [onMenu, setMenu] = useState(false);
 	const [onSearch, setSearch] = useState(false);
 
@@ -133,9 +164,16 @@ const AppLayout = ({ pathname, children }) => {
 			setSearch(true);
 		}
 	};
+
+	useEffect(() => {
+		if (isLoggedIn) {
+			setClickedLogin(false);
+		}
+	}, [isLoggedIn]);
+
 	return (
 		<div id="post-wrap">
-			<MenuBar onMenu={onMenu}/>
+			<MenuBar onMenu={onMenu} clickedLoginBtn={clickedLoginBtn} setClickedLogin={setClickedLogin}/>
 			<PostMain onMenu={onMenu} changeMenu={changeMenu.bind(null, onMenu)} onSearch={onSearch} changeSearch={changeSearch.bind(null, onSearch)} Component={children}/>
 			{
 				( admin && pathname !== '/posting') &&
@@ -145,6 +183,7 @@ const AppLayout = ({ pathname, children }) => {
 						</a>
 					</Link>
 			}
+			{ clickedLoginBtn && <LoginForm setClickedLogin={setClickedLogin}/> }
 		</div>
 	);
 };
