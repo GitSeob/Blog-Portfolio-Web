@@ -8,11 +8,23 @@ router.get('/', async (req, res, next) => {
 		const posts = await db.Posts.findAll({
 			include: [{
 				model: db.Category,
-				attributes: ['name'],
+				attributes: ['id', 'name'],
 			}],
 			order: [['createdAt', 'DESC']],
 		});
 		return res.json(posts);
+	} catch(e) {
+		console.error(e);
+		return next(e);
+	}
+})
+
+router.get('/category', async (req, res, next) => {
+	try {
+		const categories = await db.Category.findAll({
+			attributes: ['id', 'name']
+		});
+		return res.json(categories);
 	} catch(e) {
 		console.error(e);
 		return next(e);

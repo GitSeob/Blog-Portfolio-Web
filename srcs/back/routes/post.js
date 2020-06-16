@@ -2,7 +2,7 @@ const express = require('express');
 const multer = require('multer')
 const path = require('path')
 const db = require('../models')
-// const { isLoggedIn } = require('./middleware')
+const { isLoggedIn } = require('./middleware')
 
 const router = express.Router()
 
@@ -22,14 +22,12 @@ const upload = multer({
 	limits: {fileSize: 20*1024*1024},
 });
 
-router.post('/', async (req, res, next) => {
+router.post('/', isLoggedIn, async (req, res, next) => {
 	try {
 		let reg = /<img[^>]+src="([^">]+)/g;
 		let thumb_content = req.body.content.replace(/(<([^>]+)>)/ig," ")
 		let thumb_imgs = req.body.content.match(reg);
 		let thumb_img = '';
-
-		console.log("!!!!!!!!!!! post !!!!!!!!!!!!!");
 
 		if (thumb_imgs) {
 			thumb_img = thumb_imgs[0].replace(/<img[^>]+src="/g, "");
@@ -42,6 +40,7 @@ router.post('/', async (req, res, next) => {
 			content: req.body.content,
 			thumbnail_content: thumb_content,
 			thumbnail_img: thumb_img,
+			UserId: req.user.id,
 		})
 		const fullPosts = await db.Posts.findOne({
 			where: {id: newPost.id },
@@ -65,7 +64,6 @@ router.get('/:id', async (req, res, next) => {
 		if (!post) {
 			return res.status(401).send('포스트가 존재하지 않습니다.');
 		}
-		console.log(post.content);
 		return res.json(post);
 	} catch(e) {
 		console.error(e);
@@ -73,10 +71,28 @@ router.get('/:id', async (req, res, next) => {
 	}
 })
 
-router.post('/images', upload.array('image'), (req, res) => {
-	// let imgURL = URL.createObjectURL(req.files[0]);
+router.delete('/:id', isLoggedIn, async (req, res, next) => {
+	try {
+		const post = await db.Posts.findOne({ where: { id: req.params.id}})
+		if (!post) {
+			return res.status(404).send('포스트가 존재하지 않습니다.');
+		}
+
+		if (post.UserId !== req.user.id) {
+			return res.status(403).send('다른 사람의 글은 삭제할 수 없습니다.');
+		}
+		console.log('params id : ' + req.params.id);
+		await db.Posts.destroy({ where: {id: req.params.id}})
+		res.send(req.params.id);
+	} catch(e) {
+		console.error(e);
+		next(e);
+	}
+})
+
+router.post('/images', upload.single('image'), (req, res) => {
 	res.json({
-		url: `http://localhost:3065/${req.files[0].filename}`
+		url: `http://localhost:3065/${req.file.filename}`
 	});
 });
 
