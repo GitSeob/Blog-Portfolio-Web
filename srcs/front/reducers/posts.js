@@ -50,6 +50,9 @@ const posts = (state=initialState, action) => {
 			return {
 				...state,
 				mainPosts: action.data,
+				isAddedPost: false,
+				isEditedPost: false,
+				isRemovedPost: false,
 			}
 		}
 		case LOAD_MAIN_POSTS_FAILURE: {
