@@ -121,6 +121,7 @@ const Posting = ( ) => {
 				dispatch({
 					type: EDIT_POST_REQUEST,
 					data: {
+						id: postData.id,
 						title: postTitle,
 						content: editorValue,
 						category_id: category_index + 1,
@@ -167,8 +168,8 @@ const Posting = ( ) => {
 							<input
 								className="post-submit-btn"
 								type="submit"
-								name="posting"
-								value="posting"
+								name={postEditMode ? "Edit" : "posting"}
+								value={postEditMode ? "Edit" : "posting"}
 								disabled={isAddingPost || isEdittingPost}
 								onClick={targetPost ? onEditPost : onSubmitPost}>
 							</input>
