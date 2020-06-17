@@ -19,6 +19,9 @@ import {
 	LOAD_CATEGORY_POSTS_SUCCESS,
 	LOAD_CATEGORY_POSTS_FAILURE,
 	LOAD_CATEGORY_POSTS_REQUEST,
+	EDIT_POST_SUCCESS,
+	EDIT_POST_FAILURE,
+	EDIT_POST_REQUEST,
 } from '../reducers/posts';
 
 function addPostAPI(postData) {
@@ -169,6 +172,32 @@ function* watchLoadCategoryPosts() {
 	yield throttle(2000, LOAD_CATEGORY_POSTS_REQUEST, loadCategoryPosts);
 }
 
+function editPostAPI(postData) {
+	return axios.patch(`/post/${postData.id}`, postData, {
+		withCredentials: true,
+	})
+}
+
+function* editPost(action) {
+	try {
+		const result = yield call(editPostAPI, action.data);
+		yield put({
+			type: EDIT_POST_SUCCESS,
+			data: result.data,
+		})
+	} catch(e) {
+		console.error(e);
+		yield put({
+			type: EDIT_POST_FAILURE,
+			error: e,
+		})
+	}
+}
+
+function* watchEditPost() {
+	yield takeLatest(EDIT_POST_REQUEST, editPost);
+}
+
 export default function* postSaga(){
 	yield all([
 		fork(watchAddPost),
@@ -177,5 +206,6 @@ export default function* postSaga(){
 		fork(watchLoadCategory),
 		fork(watchRemovePost),
 		fork(watchLoadCategoryPosts),
+		fork(watchEditPost),
 	])
 }

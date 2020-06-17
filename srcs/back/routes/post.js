@@ -60,6 +60,10 @@ router.get('/:id', async (req, res, next) => {
 	try {
 		const post = await db.Posts.findOne({
 			where: {id: req.params.id},
+			include: [{
+				model: db.Category,
+				attribute: ['id', 'name']
+			}]
 		})
 		if (!post) {
 			return res.status(401).send('포스트가 존재하지 않습니다.');
@@ -71,13 +75,56 @@ router.get('/:id', async (req, res, next) => {
 	}
 })
 
+router.patch('/:id', isLoggedIn, async (req, res, next) => {
+	try {
+		const post = await db.Posts.findOne({ where: { id: req.params.id}})
+		if (!post) {
+			return res.status(404).send('포스트가 존재하지 않습니다.');
+		}
+		if (post.UserId !== req.user.id) {
+			return res.status(403).send('다른 사람의 글은 수정할 수 없습니다.');
+		}
+		let reg = /<img[^>]+src="([^">]+)/g;
+		let thumb_content = req.body.content.replace(/(<([^>]+)>)/ig," ")
+		let thumb_imgs = req.body.content.match(reg);
+		let thumb_img = '';
+
+		if (thumb_imgs) {
+			thumb_img = thumb_imgs[0].replace(/<img[^>]+src="/g, "");
+		} else {
+			thumb_img = "http://localhost:3065/globalImg/noImg.png";
+		}
+
+		await db.Posts.update({
+			title: req.body.title,
+			CategoryId: req.body.category_id,
+			content: req.body.content,
+			thumbnail_content: thumb_content,
+			thumbnail_img: thumb_img,
+		}, {
+			where: {id: req.params.id}
+		})
+
+		const updatedPost = await db.Posts.findOne({
+			where: {id: req.params.id},
+			include: [{
+				model: db.Category,
+				attribute: ['id', 'name']
+			}]
+		})
+		return res.json(updatedPost);
+	} catch(e){
+		console.error(e);
+		next(e);
+	}
+})
+
 router.delete('/:id', isLoggedIn, async (req, res, next) => {
 	try {
 		const post = await db.Posts.findOne({ where: { id: req.params.id}})
 		if (!post) {
 			return res.status(404).send('포스트가 존재하지 않습니다.');
 		}
-
 		if (post.UserId !== req.user.id) {
 			return res.status(403).send('다른 사람의 글은 삭제할 수 없습니다.');
 		}
