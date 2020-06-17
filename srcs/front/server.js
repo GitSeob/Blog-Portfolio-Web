@@ -40,6 +40,10 @@ app.prepare().then(()=> {
 		return app.render(req, res, '/post', { id: req.params.id });
 	})
 
+	server.get('/category/:name', (req, res) => {
+		return app.render(req, res, '/category', {name : req.params.name});
+	})
+
 	server.get('*', (req, res) => {
 		return handle(req, res);
 	})
