@@ -12,9 +12,9 @@ const Editor = dynamic(import ('../components/Toast'), {
 	ssr: false
 })
 
-const SelectCate = ({category_list, setCategory}) => {
+const SelectCate = ({category_list, setCategory, category_index}) => {
 	const [isClicked, setClick] = useState(false);
-	const [cate_name, setCateName] = useState('카테고리');
+	const [cate_name, setCateName] = useState(category_list[category_index].name);
 
 	const cateOpen = {
 		display: `${isClicked ? 'block' : 'none'}`,
@@ -97,7 +97,7 @@ const Posting = ( ) => {
 		} else if (!editorValue) {
 			alert('본문을 작성해주세요.')
 		} else {
-			if (confirm('글을 작성하시겠습니까 ? ')) {
+			if (confirm('글을 작성하시겠습니까 ?')) {
 				dispatch({
 					type: ADD_POST_REQUEST,
 					data: {
@@ -117,7 +117,7 @@ const Posting = ( ) => {
 		} else if (!editorValue) {
 			alert('본문을 작성해주세요.')
 		} else {
-			if (confirm('글을 수정하시겠습니까 ? ')) {
+			if (confirm('글을 수정하시겠습니까 ?')) {
 				dispatch({
 					type: EDIT_POST_REQUEST,
 					data: {
@@ -152,7 +152,7 @@ const Posting = ( ) => {
 			<div style={submiting} className="post-category-list index-type-common index-type-horizontal posting-wrapper">
 				<div className="area-view-content posting-container">
 					<form className="article-content posting-wrap" onSubmit={defaultSubmit}>
-						{ category_list !== [] && <SelectCate category_list={category_list} setCategory={setCategory}/> }
+						{ category_list !== [] && <SelectCate category_list={category_list} category_index={category_index} setCategory={setCategory}/> }
 						<input value={postTitle} onChange={OCPT} className=" post-title-ipt " placeholder="제목을 입력해주세요"/>
 						<Editor
 							editorValue={editorValue}
