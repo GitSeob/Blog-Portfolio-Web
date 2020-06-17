@@ -1,12 +1,12 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import { LOAD_ONE_POST_REQUEST, REMOVE_POST_REQUEST } from '../reducers/posts';
+import { LOAD_ONE_POST_REQUEST, REMOVE_POST_REQUEST, LOAD_CATEGORY_POSTS_REQUEST } from '../reducers/posts';
 import { useSelector, useDispatch } from 'react-redux';
 import Head from 'next/head';
+import Link from 'next/link';
 import Router from 'next/router';
-import { isLoggedIn } from '../../back/routes/middleware';
 
-const OnePost = ({ id, postData }) => {
+const OnePost = ({ id, postData, category_list }) => {
 	const { admin, isLoggedIn } = useSelector(state=>state.admin);
 	const { isRemovedPost } = useSelector(state=>state.posts);
 	const dispatch = useDispatch();
@@ -18,6 +18,16 @@ const OnePost = ({ id, postData }) => {
 				data: postData.id,
 			})
 		}
+	}, []);
+
+	const getCategoryPosts = useCallback(name => () => {
+		if (name === ''){
+			return ;
+		}
+		dispatch({
+			type: LOAD_CATEGORY_POSTS_REQUEST,
+			data: name,
+		})
 	}, []);
 
 	useEffect(() => {
@@ -50,22 +60,22 @@ const OnePost = ({ id, postData }) => {
 					<div className="area-view-content">
 						<div className="article-content">
 							<div className="post-info-post">
-								<a href="/blog" className="post-link-title">
-									<div className="title-view">
-										{postData.title}
-									</div>
-								</a>
+								<div className="post-link-title title-view">
+									{postData.title}
+								</div>
 								<div className="view-info-post">
-									<a href="/blog" className="post-link-category">
-										<span className="post-category">
-											category
-										</span>
-									</a>
+									<Link href={`/category/${postData.CategoryId ? category_list[postData.CategoryId -1].name : '/'}`}>
+										<a className="post-link-category">
+											<span className="post-category">
+												{postData.CategoryId ? category_list[postData.CategoryId -1].name : '카테고리없음'}
+											</span>
+										</a>
+									</Link>
 									<span className='post-date'>
 										{postData.createdAt}
 									</span>
 								</div>
-								{(isLoggedIn && admin.id) === postData.UserId &&
+								{(admin && admin.id) === postData.UserId &&
 									<div className="edit-post">
 										<a href="/blog">
 											수정

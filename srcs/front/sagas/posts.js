@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { call, all, fork, takeLatest, put } from 'redux-saga/effects';
+import { call, all, fork, takeLatest, put, throttle } from 'redux-saga/effects';
 
 import {
 	ADD_POST_REQUEST,
@@ -16,6 +16,9 @@ import {
 	REMOVE_POST_REQUEST,
 	REMOVE_POST_SUCCESS,
 	REMOVE_POST_FAILURE,
+	LOAD_CATEGORY_POSTS_SUCCESS,
+	LOAD_CATEGORY_POSTS_FAILURE,
+	LOAD_CATEGORY_POSTS_REQUEST,
 } from '../reducers/posts';
 
 function addPostAPI(postData) {
@@ -96,7 +99,6 @@ function loadCategoryAPI() {
 	return axios.get('http://localhost:3065/api/posts/category');
 }
 
-
 function* loadCategory(action) {
 	try {
 		const result = yield call(loadCategoryAPI);
@@ -111,6 +113,10 @@ function* loadCategory(action) {
 			error: e,
 		})
 	}
+}
+
+function* watchLoadCategory(){
+	yield takeLatest(LOAD_CATEGORY_REQUEST, loadCategory);
 }
 
 function removePostAPI(postId) {
@@ -139,8 +145,28 @@ function* watchRemovePost() {
 	yield takeLatest(REMOVE_POST_REQUEST, removePost);
 }
 
-function* watchLoadCategory(){
-	yield takeLatest(LOAD_CATEGORY_REQUEST, loadCategory);
+function loadCategoryPostsAPI(categoryName) {
+	return axios.get(`/posts/category/${encodeURIComponent(categoryName)}`)
+}
+
+function* loadCategoryPosts(action) {
+	try {
+		const result = yield call(loadCategoryPostsAPI, action.data)
+		yield put({
+			type: LOAD_CATEGORY_POSTS_SUCCESS,
+			data: result.data
+		})
+	} catch(e) {
+		console.error(e);
+		yield put({
+			type: LOAD_CATEGORY_POSTS_FAILURE,
+			error: e
+		})
+	}
+}
+
+function* watchLoadCategoryPosts() {
+	yield throttle(2000, LOAD_CATEGORY_POSTS_REQUEST, loadCategoryPosts);
 }
 
 export default function* postSaga(){
@@ -150,5 +176,6 @@ export default function* postSaga(){
 		fork(watchLoadOnePost),
 		fork(watchLoadCategory),
 		fork(watchRemovePost),
+		fork(watchLoadCategoryPosts),
 	])
 }

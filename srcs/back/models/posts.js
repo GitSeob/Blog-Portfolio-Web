@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
 		thumbnail_content: {
 			type: DataTypes.TEXT,
 			allowNull: false,
-		}
+		},
 	}, {
 		charset: 'utf8',
 		collate: 'utf8_general_ci'

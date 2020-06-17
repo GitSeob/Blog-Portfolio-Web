@@ -31,8 +31,6 @@ router.post('/login', (req, res, next) => {
 					where: {id: user.id},
 					attributes: ['id', 'nickname', 'userId']
 				})
-
-				console.log(fullUser);
 				return res.json(fullUser);
 				// const filteredUser = Object.assign({}, user.toJSON())
                 // delete filteredUser.password // 프론트에 비밀번호를 전달하면 위험하기 때문에 delete를 이용하여 user 객체 안의 password를 지워주고 보내준다.
