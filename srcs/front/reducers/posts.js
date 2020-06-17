@@ -6,14 +6,22 @@ const initialState = {
 	isAddingPost: false,
 	isAddedPost: false,
 	postData: null,
+	postEditMode: false,
 	isEdittingPost: false,
 	isEditedPost: false,
 	isRemovingPost: false,
 	isRemovedPost: false,
 	isLoadingPosts: false,
 	isLoadedPosts: false,
+	postingWindowOpen: false,
 	errorReason: '',
 }
+
+export const OPEN_POSTING = 'OPEN_POSTING';
+export const CLOSE_POSTING = 'CLOSE_POSTING';
+
+export const ON_EDIT = 'ON_EDIT';
+export const OFF_EDIT = 'OFF_EDIT';
 
 export const LOAD_MAIN_POSTS_REQUEST = 'LOAD_MAIN_POSTS_REQUEST';
 export const LOAD_MAIN_POSTS_SUCCESS = 'LOAD_MAIN_POSTS_SUCCESS';
@@ -45,6 +53,32 @@ export const LOAD_CATEGORY_POSTS_FAILURE = 'LOAD_CATEGORY_POSTS_FAILURE';
 
 const posts = (state=initialState, action) => {
 	switch (action.type) {
+		case OPEN_POSTING: {
+			return {
+				...state,
+				postingWindowOpen: true,
+			}
+		}
+		case CLOSE_POSTING: {
+			return {
+				...state,
+				postingWindowOpen: false,
+			}
+		}
+
+		case ON_EDIT: {
+			return {
+				...state,
+				postEditMode: true,
+			}
+		}
+		case OFF_EDIT: {
+			return {
+				...state,
+				postEditMode: false,
+			}
+		}
+
 		case LOAD_MAIN_POSTS_REQUEST: {
 			return {
 				...state,

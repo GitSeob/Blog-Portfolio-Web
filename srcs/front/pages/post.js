@@ -1,12 +1,13 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import { LOAD_ONE_POST_REQUEST, REMOVE_POST_REQUEST, LOAD_CATEGORY_POSTS_REQUEST } from '../reducers/posts';
-import { useSelector, useDispatch } from 'react-redux';
 import Head from 'next/head';
 import Link from 'next/link';
 import Router from 'next/router';
 
-const OnePost = ({ id, postData, category_list }) => {
+import { LOAD_ONE_POST_REQUEST, REMOVE_POST_REQUEST, LOAD_CATEGORY_POSTS_REQUEST, ON_EDIT, OPEN_POSTING } from '../reducers/posts';
+import { useSelector, useDispatch } from 'react-redux';
+
+const OnePost = ({ id, postData }) => {
 	const { admin, isLoggedIn } = useSelector(state=>state.admin);
 	const { isRemovedPost } = useSelector(state=>state.posts);
 	const dispatch = useDispatch();
@@ -64,10 +65,10 @@ const OnePost = ({ id, postData, category_list }) => {
 									{postData.title}
 								</div>
 								<div className="view-info-post">
-									<Link href={`/category/${postData.CategoryId ? category_list[postData.CategoryId -1].name : '/'}`}>
+									<Link href={`/category/${postData.Category ? postData.Category.name : '/'}`}>
 										<a className="post-link-category">
 											<span className="post-category">
-												{postData.CategoryId ? category_list[postData.CategoryId -1].name : '카테고리없음'}
+												{postData.Category ? postData.Category.name : '카테고리없음'}
 											</span>
 										</a>
 									</Link>
@@ -77,9 +78,12 @@ const OnePost = ({ id, postData, category_list }) => {
 								</div>
 								{(admin && admin.id) === postData.UserId &&
 									<div className="edit-post">
-										<a href="/blog">
+										<button onClick={() => {
+											dispatch({ type: ON_EDIT })
+											dispatch({ type: OPEN_POSTING })
+										}}>
 											수정
-										</a>
+										</button>
 										|
 										<button onClick={deletePost}>
 											삭제
@@ -104,7 +108,9 @@ const Post = ({ id }) => {
 
 	if (postData) {
 		return (
+			<>
 			<OnePost postData={postData} category_list={category_list}/>
+			</>
 		);
 	} else {
 		return (

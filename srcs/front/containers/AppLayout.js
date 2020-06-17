@@ -4,10 +4,11 @@ import {Close, Menu, Search, Edit} from '@material-ui/icons'
 import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
 
-import { LOAD_CATEGORY_REQUEST, LOAD_CATEGORY_POSTS_REQUEST } from '../reducers/posts';
+import { LOAD_CATEGORY_REQUEST, LOAD_CATEGORY_POSTS_REQUEST, OPEN_POSTING } from '../reducers/posts';
 import {Person, ExitToApp} from '@material-ui/icons';
 import { LOGOUT_ADMIN_REQUEST } from '../reducers/admin';
 import LoginForm from '../components/LoginForm';
+import Posting from '../containers/Posting';
 
 export const MenuBar = ({onMenu, clickedLoginBtn, setClickedLogin}) => {
 	const { admin } = useSelector(state=>state.admin);
@@ -153,6 +154,9 @@ const PostMain = ({ onMenu, changeMenu, onSearch, changeSearch, Component}) => {
 
 const AppLayout = ({ pathname, children }) => {
 	const { admin, isLoggedIn } = useSelector(state=>state.admin);
+	const { postingWindowOpen } = useSelector(state=>state.posts);
+	const dispatch = useDispatch();
+
 	const [clickedLoginBtn, setClickedLogin] = useState(false);
 	const [onMenu, setMenu] = useState(false);
 	const [onSearch, setSearch] = useState(false);
@@ -183,13 +187,12 @@ const AppLayout = ({ pathname, children }) => {
 			<MenuBar onMenu={onMenu} clickedLoginBtn={clickedLoginBtn} setClickedLogin={setClickedLogin}/>
 			<PostMain onMenu={onMenu} changeMenu={changeMenu.bind(null, onMenu)} onSearch={onSearch} changeSearch={changeSearch.bind(null, onSearch)} Component={children}/>
 			{
-				( admin && pathname !== '/posting') &&
-					<Link href="/posting">
-						<a className="posting-btn">
-							<Edit />
-						</a>
-					</Link>
+				admin &&
+					<button className="posting-btn" onClick={() => { dispatch({ type: OPEN_POSTING }) }}>
+						<Edit />
+					</button>
 			}
+			{ postingWindowOpen && <Posting /> }
 			{ clickedLoginBtn && <LoginForm setClickedLogin={setClickedLogin}/> }
 		</div>
 	);
