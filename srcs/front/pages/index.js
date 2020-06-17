@@ -2,9 +2,10 @@ import React ,{useState, useCallback, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 
+import Posting from '../containers/Posting';
 import {Close, Menu, Search, Edit} from '@material-ui/icons'
 import { useSelector, useDispatch } from 'react-redux';
-import { LOAD_MAIN_POSTS_REQUEST, LOAD_CATEGORY_POSTS_REQUEST } from '../reducers/posts';
+import { LOAD_MAIN_POSTS_REQUEST, LOAD_CATEGORY_POSTS_REQUEST, LOAD_CATEGORY_REQUEST } from '../reducers/posts';
 
 export const PostList = ({ mainPosts, boardTitle }) => {
 	const dispatch = useDispatch();
@@ -107,6 +108,9 @@ Blog.getInitialProps = async ( context ) =>{
 	context.store.dispatch({
 		type: LOAD_MAIN_POSTS_REQUEST,
 	});
+	context.store.dispatch({
+		type: LOAD_CATEGORY_REQUEST,
+	})
 }
 
 Blog.propTypes = {

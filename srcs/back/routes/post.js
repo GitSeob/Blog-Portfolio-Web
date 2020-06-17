@@ -60,6 +60,10 @@ router.get('/:id', async (req, res, next) => {
 	try {
 		const post = await db.Posts.findOne({
 			where: {id: req.params.id},
+			include: [{
+				model: db.Category,
+				attribute: ['id', 'name']
+			}]
 		})
 		if (!post) {
 			return res.status(401).send('포스트가 존재하지 않습니다.');
