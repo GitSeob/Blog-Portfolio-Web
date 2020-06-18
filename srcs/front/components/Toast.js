@@ -42,10 +42,6 @@ const Toast = ({ editorValue, OCV}) => {
 					uploadImage(blob).then(res => {
 						callback(res.url);
 					})
-					// let test = URL.createObjectURL(blob);
-					// console.log(test);
-					// callback(test);
-					// callback('http://localhost:3065/IMG_1074Mon Jun 15 2020 18:20:01 GMT+0900 (GMT+09:00).png');
 					return false;
 				}
 			}}

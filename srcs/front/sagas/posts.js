@@ -22,6 +22,10 @@ import {
 	EDIT_POST_SUCCESS,
 	EDIT_POST_FAILURE,
 	EDIT_POST_REQUEST,
+	SEARCH_POSTS_SUCCESS,
+	SEARCH_POSTS_FAILURE,
+	SEARCH_POSTS_REQUEST,
+	LOAD_MAIN_POSTS_FAILURE,
 } from '../reducers/posts';
 
 function addPostAPI(postData) {
@@ -33,7 +37,6 @@ function addPostAPI(postData) {
 function* addPost(action) {
 	try {
 		const result = yield call(addPostAPI, action.data);
-		console.log(result.data);
 		yield put({
 			type: ADD_POST_SUCCESS,
 			data: result.data,
@@ -65,7 +68,7 @@ function* loadAllPosts(action) {
 	} catch(e) {
 		console.error(e);
 		yield put({
-			type: ADD_POST_FAILURE,
+			type: LOAD_MAIN_POSTS_FAILURE,
 			error: e,
 		})
 	}
@@ -99,7 +102,7 @@ function* watchLoadOnePost() {
 }
 
 function loadCategoryAPI() {
-	return axios.get('http://localhost:3065/api/posts/category');
+	return axios.get('/posts/category');
 }
 
 function* loadCategory(action) {
@@ -198,6 +201,30 @@ function* watchEditPost() {
 	yield takeLatest(EDIT_POST_REQUEST, editPost);
 }
 
+function loadSearchPostAPI(keyword) {
+	return axios.get(`/posts/search/${encodeURIComponent(keyword)}`);
+} // SSR 환경에서 특수문자, 한글을 URL으로 전송할 때 디코딩이 필수 !
+
+function* loadSearchPost(action) {
+	try {
+		const result = yield call(loadSearchPostAPI, action.data);
+		yield put({
+			type: SEARCH_POSTS_SUCCESS,
+			data: result.data,
+		})
+	} catch(e) {
+		console.error(e);
+		yield put({
+			type: SEARCH_POSTS_FAILURE,
+			error: e,
+		})
+	}
+}
+
+function* watchLoadSearch() {
+	yield takeLatest(SEARCH_POSTS_REQUEST, loadSearchPost);
+}
+
 export default function* postSaga(){
 	yield all([
 		fork(watchAddPost),
@@ -207,5 +234,6 @@ export default function* postSaga(){
 		fork(watchRemovePost),
 		fork(watchLoadCategoryPosts),
 		fork(watchEditPost),
+		fork(watchLoadSearch)
 	])
 }
