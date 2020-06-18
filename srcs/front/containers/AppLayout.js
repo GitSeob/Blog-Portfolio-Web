@@ -4,11 +4,12 @@ import {Close, Menu, Search, Edit} from '@material-ui/icons'
 import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
 
-import { LOAD_CATEGORY_REQUEST, LOAD_CATEGORY_POSTS_REQUEST, OPEN_POSTING } from '../reducers/posts';
+import { OPEN_POSTING } from '../reducers/posts';
 import {Person, ExitToApp} from '@material-ui/icons';
 import { LOGOUT_ADMIN_REQUEST } from '../reducers/admin';
-import LoginForm from '../components/LoginForm';
+import LoginForm, { useInput } from '../components/LoginForm';
 import Posting from '../containers/Posting';
+import Router from 'next/router';
 
 export const MenuBar = ({onMenu, clickedLoginBtn, setClickedLogin}) => {
 	const { admin } = useSelector(state=>state.admin);
@@ -16,10 +17,10 @@ export const MenuBar = ({onMenu, clickedLoginBtn, setClickedLogin}) => {
 	const dispatch = useDispatch();
 
 	const getCategoryPosts = useCallback(name => () => {
-		dispatch({
-			type: LOAD_CATEGORY_POSTS_REQUEST,
-			data: name,
-		})
+		if (name === ''){
+			return ;
+		}
+		Router.push({ pathname: '/category', query: { name: name } }, `/category/${name}`);
 	}, []);
 
 	const openMenu = {
@@ -87,9 +88,20 @@ export const MenuBar = ({onMenu, clickedLoginBtn, setClickedLogin}) => {
 }
 
 export const MainHeader = ({ onMenu, changeMenu, onSearch, changeSearch}) => {
+	const [keyword, OCKeyword] = useInput('');
+
 	const showSearchWindow = {
 		display: `${onSearch ? 'block' : 'none'}`
 	}
+
+	const getSearchPost = useCallback((e) => {
+		e.preventDefault();
+		if (keyword) {
+			Router.push({ pathname: '/search', query: { keyword: keyword } }, `/search/${keyword}`);
+		} else {
+			alert("검색어를 입력하세요.");
+		}
+	}, [keyword]);
 
 	return (
 		<header id="post-header">
@@ -123,8 +135,15 @@ export const MainHeader = ({ onMenu, changeMenu, onSearch, changeSearch}) => {
 					</span>
 				</button>
 				<div className="post-area-search thema-apply" style={showSearchWindow}>
-					<form >
-						<input type="text" name="search" title="Search" placeholder="Search" className="post-inp-search"/>
+					<form onSubmit={getSearchPost}>
+						<input
+							value={keyword}
+							name="keyword"
+							onChange={OCKeyword}
+							type="text"
+							placeholder="Search"
+							className="post-inp-search"
+						></input>
 					</form>
 				</div>
 			</div>
