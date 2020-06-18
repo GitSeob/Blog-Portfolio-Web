@@ -19,6 +19,30 @@ router.get('/', async (req, res, next) => {
 	}
 })
 
+router.get('/search/:keyword', async (req, res, next) => {
+	try {
+		const posts = await db.Posts.findAll({
+			where: {
+				title: {
+					[db.Sequelize.Op.like]: "%" + req.params.keyword + "%",
+				}
+			},
+			include: [{
+				model: db.Category,
+				attributes: ['id', 'name'],
+			}],
+			order: [['createdAt', 'DESC']],
+		})
+		return res.json({
+			posts: posts,
+			keyword: req.params.keyword,
+		});
+	} catch(e) {
+		console.error(e);
+		next(e);
+	}
+})
+
 router.get('/category', async (req, res, next) => {
 	try {
 		const categories = await db.Category.findAll({

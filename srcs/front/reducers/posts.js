@@ -51,6 +51,10 @@ export const LOAD_CATEGORY_POSTS_REQUEST = 'LOAD_CATEGORY_POSTS_REQUEST';
 export const LOAD_CATEGORY_POSTS_SUCCESS = 'LOAD_CATEGORY_POSTS_SUCCESS';
 export const LOAD_CATEGORY_POSTS_FAILURE = 'LOAD_CATEGORY_POSTS_FAILURE';
 
+export const SEARCH_POSTS_REQUEST = 'SEARCH_POSTS_REQUEST';
+export const SEARCH_POSTS_SUCCESS = 'SEARCH_POSTS_SUCCESS';
+export const SEARCH_POSTS_FAILURE = 'SEARCH_POSTS_FAILURE';
+
 const posts = (state=initialState, action) => {
 	switch (action.type) {
 		case OPEN_POSTING: {
@@ -223,6 +227,29 @@ const posts = (state=initialState, action) => {
 			return {
 				...state,
 				isRemovingPost: false,
+				errorReason: action.error,
+			}
+		}
+
+		case SEARCH_POSTS_REQUEST: {
+			return {
+				...state,
+				isLoadingPosts: true,
+			}
+		}
+		case SEARCH_POSTS_SUCCESS: {
+			return {
+				...state,
+				isLoadingPosts: false,
+				isLoadedPosts: true,
+				mainPosts: action.data.posts,
+				boardTitle: action.data.keyword,
+			}
+		}
+		case SEARCH_POSTS_FAILURE: {
+			return {
+				...state,
+				isLoadingPosts: false,
 				errorReason: action.error,
 			}
 		}

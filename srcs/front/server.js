@@ -36,12 +36,15 @@ app.prepare().then(()=> {
 	}));
 
 	server.get('/post/:id', (req, res) => {
-		console.log(req.params.id);
 		return app.render(req, res, '/post', { id: req.params.id });
 	})
 
 	server.get('/category/:name', (req, res) => {
 		return app.render(req, res, '/category', {name : req.params.name});
+	})
+
+	server.get('/search/:keyword', (req, res) => {
+		return app.render(req, res, '/search', {keyword : req.params.keyword});
 	})
 
 	server.get('*', (req, res) => {
