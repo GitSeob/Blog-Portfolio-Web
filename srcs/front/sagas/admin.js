@@ -41,7 +41,7 @@ function* loadUser(action) {
 			data: result.data,
 		})
 	} catch(e) {
-		console.error(e);
+		// console.error(e);
 		yield put({
 			type: LOAD_ADMIN_FAILURE,
 			error: e,

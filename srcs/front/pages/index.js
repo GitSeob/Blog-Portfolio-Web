@@ -1,6 +1,7 @@
 import React ,{useState, useCallback, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
+import Router from 'next/router';
 
 import Posting from '../containers/Posting';
 import {Close, Menu, Search, Edit} from '@material-ui/icons'
@@ -14,10 +15,7 @@ export const PostList = ({ mainPosts, boardTitle }) => {
 		if (name === ''){
 			return ;
 		}
-		dispatch({
-			type: LOAD_CATEGORY_POSTS_REQUEST,
-			data: name,
-		})
+		Router.push({ pathname: '/category', query: { name: name } }, `/category/${name}`);
 	}, []);
 
 	return (
