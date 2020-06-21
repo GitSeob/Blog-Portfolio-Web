@@ -28,8 +28,7 @@ import { LOAD_ADMIN_REQUEST } from '../reducers/admin';
 import ManageMenu from '../containers/ManageMenu';
 import LoginForm from '../components/LoginForm';
 
-const Home = ({ pathname, Component, store, admin }) => {
-
+const Home = ({ pathname, Component, store }) => {
 	const WrapComponent = () => {
 		if (pathname === '/portfolio' || pathname === '/login')
 		{
@@ -95,7 +94,6 @@ Home.getInitialProps = async (context) => {
 			type: LOAD_CATEGORY_REQUEST,
 		})
 	}
-	const admin = state.admin.admin;
 
 	if (ctx.isServer && cookie) { // 클라이언트일 경우에는 브라우저가 있으므로 서버사이드 렌더링일 경우에만 실행
 		axios.defaults.headers.Cookie = cookie; // 프론트 서버에서 백 서버로 보낼 때 쿠키를 동봉해준다는 코드
@@ -103,7 +101,7 @@ Home.getInitialProps = async (context) => {
 	if (Component.getInitialProps) {
 		pageProps = await Component.getInitialProps(ctx);
 	}
-	return { pageProps, pathname: ctx.pathname, admin: admin };
+	return { pageProps, pathname: ctx.pathname };
 };
 
 const configureStore = (initialState, options) => {
