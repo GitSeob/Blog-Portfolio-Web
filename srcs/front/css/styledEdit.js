@@ -7,7 +7,7 @@ export const Container = styled.div`
 	overflow: auto;
 	width: 100%;
 	height: 100%;
-	background-color: #F8FAFF;
+	// background-color: #F8FAFF;
 	display: flex;
 	@font-face {
 		font-family: 'Noto Sans TC';
@@ -49,7 +49,8 @@ export const ContentHead = styled.div`
 export const ContentContainer = styled.div`
 	height: 100%;
 	width: 100%;
-	padding: 0;
+	padding: 30px;
+	box-sizing: border-box;
 	// background: #2F323A;
 	overflow: auto;
 `;
@@ -62,6 +63,7 @@ export const SideTitle = styled.div`
 `;
 
 export const SideCate = styled.button`
+	margin: 0;
 	width: 100%;
 	height: 60px;
 	font-size: 18px;
@@ -107,6 +109,7 @@ export const QuitButton = styled.a`
 	box-sizing: border-box;
 	transition: 0.5s;
 	transition-property: background;
+	cursor: pointer;
 	&:visited {
 		color: inherit;
 	}

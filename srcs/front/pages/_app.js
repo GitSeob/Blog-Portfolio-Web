@@ -25,23 +25,45 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { LOAD_MAIN_POSTS_REQUEST, LOAD_CATEGORY_REQUEST } from '../reducers/posts';
 import { LOAD_ADMIN_REQUEST } from '../reducers/admin';
+import ManageMenu from '../containers/ManageMenu';
 
 const Home = ({ pathname, Component, store }) => {
+
+	const WrapComponent = () => {
+		if (pathname === '/portfolio' || pathname === '/login')
+		{
+			return (
+				<Background>
+					<Component/>
+				</Background>
+			);
+		}
+		else if ( pathname === '/manage')
+		{
+			return (
+				<Background>
+					<ManageMenu>
+						<Component/>
+					</ManageMenu>
+				</Background>
+			)
+		}
+		else
+		{
+			return (
+				<AppLayout pathname={pathname}>
+					<Component />
+				</AppLayout>
+			);
+		}
+	}
 
 	return (
 		<Provider store={store}>
 			<Head>
 				<title>anjoy의 블로그와 포트폴리오</title>
 			</Head>
-			{pathname==="/portfolio" || pathname === "/login" ?
-				<Background>
-					<Component/>
-				</Background>
-				:
-				<AppLayout pathname={pathname}>
-					<Component />
-				</AppLayout>
-			}
+			<WrapComponent />
 		</Provider>
 	);
 };
