@@ -178,7 +178,7 @@ const PostMain = ({ onMenu, changeMenu, onSearch, changeSearch, Component}) => {
 
 const AppLayout = ({ pathname, children }) => {
 	const { admin, isLoggedIn } = useSelector(state=>state.admin);
-	const { postingWindowOpen } = useSelector(state=>state.posts);
+	const { postingWindowOpen, category_list } = useSelector(state=>state.posts);
 	const dispatch = useDispatch();
 
 	const [clickedLoginBtn, setClickedLogin] = useState(false);
@@ -226,7 +226,7 @@ const AppLayout = ({ pathname, children }) => {
 						<Edit />
 					</button>
 			}
-			{ postingWindowOpen && <Posting /> }
+			{ postingWindowOpen && <Posting category_list={category_list}/> }
 			{ clickedLoginBtn && <LoginForm setClickedLogin={setClickedLogin}/> }
 		</div>
 	);

@@ -61,6 +61,8 @@ const posts = (state=initialState, action) => {
 			return {
 				...state,
 				postingWindowOpen: true,
+				isEditedPost: false,
+				isAddedPost: false,
 			}
 		}
 		case CLOSE_POSTING: {
@@ -130,7 +132,6 @@ const posts = (state=initialState, action) => {
 		case LOAD_CATEGORY_REQUEST: {
 			return {
 				...state,
-				category_list: [],
 			};
 		}
 		case LOAD_CATEGORY_SUCCESS: {
