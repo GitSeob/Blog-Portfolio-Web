@@ -905,7 +905,6 @@ ul {
 	position: relative;
 	background: white;
 	width: 100vw;
-	max-width: 1600px;
 	height: 160px;
 	margin: 0 auto;
 	text-align: center;
@@ -1443,4 +1442,39 @@ ul {
 	width: 100%;
 	text-align: left;
 	cursor: pointer;
+	color: #333;
+	padding: 10px 0;
+	font-weight: 500;
+}
+
+.header-login-btn-wrap a {
+	margin: 0 5px;
+}
+
+/* ################################################################# */
+/* ################################################################# */
+/* Manage */
+/* ################################################################# */
+/* ################################################################# */
+
+.manage-title {
+	width: fit-content;
+	border-bottom: 1px solid #222;
+	margin: 0;
+	margin-bottom: 40px;
+}
+
+.manage-line {
+	display: flex;
+	padding: 10px 20px;
+	margin: 20px 0px;
+	border-radius: 10px;
+	border: 2px solid #19B3D3;
+}
+
+.manage-line .manage-content-name {
+	width: 100px;
+	margin-right: 20px;
+	padding-right: 20px;
+	border-right: 1px solid #19B3D3;
 }

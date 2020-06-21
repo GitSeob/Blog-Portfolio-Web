@@ -1,6 +1,6 @@
 import React ,{useState, useCallback, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {Close, Menu, Search, Edit} from '@material-ui/icons'
+import {Close, Menu, Search, Edit, Settings} from '@material-ui/icons'
 import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
 
@@ -70,6 +70,13 @@ export const MenuBar = ({onMenu, clickedLoginBtn, setClickedLogin}) => {
 					</li>
 				</ul>
 				<ul className="header-login-btn-wrap">
+					{ admin && <li>
+						<Link href="/setting">
+							<a className="header-login-btn">
+								<Settings /> 블로그 관리
+							</a>
+						</Link>
+					</li>}
 					<li>
 						{!admin ?
 							<button className="header-login-btn" onClick={loginClicked}>
@@ -160,9 +167,7 @@ const PostMain = ({ onMenu, changeMenu, onSearch, changeSearch, Component}) => {
 		<div id="post-container" style={openMenu}>
 			<MainHeader onMenu={onMenu} changeMenu={changeMenu.bind(null, onMenu)} onSearch={onSearch} changeSearch={changeSearch.bind(null, onSearch)}/>
 			<main id="post-main">
-				<div className="post-inner-index">
-					{Component}
-				</div>
+				{Component}
 			</main>
 			<footer id="post-footer">
 				copy tistory
@@ -195,6 +200,16 @@ const AppLayout = ({ pathname, children }) => {
 		}
 	};
 
+	const Blogwrap = () => {
+		return (
+			<>
+				<div className="post-inner-index">
+					{children}
+				</div>
+			</>
+		);
+	}
+
 	useEffect(() => {
 		if (isLoggedIn) {
 			setClickedLogin(false);
@@ -204,7 +219,7 @@ const AppLayout = ({ pathname, children }) => {
 	return (
 		<div id="post-wrap">
 			<MenuBar onMenu={onMenu} clickedLoginBtn={clickedLoginBtn} setClickedLogin={setClickedLogin}/>
-			<PostMain onMenu={onMenu} changeMenu={changeMenu.bind(null, onMenu)} onSearch={onSearch} changeSearch={changeSearch.bind(null, onSearch)} Component={children}/>
+			<PostMain onMenu={onMenu} changeMenu={changeMenu.bind(null, onMenu)} onSearch={onSearch} changeSearch={changeSearch.bind(null, onSearch)} Component={<Blogwrap/>}/>
 			{
 				admin &&
 					<button className="posting-btn" onClick={() => { dispatch({ type: OPEN_POSTING }) }}>

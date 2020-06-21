@@ -3,7 +3,6 @@ import Router from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { LOGIN_ADMIN_REQUEST } from '../reducers/admin';
 import { CarrotSvg } from '../containers/Door';
-import Edit from '../containers/Edit';
 
 export const useInput = (initValue = null) => {
     const [value, setter] = useState(initValue)
