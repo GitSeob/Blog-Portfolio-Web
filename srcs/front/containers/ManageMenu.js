@@ -15,9 +15,11 @@ import {
 } from '../css/styledEdit';
 import { ExitToApp, Tv, ListAlt, AccountBox } from '@material-ui/icons';
 import { SET_MAIN, SET_BLOG, SET_PORT } from '../reducers/manage';
+import LoginForm from '../components/LoginForm';
 
 const ManageMenu = ({ children }) => {
 	const dispatch = useDispatch();
+	const { admin } = useSelector(state=>state.admin);
 	const { menuStatus } = useSelector(state=>state.manage);
 
 	const clickMenu = useCallback((i) => (e) => {
@@ -44,6 +46,8 @@ const ManageMenu = ({ children }) => {
 	})
 
 	return (
+		<>
+		{ !admin ? <LoginForm /> :
 		<Container>
 			<Aside>
 				<SideTitle><img  style={{width: '100%'}} src={'./images/mainIcon.png'} /></SideTitle>
@@ -70,6 +74,8 @@ const ManageMenu = ({ children }) => {
 				</ContentContainer>
 			</EditBox>
 		</Container>
+		}
+		</>
 	);
 };
 
