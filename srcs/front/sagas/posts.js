@@ -26,10 +26,13 @@ import {
 	SEARCH_POSTS_FAILURE,
 	SEARCH_POSTS_REQUEST,
 	LOAD_MAIN_POSTS_FAILURE,
+	ADD_CATEGORY_REQUEST,
 	ADD_CATEGORY_SUCCESS,
+	ADD_CATEGORY_FAILURE,
 	EDIT_CATEGORY_SUCCESS,
 	EDIT_CATEGORY_FAILURE,
 	EDIT_CATEGORY_REQUEST,
+	REMOVE_CATEGORY_SUCCESS,
 	REMOVE_CATEGORY_REQUEST,
 	REMOVE_CATEGORY_FAILURE,
 } from '../reducers/posts';
@@ -108,7 +111,7 @@ function* watchLoadOnePost() {
 }
 
 function loadCategoryAPI() {
-	return axios.get('/posts/category');
+	return axios.get('/category');
 }
 
 function* loadCategory(action) {
@@ -158,7 +161,7 @@ function* watchRemovePost() {
 }
 
 function loadCategoryPostsAPI(categoryName) {
-	return axios.get(`/posts/category/${encodeURIComponent(categoryName)}`)
+	return axios.get(`/category/${encodeURIComponent(categoryName)}`)
 }
 
 function* loadCategoryPosts(action) {
@@ -231,8 +234,10 @@ function* watchLoadSearch() {
 	yield takeLatest(SEARCH_POSTS_REQUEST, loadSearchPost);
 }
 
-function addCategoryAPI(data) {
-	return axios.post('/posts/category/add', data, {
+function addCategoryAPI(name) {
+	return axios.post('/category', {
+		name: name
+	}, {
 		withCredentials: true,
 	})
 }
@@ -240,7 +245,7 @@ function addCategoryAPI(data) {
 function* addCategory(action) {
 	try {
 		const result = yield addCategoryAPI(action.data);
-		put({
+		yield put({
 			type: ADD_CATEGORY_SUCCESS,
 			data: result.data,
 		})
@@ -258,7 +263,7 @@ function* watchAddCategory() {
 }
 
 function editCategoryAPI(data) {
-	return axios.patch(`/posts/category/${data.index}`, data.name, {
+	return axios.patch(`/category/${data.index}`, data.name, {
 		withCredentials: true,
 	})
 }
@@ -266,7 +271,7 @@ function editCategoryAPI(data) {
 function* editCategory(action) {
 	try{
 		const result = yield editCategoryAPI(action.data);
-		put({
+		yield put({
 			type: EDIT_CATEGORY_SUCCESS,
 			data: result.data,
 		})
@@ -284,7 +289,7 @@ function* watchEditCategory() {
 }
 
 function removeCategoryAPI(categoryId) {
-	return axios.delete(`/posts/category/${categoryId}`, {
+	return axios.delete(`/category/${categoryId}`, {
 		withCredentials: true,
 	})
 }
@@ -292,7 +297,7 @@ function removeCategoryAPI(categoryId) {
 function* removeCategory(action) {
 	try {
 		const result = yield removeCategoryAPI(action.data);
-		put({
+		yield put({
 			type: REMOVE_CATEGORY_SUCCESS,
 			data: result.data,
 		})
