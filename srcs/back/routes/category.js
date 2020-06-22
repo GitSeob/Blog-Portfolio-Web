@@ -57,7 +57,7 @@ router.post('/', isLoggedIn, async (req, res, next) => {
 router.patch('/:id', isLoggedIn, async (req, res, next) => {
 	try {
 		await db.Category.update({
-			name: req.body.data,
+			name: req.body.name,
 		}, {
 			where: {id: req.params.id},
 		})

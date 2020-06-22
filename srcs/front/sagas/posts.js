@@ -263,7 +263,9 @@ function* watchAddCategory() {
 }
 
 function editCategoryAPI(data) {
-	return axios.patch(`/category/${data.index}`, data.name, {
+	return axios.patch(`/category/${data.index}`, {
+		name: data.name,
+	}, {
 		withCredentials: true,
 	})
 }

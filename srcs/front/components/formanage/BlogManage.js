@@ -47,30 +47,35 @@ const BlogManage = ({ category_list }) => {
 
 	const submitEditCate = useCallback((i) => (e) => {
 		e.preventDefault();
-		dispatch({
-			type: EDIT_CATEGORY_REQUEST,
-			data: {
-				index: i+1,
-				name: editCateName,
-			}
-		})
+		if (confirm(`${category_list[i].name}를 ${editCateName}로 변경하겠습니까?`)){
+			dispatch({
+				type: EDIT_CATEGORY_REQUEST,
+				data: {
+					index: i+1,
+					name: editCateName,
+				}
+			})
+		}
 	}, [editCateName]);
 
 	const removeCate = useCallback((i) => (e) => {
 		e.preventDefault();
-		dispatch({
-			type: REMOVE_CATEGORY_REQUEST,
-			data: i+1
-		});
+		if (confirm(`${category_list[i].name} 카테고리를 삭제하시겠습니까?`)) {
+			dispatch({
+				type: REMOVE_CATEGORY_REQUEST,
+				data: i+1
+			});
+		}
 	})
 
 	const submitAddCate = useCallback((e) => {
 		e.preventDefault();
-		console.log(addCateName);
-		dispatch({
-			type: ADD_CATEGORY_REQUEST,
-			data: addCateName,
-		})
+		if (confirm(`${addCateName} 이름으로 카테고리를 추가하시겠습니까?`)) {
+			dispatch({
+				type: ADD_CATEGORY_REQUEST,
+				data: addCateName,
+			})
+		}
 	}, [addCateName]);
 
 	return (
@@ -105,7 +110,7 @@ const BlogManage = ({ category_list }) => {
 													취소
 												</button>
 												<button className="manage-cate-btn" onClick={submitEditCate(i, c)}>
-													추가
+													수정
 												</button>
 											</div>
 										</form>
