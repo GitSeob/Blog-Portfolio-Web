@@ -66,6 +66,7 @@ const BlogManage = ({ category_list }) => {
 
 	const submitAddCate = useCallback((e) => {
 		e.preventDefault();
+		console.log(addCateName);
 		dispatch({
 			type: ADD_CATEGORY_REQUEST,
 			data: addCateName,

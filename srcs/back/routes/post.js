@@ -128,7 +128,7 @@ router.delete('/:id', isLoggedIn, async (req, res, next) => {
 		if (post.UserId !== req.user.id) {
 			return res.status(403).send('다른 사람의 글은 삭제할 수 없습니다.');
 		}
-		console.log('params id : ' + req.params.id);
+
 		await db.Posts.destroy({ where: {id: req.params.id}})
 		res.send(req.params.id);
 	} catch(e) {

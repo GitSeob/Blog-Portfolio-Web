@@ -14,6 +14,7 @@ const userAPIRouter = require('./routes/user');
 const postAPIRouter = require('./routes/post');
 const postsAPIRouter = require('./routes/posts');
 const imageAPIRouter = require('./routes/image');
+const categoryAPIRouter = require('./routes/category');
 
 dotenv.config();
 
@@ -59,6 +60,7 @@ app.use('/api/user', userAPIRouter);
 app.use('/api/post', postAPIRouter);
 app.use('/api/posts', postsAPIRouter);
 app.use('/api/image', imageAPIRouter);
+app.use('/api/category', categoryAPIRouter);
 // app.use('/api/portfolio');
 
 const t = async () => {
