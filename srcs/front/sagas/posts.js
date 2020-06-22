@@ -26,6 +26,12 @@ import {
 	SEARCH_POSTS_FAILURE,
 	SEARCH_POSTS_REQUEST,
 	LOAD_MAIN_POSTS_FAILURE,
+	ADD_CATEGORY_SUCCESS,
+	EDIT_CATEGORY_SUCCESS,
+	EDIT_CATEGORY_FAILURE,
+	EDIT_CATEGORY_REQUEST,
+	REMOVE_CATEGORY_REQUEST,
+	REMOVE_CATEGORY_FAILURE,
 } from '../reducers/posts';
 
 function addPostAPI(postData) {
@@ -225,6 +231,84 @@ function* watchLoadSearch() {
 	yield takeLatest(SEARCH_POSTS_REQUEST, loadSearchPost);
 }
 
+function addCategoryAPI(data) {
+	return axios.post('/posts/category/add', data, {
+		withCredentials: true,
+	})
+}
+
+function* addCategory(action) {
+	try {
+		const result = yield addCategoryAPI(action.data);
+		put({
+			type: ADD_CATEGORY_SUCCESS,
+			data: result.data,
+		})
+	} catch(e) {
+		console.error(e);
+		yield put({
+			type: ADD_CATEGORY_FAILURE,
+			error: e,
+		})
+	}
+}
+
+function* watchAddCategory() {
+	yield takeLatest(ADD_CATEGORY_REQUEST, addCategory);
+}
+
+function editCategoryAPI(data) {
+	return axios.patch(`/posts/category/${data.index}`, data.name, {
+		withCredentials: true,
+	})
+}
+
+function* editCategory(action) {
+	try{
+		const result = yield editCategoryAPI(action.data);
+		put({
+			type: EDIT_CATEGORY_SUCCESS,
+			data: result.data,
+		})
+	} catch(e) {
+		console.error(e);
+		yield put({
+			type: EDIT_CATEGORY_FAILURE,
+			error: e,
+		})
+	}
+}
+
+function* watchEditCategory() {
+	yield takeLatest(EDIT_CATEGORY_REQUEST, editCategory);
+}
+
+function removeCategoryAPI(categoryId) {
+	return axios.delete(`/posts/category/${categoryId}`, {
+		withCredentials: true,
+	})
+}
+
+function* removeCategory(action) {
+	try {
+		const result = yield removeCategoryAPI(action.data);
+		put({
+			type: REMOVE_CATEGORY_SUCCESS,
+			data: result.data,
+		})
+	} catch(e) {
+		console.error(e);
+		yield put({
+			type: REMOVE_CATEGORY_FAILURE,
+			error: e,
+		})
+	}
+}
+
+function* watchRemoveCategory() {
+	yield takeLatest(REMOVE_CATEGORY_REQUEST, removeCategory);
+}
+
 export default function* postSaga(){
 	yield all([
 		fork(watchAddPost),
@@ -234,6 +318,9 @@ export default function* postSaga(){
 		fork(watchRemovePost),
 		fork(watchLoadCategoryPosts),
 		fork(watchEditPost),
-		fork(watchLoadSearch)
+		fork(watchLoadSearch),
+		fork(watchAddCategory),
+		fork(watchEditCategory),
+		fork(watchRemoveCategory),
 	])
 }
