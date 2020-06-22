@@ -62,6 +62,7 @@ const Home = ({ pathname, Component, store }) => {
 		<Provider store={store}>
 			<Head>
 				<title>anjoy의 블로그와 포트폴리오</title>
+				<link rel="shortcut icon" href="images/favicon.ico" />
 			</Head>
 			<WrapComponent />
 		</Provider>

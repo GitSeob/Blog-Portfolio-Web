@@ -16,6 +16,7 @@ db.Works = require('./works')(sequelize, Sequelize);
 
 db.Posts = require('./posts')(sequelize, Sequelize);
 db.Category = require('./category')(sequelize, Sequelize);
+db.Blog = require('./blog')(sequelize, Sequelize);
 // 각 테이블 연결
 
 Object.keys(db).forEach(modelName => {
