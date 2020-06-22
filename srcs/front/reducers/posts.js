@@ -55,6 +55,18 @@ export const SEARCH_POSTS_REQUEST = 'SEARCH_POSTS_REQUEST';
 export const SEARCH_POSTS_SUCCESS = 'SEARCH_POSTS_SUCCESS';
 export const SEARCH_POSTS_FAILURE = 'SEARCH_POSTS_FAILURE';
 
+export const EDIT_CATEGORY_REQUEST = 'EDIT_CATEGORY_REQUEST';
+export const EDIT_CATEGORY_SUCCESS = 'EDIT_CATEGORY_SUCCESS';
+export const EDIT_CATEGORY_FAILURE = 'EDIT_CATEGORY_FAILURE';
+
+export const ADD_CATEGORY_REQUEST = 'ADD_CATEGORY_REQUEST';
+export const ADD_CATEGORY_SUCCESS = 'ADD_CATEGORY_SUCCESS';
+export const ADD_CATEGORY_FAILURE = 'ADD_CATEGORY_FAILURE';
+
+export const REMOVE_CATEGORY_REQUEST = 'REMOVE_CATEGORY_REQUEST';
+export const REMOVE_CATEGORY_SUCCESS = 'REMOVE_CATEGORY_SUCCESS';
+export const REMOVE_CATEGORY_FAILURE = 'REMOVE_CATEGORY_FAILURE';
+
 const posts = (state=initialState, action) => {
 	switch (action.type) {
 		case OPEN_POSTING: {
@@ -252,6 +264,58 @@ const posts = (state=initialState, action) => {
 				...state,
 				isLoadingPosts: false,
 				errorReason: action.error,
+			}
+		}
+
+		case EDIT_CATEGORY_REQUEST: {
+			return {
+				...state,
+			}
+		}
+		case EDIT_CATEGORY_SUCCESS: {
+			return {
+				...state,
+				category_list: action.data,
+			}
+		}
+		case EDIT_CATEGORY_FAILURE: {
+			return {
+				...state,
+			}
+		}
+
+		case ADD_CATEGORY_REQUEST: {
+			return {
+				...state,
+			}
+		}
+		case ADD_CATEGORY_SUCCESS: {
+			return {
+				...state,
+				category_list: [...state.category_list, action.data],
+			}
+		}
+		case ADD_CATEGORY_FAILURE: {
+			return {
+				...state,
+				errorReason: action.error,
+			}
+		}
+
+		case REMOVE_CATEGORY_REQUEST: {
+			return {
+				...state,
+			}
+		}
+		case REMOVE_CATEGORY_SUCCESS: {
+			return {
+				...state,
+				category_list: state.category_list.filter(v => v.id !== action.data),
+			}
+		}
+		case REMOVE_CATEGORY_FAILURE: {
+			return {
+				...state,
 			}
 		}
 
