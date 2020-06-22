@@ -51,7 +51,7 @@ export const ContentContainer = styled.div`
 	width: 100%;
 	padding: 30px;
 	box-sizing: border-box;
-	// background: #2F323A;
+	background: #F3F5F7;
 	overflow: auto;
 `;
 

@@ -71,7 +71,7 @@ export const MenuBar = ({onMenu, clickedLoginBtn, setClickedLogin}) => {
 				</ul>
 				<ul className="header-login-btn-wrap">
 					{ admin && <li>
-						<Link href="/setting">
+						<Link href="/manage">
 							<a className="header-login-btn">
 								<Settings /> 블로그 관리
 							</a>
