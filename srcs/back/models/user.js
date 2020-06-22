@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
 
 	User.associate = (db) => {
 		db.User.hasMany(db.Posts);
+		db.User.hasOne(db.Blog);
 	}
 	// 블로깅 기능 추가할 때 작성
 

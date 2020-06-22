@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Reorder, Add } from '@material-ui/icons';
+import { Reorder, Add, Title, Description, Grade } from '@material-ui/icons';
 import { useDispatch } from 'react-redux';
 
 import { EDIT_CATEGORY_REQUEST, ADD_CATEGORY_REQUEST, REMOVE_CATEGORY_REQUEST } from '../../reducers/posts';
@@ -15,9 +15,12 @@ export const useSetInput = (initialValue = null) => {
 
 const BlogManage = ({ category_list }) => {
 	const [openAddCate, setOpenAddCate] = useState(false);
+	const [isChanged, setChanged] = useState(false);
 	const [addCateName, setAddCateName, OCAddCateName] = useSetInput('');
 	const [editCateName, setEditCateName, OCEditCateName] = useSetInput('')
 	const [cateIndex, setCateIndex] = useState(-1);
+	const [descriptionValue, setDesValue, OCDesValue] = useSetInput('');
+	const [blogTitleValue, setBlogTitleValue, OCBlogTitleValue] = useSetInput('');
 
 	const dispatch = useDispatch();
 
@@ -81,15 +84,58 @@ const BlogManage = ({ category_list }) => {
 	return (
 		<>
 		<form>
-			<div className="">
+			<div className="manage-attr-wrap">
 				<h3>블로그 정보 관리</h3>
 				<br />
 				<div className="manage-content-wrap">
-					hi
+					<strong>이곳에서 블로그 정보를 관리할 수 있습니다.</strong>
+					<p>블로그 타이틀과 Favicon을 수정할 수 있습니다.</p>
+					<div className="manage-wrap-order">
+						<div className="manage-list-order">
+							<div className="manage-blog-info">
+								<Title style={{position: 'absolute', left: 0, top: '50%',fontSize: "16px", color: "#B4BAC2", transform: 'translate(50%, -50%)'}}/>
+								<div className="manage-attr-name">
+									TITLE
+								</div>
+								<input type='text' value={blogTitleValue} onChange={OCBlogTitleValue} required placeholder="이곳에 블로그 타이틀을 작성해주세요." className="manage-attr-content" />
+							</div>
+							<div className="manage-blog-info favicon-edit-wrap">
+								<Grade style={{position: 'absolute', left: 0, top: '50%',fontSize: "16px", color: "#B4BAC2", transform: 'translate(50%, -50%)'}}/>
+								<div className="manage-attr-name">
+									FAVICON
+								</div>
+								<div className="manage-attr-content">
+									<img src="./images/favicon.ico"/>
+									<div className="filebox">
+										<label htmlFor="ex_file">변경</label>
+										<input type="file" id="ex_file" />
+									</div>
+								</div>
+							</div>
+							<div className="manage-blog-info">
+								<Description style={{position: 'absolute', left: 0, top: '10px',fontSize: "16px", color: "#B4BAC2", transform: 'translateX(50%)'}}/>
+								<div className="manage-attr-name">
+									DESCRIPTION
+								</div>
+								<textarea rows={3} value={descriptionValue} onChange={OCDesValue} placeholder="Description을 작성해주십시오." className="manage-attr-content" />
+							</div>
+						</div>
+					</div>
+					<div className="set_btn">
+						{ isChanged ?
+							<button type="button" className="btn_save">
+								변경사항 저장
+							</button>
+							:
+							<button disabled className="btn_not_allow">
+								변경사항 저장
+							</button>
+						}
+					</div>
 				</div>
 			</div>
 		</form>
-		<div className="">
+		<div className="manage-attr-wrap">
 			<h3>카테고리 관리</h3>
 			<br/>
 			<div className="manage-content-wrap">
