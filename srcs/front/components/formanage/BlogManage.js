@@ -1,9 +1,9 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Reorder, Add, Title, Description, Grade } from '@material-ui/icons';
-import { useDispatch } from 'react-redux';
+import { Reorder, Add, Title, Description, Grade, KeyboardArrowDown } from '@material-ui/icons';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { EDIT_CATEGORY_REQUEST, ADD_CATEGORY_REQUEST, REMOVE_CATEGORY_REQUEST } from '../../reducers/posts';
+import { EDIT_CATEGORY_REQUEST, ADD_CATEGORY_REQUEST, REMOVE_CATEGORY_REQUEST, EDIT_POST_MANAGE_REQUEST, REMOVE_POST_REQUEST } from '../../reducers/posts';
 
 export const useSetInput = (initialValue = null) => {
 	const [value, setter] = useState(initialValue);
@@ -13,7 +13,105 @@ export const useSetInput = (initialValue = null) => {
 	return [value, setter, handler];
 }
 
-const BlogManage = ({ category_list }) => {
+const SelectCate = ({category_list, setCategory, category_index}) => {
+	const [isClicked, setClick] = useState(false);
+
+	const cateOpen = {
+		display: `${isClicked ? 'block' : 'none'}`,
+	}
+	const allowTurn = {
+		transform: `translateY(-50%) rotate(${!isClicked ? 0 : 180}deg)`
+	}
+	const isOpen = () => {
+		if (isClicked) {
+			setClick(false);
+		} else {
+			setClick(true);
+		}
+	}
+	const onChangeCate = useCallback(i =>(e) => {
+		e.preventDefault();
+		console.log(i);
+	}, []);
+
+	return (
+		<div className="cateSelect-ipt" role="button">
+			<div className="cs-ipt-btn" role="button">
+				<button type="button" className="cs-btn" onClick={isOpen}>
+					<i className="cs-text"> 카테고리별 포스트 </i>
+					<span className="cs-icon" style={allowTurn}>
+						<KeyboardArrowDown />
+					</span>
+				</button>
+				<div className="cs-list-wrap" style={cateOpen}>
+					<div className="cs-list-container">
+						{category_list.map((c, i) => {
+							return (
+								<button key={(i)} className="cs-list-attr" onClick={onChangeCate(i)}>
+									<div key={(i)} className="cs-list-attr-text">
+										{c.name}
+									</div>
+								</button>
+							);
+						})}
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+}
+
+const ChangeCate = ({category_list}) => {
+	const [isClicked, setClick] = useState(false);
+
+	const cateOpen = {
+		display: `${isClicked ? 'block' : 'none'}`,
+	}
+	const allowTurn = {
+		transform: `translateY(-50%) rotate(${!isClicked ? 0 : 180}deg)`
+	}
+	const isOpen = () => {
+		if (isClicked) {
+			setClick(false);
+		} else {
+			setClick(true);
+		}
+	}
+	const onChangeCate = useCallback(i =>(e) => {
+		e.preventDefault();
+		console.log(i);
+	}, []);
+
+	return (
+		<div className="cateSelect-ipt" role="button">
+			<div className="cs-ipt-btn" role="button">
+				<button type="button" className="cs-change-btn" onClick={isOpen}>
+					<i className="cs-text" style={{marginTop: 'px'}}> 변경 </i>
+					<span className="cs-icon" style={allowTurn}>
+						<KeyboardArrowDown />
+					</span>
+				</button>
+				<div className="cs-list-wrap" style={cateOpen}>
+					<div className="cs-list-container cs-change-category">
+						{category_list.map((c, i) => {
+							return (
+								<button key={(i)} className="cs-list-attr" onClick={onChangeCate(i)}>
+									<div key={(i)} className="cs-list-attr-text">
+										{c.name}
+									</div>
+								</button>
+							);
+						})}
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+}
+
+const BlogManage = ({ category_list, mainPosts }) => {
+	const { isRemovedPost } = useSelector(state=>state.posts);
+
 	const [openAddCate, setOpenAddCate] = useState(false);
 	const [isChanged, setChanged] = useState(false);
 	const [addCateName, setAddCateName, OCAddCateName] = useSetInput('');
@@ -60,6 +158,24 @@ const BlogManage = ({ category_list }) => {
 			})
 		}
 	}, [editCateName]);
+
+	const onEditPost = useCallback((c) => (e) => {
+		e.preventDefault();
+		dispatch({
+			type: EDIT_POST_MANAGE_REQUEST,
+			data: c.id,
+		})
+	}, []);
+
+	const onRemovePost = useCallback((c) => (e) => {
+		e.preventDefault();
+		if (confirm(`" ${c.title} "게시물을 삭제하시겠습니까?`)){
+			dispatch({
+				type: REMOVE_POST_REQUEST,
+				data: c.id,
+			})
+		}
+	}, []);
 
 	const removeCate = useCallback((i) => (e) => {
 		e.preventDefault();
@@ -193,6 +309,53 @@ const BlogManage = ({ category_list }) => {
 						<button className="manage-bundle-list" onClick={!openAddCate ? open_add_category : close_add_category}>
 							< Add style={{position: 'absolute', left: 0, top: '50%',fontSize: "16px", color: "#B4BAC2", transform: 'translate(50%, -50%)'}} />카테고리 추가하기
 						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div className="manage-attr-wrap">
+			<h3>포스트 관리</h3>
+			<br/>
+			<div className="manage-content-wrap">
+				<strong>이곳에서 게시물들을 관리할 수 있습니다.</strong>
+				<p>게시물을 수정하거나 삭제를 할 수 있습니다.</p>
+				<div className="post-selected-edit manage-wrap-order">
+					<div className="post-selected-header">
+						<input type="checkbox" className="manage-post-checkbox"/>
+						<SelectCate category_list={category_list}/>
+						<div className="manage-btn-container">
+							<ChangeCate category_list={category_list}/>
+							<button className="manage-cate-btn" >
+								삭제
+							</button>
+						</div>
+					</div>
+				</div>
+				<div className="manage-wrap-order">
+					<div className="manage-list-order">
+						{mainPosts.map((c, i) => {
+							return (
+								<div key={(c.id)} className="manage-bundle-list">
+									<input type="checkbox" className="manage-post-checkbox"/>
+									<div className="manage-post-list-wrap">
+										<h4>{c.title}</h4>
+										<div>
+											<span className="text-category">{c.Category.name}</span>
+											<span className="text-info">공개</span>
+											<span className="text-info">{c.createdAt}</span>
+										</div>
+										<div className="manage-btn-container">
+											<button className="manage-cate-btn" onClick={onEditPost(c)}>
+												수정
+											</button>
+											<button className="manage-cate-btn" onClick={onRemovePost(c)}>
+												삭제
+											</button>
+										</div>
+									</div>
+								</div>
+							);
+						})}
 					</div>
 				</div>
 			</div>

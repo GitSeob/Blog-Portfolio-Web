@@ -16,10 +16,12 @@ import {
 import { ExitToApp, Tv, ListAlt, AccountBox } from '@material-ui/icons';
 import { SET_MAIN, SET_BLOG, SET_PORT } from '../reducers/manage';
 import LoginForm from '../components/LoginForm';
+import Posting from '../containers/Posting';
 
 const ManageMenu = ({ children }) => {
 	const dispatch = useDispatch();
 	const { admin } = useSelector(state=>state.admin);
+	const { postingWindowOpen, category_list } = useSelector(state=>state.posts);
 	const { menuStatus } = useSelector(state=>state.manage);
 
 	const clickMenu = useCallback((i) => (e) => {
@@ -75,6 +77,7 @@ const ManageMenu = ({ children }) => {
 			</EditBox>
 		</Container>
 		}
+		{ postingWindowOpen && <Posting category_list={category_list}/> }
 		</>
 	);
 };

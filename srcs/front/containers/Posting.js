@@ -14,7 +14,6 @@ const Editor = dynamic(import ('../components/Toast'), {
 
 const SelectCate = ({category_list, setCategory, category_index}) => {
 	const [isClicked, setClick] = useState(false);
-	// const [cate_name, setCateName] = useState(category_list[category_index].name ? category_list[category_index].name : '카테고리 없음');
 
 	const cateOpen = {
 		display: `${isClicked ? 'block' : 'none'}`,
@@ -71,7 +70,13 @@ const Posting = ({category_list}) => {
 	const { admin } = useSelector(state=>state.admin);
 	const dispatch = useDispatch();
 
-	const targetPost = (postEditMode && postData) ? postData : null;
+	let targetPost = (postEditMode && postData) ? postData : null;
+
+	// (postEditMode && postData) ? postData :
+
+	useEffect(() => {
+		targetPost = postData;
+	}, [postEditMode, postData])
 
 	const closeWindow = useCallback(() => {
 		dispatch({

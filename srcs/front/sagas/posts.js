@@ -35,6 +35,11 @@ import {
 	REMOVE_CATEGORY_SUCCESS,
 	REMOVE_CATEGORY_REQUEST,
 	REMOVE_CATEGORY_FAILURE,
+	EDIT_POST_MANAGE_REQUEST,
+	EDIT_POST_MANAGE_FAILURE,
+	OPEN_POSTING,
+	EDIT_POST_MANAGE_SUCCESS,
+	ON_EDIT,
 } from '../reducers/posts';
 
 function addPostAPI(postData) {
@@ -316,6 +321,30 @@ function* watchRemoveCategory() {
 	yield takeLatest(REMOVE_CATEGORY_REQUEST, removeCategory);
 }
 
+function editPostManageAPI(postId) {
+	return axios.get(`/post/${postId}`);
+}
+
+function* editPostManage(action) {
+	try {
+		const result = yield editPostManageAPI(action.data);
+		yield put({
+			type: EDIT_POST_MANAGE_SUCCESS,
+			data: result.data,
+		})
+	} catch(e) {
+		console.error(e);
+		yield put({
+			type: EDIT_POST_MANAGE_FAILURE,
+			error: e,
+		})
+	}
+}
+
+function* watchEditPostManage() {
+	yield takeLatest(EDIT_POST_MANAGE_REQUEST, editPostManage);
+}
+
 export default function* postSaga(){
 	yield all([
 		fork(watchAddPost),
@@ -329,5 +358,6 @@ export default function* postSaga(){
 		fork(watchAddCategory),
 		fork(watchEditCategory),
 		fork(watchRemoveCategory),
+		fork(watchEditPostManage),
 	])
 }
