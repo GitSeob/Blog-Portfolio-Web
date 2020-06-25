@@ -43,6 +43,9 @@ import {
 	REMOVE_SELECTED_POST_REQUEST,
 	REMOVE_SELECTED_POST_SUCCESS,
 	REMOVE_SELECTED_POST_FAILURE,
+	CHANGE_SELECTED_POSTS_CATEGORY_REQUEST,
+	CHANGE_SELECTED_POSTS_CATEGORY_SUCCESS,
+	CHANGE_SELECTED_POSTS_CATEGORY_FAILURE,
 } from '../reducers/posts';
 
 function addPostAPI(postData) {
@@ -374,6 +377,29 @@ function* watchRemoveSelectedPosts() {
 	yield takeLatest(REMOVE_SELECTED_POST_REQUEST, removeSelectedPosts);
 }
 
+function changeSelectedCategoryAPI(data) {
+	return axios.post('/posts/changeCategory', data, {
+		withCredentials: true,
+	})
+}
+
+function* changeSelectedCategory(action){
+	try {
+		const result = yield changeSelectedCategoryAPI(action.data);
+		yield put({
+			type: CHANGE_SELECTED_POSTS_CATEGORY_SUCCESS,
+			data: result.data,
+		})
+	} catch(e) {
+		console.error(e);
+		yield
+	}
+}
+
+function* watchChangeSelectedCategory() {
+	yield takeLatest(CHANGE_SELECTED_POSTS_CATEGORY_REQUEST, changeSelectedCategory);
+}
+
 export default function* postSaga(){
 	yield all([
 		fork(watchAddPost),
@@ -389,5 +415,6 @@ export default function* postSaga(){
 		fork(watchRemoveCategory),
 		fork(watchEditPostManage),
 		fork(watchRemoveSelectedPosts),
+		fork(watchChangeSelectedCategory),
 	])
 }

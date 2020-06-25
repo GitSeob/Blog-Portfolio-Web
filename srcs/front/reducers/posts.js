@@ -75,6 +75,10 @@ export const REMOVE_SELECTED_POST_REQUEST = 'REMOVE_SELECTED_POST_REQUEST';
 export const REMOVE_SELECTED_POST_SUCCESS = 'REMOVE_SELECTED_POST_SUCCESS';
 export const REMOVE_SELECTED_POST_FAILURE = 'REMOVE_SELECTED_POST_FAILURE';
 
+export const CHANGE_SELECTED_POSTS_CATEGORY_REQUEST = 'CHANGE_SELECTED_POSTS_CATEGORY_REQUEST';
+export const CHANGE_SELECTED_POSTS_CATEGORY_SUCCESS = 'CHANGE_SELECTED_POSTS_CATEGORY_SUCCESS';
+export const CHANGE_SELECTED_POSTS_CATEGORY_FAILURE = 'CHANGE_SELECTED_POSTS_CATEGORY_FAILURE';
+
 const posts = (state=initialState, action) => {
 	switch (action.type) {
 		case OPEN_POSTING: {
@@ -368,6 +372,24 @@ const posts = (state=initialState, action) => {
 			return {
 				...state,
 				isRemovingPost: false,
+			}
+		}
+
+		case CHANGE_SELECTED_POSTS_CATEGORY_REQUEST: {
+			return {
+				...state,
+			}
+		}
+		case CHANGE_SELECTED_POSTS_CATEGORY_SUCCESS: {
+			return {
+				...state,
+				mainPosts: action.data,
+			}
+		}
+		case CHANGE_SELECTED_POSTS_CATEGORY_FAILURE: {
+			return {
+				...state,
+				errorReason: action.error,
 			}
 		}
 

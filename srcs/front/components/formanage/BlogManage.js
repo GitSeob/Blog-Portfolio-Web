@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Reorder, Add, Title, Description, Grade, KeyboardArrowDown } from '@material-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { EDIT_CATEGORY_REQUEST, ADD_CATEGORY_REQUEST, REMOVE_CATEGORY_REQUEST, EDIT_POST_MANAGE_REQUEST, REMOVE_POST_REQUEST, LOAD_CATEGORY_POSTS_REQUEST, LOAD_MAIN_POSTS_REQUEST, REMOVE_SELECTED_POST_REQUEST } from '../../reducers/posts';
+import { EDIT_CATEGORY_REQUEST, ADD_CATEGORY_REQUEST, REMOVE_CATEGORY_REQUEST, EDIT_POST_MANAGE_REQUEST, REMOVE_POST_REQUEST, LOAD_CATEGORY_POSTS_REQUEST, LOAD_MAIN_POSTS_REQUEST, REMOVE_SELECTED_POST_REQUEST, CHANGE_SELECTED_POSTS_CATEGORY_REQUEST } from '../../reducers/posts';
 
 export const useSetInput = (initialValue = null) => {
 	const [value, setter] = useState(initialValue);
@@ -80,8 +80,9 @@ const SelectCate = ({category_list}) => {
 	);
 }
 
-const ChangeCate = ({category_list}) => {
+const ChangeCate = ({category_list, checkedPostsId}) => {
 	const [isClicked, setClick] = useState(false);
+	const dispatch = useDispatch();
 
 	const cateOpen = {
 		display: `${isClicked ? 'block' : 'none'}`,
@@ -96,10 +97,18 @@ const ChangeCate = ({category_list}) => {
 			setClick(true);
 		}
 	}
-	const onChangeCate = useCallback(i =>(e) => {
+	const onChangeCate = useCallback(c =>(e) => {
 		e.preventDefault();
-		console.log(i);
-	}, []);
+		if (confirm(`선택한 ${checkedPostsId.length}개의 게시물을 ${c.name} 카테고리로 변경하시겠습니까?`)) {
+			dispatch({
+				type: CHANGE_SELECTED_POSTS_CATEGORY_REQUEST,
+				data: {
+					postIds: checkedPostsId,
+					category_index: c.id,
+				},
+			})
+		}
+	}, [checkedPostsId]);
 
 	return (
 		<div className="cateSelect-ipt" role="button">
@@ -114,7 +123,7 @@ const ChangeCate = ({category_list}) => {
 					<div className="cs-list-container cs-change-category">
 						{category_list.map((c, i) => {
 							return (
-								<button key={(i)} className="cs-list-attr" onClick={onChangeCate(i)}>
+								<button key={(i)} className="cs-list-attr" onClick={onChangeCate(c)}>
 									<div key={(i)} className="cs-list-attr-text">
 										{c.name}
 									</div>
@@ -129,13 +138,15 @@ const ChangeCate = ({category_list}) => {
 }
 
 const BlogManage = ({ category_list, mainPosts }) => {
+	const { blogTitle, description, faviconURL } = useSelector(state=>state.information);
+
 	const [openAddCate, setOpenAddCate] = useState(false);
 	const [isChanged, setChanged] = useState(false);
 	const [addCateName, setAddCateName, OCAddCateName] = useSetInput('');
 	const [editCateName, setEditCateName, OCEditCateName] = useSetInput('')
 	const [cateIndex, setCateIndex] = useState(-1);
-	const [descriptionValue, setDesValue, OCDesValue] = useSetInput('');
-	const [blogTitleValue, setBlogTitleValue, OCBlogTitleValue] = useSetInput('');
+	const [descriptionValue, setDesValue, OCDesValue] = useSetInput(description);
+	const [blogTitleValue, setBlogTitleValue, OCBlogTitleValue] = useSetInput(blogTitle);
 	const [checkEachPost, setCheckEachPost] = useState(Array(mainPosts.length).fill(false));
 	const [checkedPostsId, setCheckedPostsId] = useState([]);
 	const [checkAllPosts, setCheckAllPosts] = useState(false);
@@ -257,6 +268,15 @@ const BlogManage = ({ category_list, mainPosts }) => {
 		}
 	})
 
+	useEffect(() => {
+		if ((blogTitleValue !== blogTitle) || (description !== descriptionValue)) {
+			setChanged(true);
+		} else {
+			setChanged(false);
+		}
+	}, [blogTitleValue, descriptionValue ,blogTitle, description, faviconURL]);
+
+
 	return (
 		<>
 		<form>
@@ -281,7 +301,7 @@ const BlogManage = ({ category_list, mainPosts }) => {
 									FAVICON
 								</div>
 								<div className="manage-attr-content">
-									<img src="./images/favicon.ico"/>
+									<img src={faviconURL}/>
 									<div className="filebox">
 										<label htmlFor="ex_file">변경</label>
 										<input type="file" id="ex_file" />
@@ -384,7 +404,7 @@ const BlogManage = ({ category_list, mainPosts }) => {
 						<input type="checkbox" name="all_post" checked={checkAllPosts} onChange={selectAllPost} className="manage-post-checkbox"/>
 						<SelectCate category_list={category_list}/>
 						<div className="manage-btn-container">
-							<ChangeCate category_list={category_list}/>
+							<ChangeCate category_list={category_list} checkedPostsId={checkedPostsId}/>
 							<button className="manage-cate-btn" onClick={removeSelectedPosts}>
 								삭제
 							</button>

@@ -65,4 +65,27 @@ router.post('/remove', isLoggedIn, async (req, res, next) => {
 	}
 })
 
+router.post('/changeCategory', isLoggedIn, async (req, res, next) => {
+	try {
+		await db.Posts.update({
+			CategoryId: req.body.category_index
+		}, {
+			where: {
+				id: req.body.postIds,
+			}
+		});
+		const posts = await db.Posts.findAll({
+			include: [{
+				model: db.Category,
+				attributes: ['id', 'name'],
+			}],
+			order: [['createdAt', 'DESC']],
+		});
+		return res.json(posts);
+	} catch(e) {
+		console.error(e);
+		next(e);
+	}
+})
+
 module.exports = router;
