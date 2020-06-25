@@ -314,7 +314,7 @@ const posts = (state=initialState, action) => {
 		case REMOVE_CATEGORY_SUCCESS: {
 			return {
 				...state,
-				category_list: state.mainPosts.filter(v => v.id !== action.data),
+				category_list: state.category_list.filter(v => v.id !== action.data),
 			}
 		}
 		case REMOVE_CATEGORY_FAILURE: {
