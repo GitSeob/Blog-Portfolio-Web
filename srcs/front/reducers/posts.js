@@ -67,6 +67,10 @@ export const REMOVE_CATEGORY_REQUEST = 'REMOVE_CATEGORY_REQUEST';
 export const REMOVE_CATEGORY_SUCCESS = 'REMOVE_CATEGORY_SUCCESS';
 export const REMOVE_CATEGORY_FAILURE = 'REMOVE_CATEGORY_FAILURE';
 
+export const EDIT_POST_MANAGE_REQUEST = 'EDIT_POST_MANAGE_REQUEST';
+export const EDIT_POST_MANAGE_SUCCESS = 'EDIT_POST_MANAGE_SUCCESS';
+export const EDIT_POST_MANAGE_FAILURE = 'EDIT_POST_MANAGE_FAILURE';
+
 const posts = (state=initialState, action) => {
 	switch (action.type) {
 		case OPEN_POSTING: {
@@ -310,12 +314,34 @@ const posts = (state=initialState, action) => {
 		case REMOVE_CATEGORY_SUCCESS: {
 			return {
 				...state,
-				category_list: state.category_list.filter(v => v.id !== action.data),
+				category_list: state.mainPosts.filter(v => v.id !== action.data),
 			}
 		}
 		case REMOVE_CATEGORY_FAILURE: {
 			return {
 				...state,
+			}
+		}
+
+		case EDIT_POST_MANAGE_REQUEST: {
+			return {
+				...state,
+			}
+		}
+		case EDIT_POST_MANAGE_SUCCESS: {
+			return {
+				...state,
+				postingWindowOpen: true,
+				isEditedPost: false,
+				isAddedPost: false,
+				postEditMode: true,
+				postData: action.data,
+			}
+		}
+		case EDIT_POST_MANAGE_FAILURE: {
+			return {
+				...state,
+				errorReason: action.error
 			}
 		}
 

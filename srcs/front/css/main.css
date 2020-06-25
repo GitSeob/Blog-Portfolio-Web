@@ -80,6 +80,7 @@ a {
 
 button {
 	background: none;
+	cursor: pointer;
 }
 
 /* ################################################################################## */
@@ -1145,7 +1146,7 @@ ul {
 	font-size: 30px;
 }
 
-.edit-post a, button{
+.edit-post a, .edit-post button{
 	color: #888;
 	cursor: pointer;
 	margin: 0 5px;
@@ -1534,6 +1535,7 @@ ul {
 }
 
 .manage-btn-container .manage-cate-btn {
+	color: #888;
 	height: 100%;
 	width: fit-content;
 	box-sizing: border-box;
@@ -1678,8 +1680,89 @@ ul {
 	cursor: not-allowed;
 }
 
-
 .btn_save:hover {
 	background:#333;
 	color: white;
+}
+
+.manage-content-wrap .post-selected-edit {
+	margin-bottom: -10px;
+	background: rgba(231, 237,243, 0.7);
+}
+
+.post-selected-header {
+	display: flex;
+	position: relative;
+	box-sizing: border-box;
+	color: rgb(51, 51, 51);
+	line-height: 21px;
+	padding: 10px;
+	padding-left: 40px;
+	color: #999;
+	font-size: 15px;
+	height: 50px;
+}
+
+.post-selected-edit .cs-ipt-btn{
+	height: fit-content;
+}
+
+.post-selected-header .manage-btn-container {
+	display: flex;
+}
+
+.manage-post-checkbox {
+	position: absolute;
+	left: 0;
+	top: 50%;
+	transform: translate(100%, -50%);
+	border: 1px solid #E0E5EE;
+}
+
+.text-category {
+	font-size: 13px;
+	color: #FF5544;
+}
+
+.manage-list-order .manage-post-list-wrap div{
+	font-weight: 300;
+}
+
+.text-info {
+	color: #555;
+	font-size: 12px;
+}
+
+.text-info::before {
+	display: inline-block;
+	width: 2px;
+	height: 2px;
+	margin: 9px 8px 0;
+	border-radius: 2px;
+	background: #c5cdd7;
+	vertical-align: top;
+	content: '';
+}
+
+.manage-post-list-wrap .manage-btn-container{
+	padding: 13px 20px;
+}
+.post-selected-header .manage-btn-container{
+	padding: 10px 20px;
+}
+
+.cs-change-btn {
+	width: 70px;
+	min-width: 27px;
+	height: 29px;
+	margin: 0 1px 0 0;
+	padding: 0 5px;
+	border: 0;
+	font-size: 0;
+	/* line-height: 10px; */
+	color: #909090;
+	position: relative;
+	text-align: center;
+	box-sizing: border-box;
+	cursor: pointer;
 }

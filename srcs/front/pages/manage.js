@@ -4,11 +4,11 @@ import { useSelector } from 'react-redux';
 import DefaultManage from '../components/formanage/DefaultManage';
 import BlogManage from '../components/formanage/BlogManage';
 import PortManage from '../components/formanage/PortManage';
-import { LOAD_CATEGORY_REQUEST } from '../reducers/posts';
+import { LOAD_CATEGORY_REQUEST, LOAD_MAIN_POSTS_REQUEST } from '../reducers/posts';
 
 const Manage = () => {
 	const { menuStatus } = useSelector(state=>state.manage);
-	const { category_list } = useSelector(state=>state.posts);
+	const { category_list, mainPosts } = useSelector(state=>state.posts);
 	const { admin } = useSelector(state=>state.admin);
 
 	let ComponentTitle = '';
@@ -31,7 +31,9 @@ const Manage = () => {
 		}
 		else if (menuStatus.blog) {
 			return (
-				<BlogManage category_list={category_list}/>
+				<>
+				<BlogManage category_list={category_list} mainPosts={mainPosts}/>
+				</>
 			);
 		}
 		else if (menuStatus.port) {
@@ -60,6 +62,9 @@ const Manage = () => {
 Manage.getInitialProps = async(context) => {
 	context.store.dispatch({
 		type: LOAD_CATEGORY_REQUEST,
+	})
+	context.store.dispatch({
+		type: LOAD_MAIN_POSTS_REQUEST,
 	})
 }
 
