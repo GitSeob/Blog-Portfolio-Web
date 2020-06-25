@@ -2,7 +2,7 @@ const express = require('express');
 const multer = require('multer')
 const path = require('path')
 const db = require('../models')
-const { isLoggedIn } = require('./middleware')
+const { isLoggedIn } = require('./middleware');
 
 const router = express.Router()
 

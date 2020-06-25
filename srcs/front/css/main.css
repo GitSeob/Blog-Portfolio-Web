@@ -1263,7 +1263,7 @@ ul {
 	position: absolute;
 	top: 6px;
 	left: 6px;
-	width: 140px;
+	width: auto;
 	height: auto;
 	white-space: nowrap;
 	overflow: hidden;
@@ -1359,6 +1359,7 @@ ul {
 }
 
 .submit-wrap .posting-close-btn {
+	margin-right: 10px;
 	position: absolute;
 	right: 100px;
 	top: 50%;

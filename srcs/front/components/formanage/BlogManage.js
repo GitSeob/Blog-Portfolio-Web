@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Reorder, Add, Title, Description, Grade, KeyboardArrowDown } from '@material-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { EDIT_CATEGORY_REQUEST, ADD_CATEGORY_REQUEST, REMOVE_CATEGORY_REQUEST, EDIT_POST_MANAGE_REQUEST, REMOVE_POST_REQUEST } from '../../reducers/posts';
+import { EDIT_CATEGORY_REQUEST, ADD_CATEGORY_REQUEST, REMOVE_CATEGORY_REQUEST, EDIT_POST_MANAGE_REQUEST, REMOVE_POST_REQUEST, LOAD_CATEGORY_POSTS_REQUEST, LOAD_MAIN_POSTS_REQUEST, REMOVE_SELECTED_POST_REQUEST } from '../../reducers/posts';
 
 export const useSetInput = (initialValue = null) => {
 	const [value, setter] = useState(initialValue);
@@ -13,8 +13,10 @@ export const useSetInput = (initialValue = null) => {
 	return [value, setter, handler];
 }
 
-const SelectCate = ({category_list, setCategory, category_index}) => {
+const SelectCate = ({category_list}) => {
 	const [isClicked, setClick] = useState(false);
+	const [cateName, setCateName] = useState('카테고리별 포스트');
+	const dispatch = useDispatch();
 
 	const cateOpen = {
 		display: `${isClicked ? 'block' : 'none'}`,
@@ -29,26 +31,43 @@ const SelectCate = ({category_list, setCategory, category_index}) => {
 			setClick(true);
 		}
 	}
-	const onChangeCate = useCallback(i =>(e) => {
+	const onChangeCate = useCallback(c =>(e) => {
 		e.preventDefault();
-		console.log(i);
-	}, []);
+		if (c === '전체') {
+			setCateName('전체 게시물');
+			dispatch({
+				type: LOAD_MAIN_POSTS_REQUEST,
+			})
+		} else {
+			setCateName(c.name);
+			dispatch({
+				type: LOAD_CATEGORY_POSTS_REQUEST,
+				data: c.name,
+			})
+		}
+		setClick(false);
+	});
 
 	return (
 		<div className="cateSelect-ipt" role="button">
 			<div className="cs-ipt-btn" role="button">
 				<button type="button" className="cs-btn" onClick={isOpen}>
-					<i className="cs-text"> 카테고리별 포스트 </i>
+					<span className="cs-text"> {cateName} </span>
 					<span className="cs-icon" style={allowTurn}>
 						<KeyboardArrowDown />
 					</span>
 				</button>
 				<div className="cs-list-wrap" style={cateOpen}>
 					<div className="cs-list-container">
+						<button className="cs-list-attr" onClick={onChangeCate('전체')}>
+							<div className="cs-list-attr-text">
+								전체 게시물
+							</div>
+						</button>
 						{category_list.map((c, i) => {
 							return (
-								<button key={(i)} className="cs-list-attr" onClick={onChangeCate(i)}>
-									<div key={(i)} className="cs-list-attr-text">
+								<button key={(i)} className="cs-list-attr" onClick={onChangeCate(c)}>
+									<div className="cs-list-attr-text">
 										{c.name}
 									</div>
 								</button>
@@ -226,11 +245,17 @@ const BlogManage = ({ category_list, mainPosts }) => {
 			setCheckedPostsId([]);
 			setCheckEachPost(Array(mainPosts.length).fill(false))
 		}
-	})
+	});
 
-	useEffect(() => {
-		console.log(checkedPostsId);
-	}, [checkedPostsId])
+	const removeSelectedPosts = useCallback((e) => {
+		e.preventDefault();
+		if (confirm(`선택한 ${checkedPostsId.length}개 게시물을 삭제하시겠습니까?`)) {
+			dispatch({
+				type: REMOVE_SELECTED_POST_REQUEST,
+				data: checkedPostsId,
+			})
+		}
+	})
 
 	return (
 		<>
@@ -360,7 +385,7 @@ const BlogManage = ({ category_list, mainPosts }) => {
 						<SelectCate category_list={category_list}/>
 						<div className="manage-btn-container">
 							<ChangeCate category_list={category_list}/>
-							<button className="manage-cate-btn" >
+							<button className="manage-cate-btn" onClick={removeSelectedPosts}>
 								삭제
 							</button>
 						</div>

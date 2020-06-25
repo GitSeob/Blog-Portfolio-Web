@@ -1,6 +1,7 @@
 const express = require('express');
 const db = require('../models');
 
+const { isLoggedIn } = require('./middleware');
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
@@ -37,6 +38,27 @@ router.get('/search/:keyword', async (req, res, next) => {
 			posts: posts,
 			keyword: req.params.keyword,
 		});
+	} catch(e) {
+		console.error(e);
+		next(e);
+	}
+})
+
+router.post('/remove', isLoggedIn, async (req, res, next) => {
+	try {
+		await db.Posts.destroy({
+			where: {
+				id: req.body
+			}
+		})
+		const posts = await db.Posts.findAll({
+			include: [{
+				model: db.Category,
+				attributes: ['id', 'name'],
+			}],
+			order: [['createdAt', 'DESC']],
+		});
+		return res.json(posts);
 	} catch(e) {
 		console.error(e);
 		next(e);

@@ -40,6 +40,9 @@ import {
 	OPEN_POSTING,
 	EDIT_POST_MANAGE_SUCCESS,
 	ON_EDIT,
+	REMOVE_SELECTED_POST_REQUEST,
+	REMOVE_SELECTED_POST_SUCCESS,
+	REMOVE_SELECTED_POST_FAILURE,
 } from '../reducers/posts';
 
 function addPostAPI(postData) {
@@ -345,6 +348,32 @@ function* watchEditPostManage() {
 	yield takeLatest(EDIT_POST_MANAGE_REQUEST, editPostManage);
 }
 
+function removeSelectedPostsAPI(postIds) {
+	return axios.post('/posts/remove', postIds, {
+		withCredentials: true,
+	})
+}
+
+function* removeSelectedPosts(action) {
+	try {
+		const result = yield removeSelectedPostsAPI(action.data);
+		yield put({
+			type: REMOVE_SELECTED_POST_SUCCESS,
+			data: result.data,
+		})
+	} catch(e) {
+		console.error(e);
+		yield put({
+			type: REMOVE_SELECTED_POST_FAILURE,
+			error: e,
+		})
+	}
+}
+
+function* watchRemoveSelectedPosts() {
+	yield takeLatest(REMOVE_SELECTED_POST_REQUEST, removeSelectedPosts);
+}
+
 export default function* postSaga(){
 	yield all([
 		fork(watchAddPost),
@@ -359,5 +388,6 @@ export default function* postSaga(){
 		fork(watchEditCategory),
 		fork(watchRemoveCategory),
 		fork(watchEditPostManage),
+		fork(watchRemoveSelectedPosts),
 	])
 }

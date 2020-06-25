@@ -71,6 +71,10 @@ export const EDIT_POST_MANAGE_REQUEST = 'EDIT_POST_MANAGE_REQUEST';
 export const EDIT_POST_MANAGE_SUCCESS = 'EDIT_POST_MANAGE_SUCCESS';
 export const EDIT_POST_MANAGE_FAILURE = 'EDIT_POST_MANAGE_FAILURE';
 
+export const REMOVE_SELECTED_POST_REQUEST = 'REMOVE_SELECTED_POST_REQUEST';
+export const REMOVE_SELECTED_POST_SUCCESS = 'REMOVE_SELECTED_POST_SUCCESS';
+export const REMOVE_SELECTED_POST_FAILURE = 'REMOVE_SELECTED_POST_FAILURE';
+
 const posts = (state=initialState, action) => {
 	switch (action.type) {
 		case OPEN_POSTING: {
@@ -342,6 +346,28 @@ const posts = (state=initialState, action) => {
 			return {
 				...state,
 				errorReason: action.error
+			}
+		}
+
+		case REMOVE_SELECTED_POST_REQUEST: {
+			return {
+				...state,
+				isRemovingPost: true,
+			}
+		}
+		case REMOVE_SELECTED_POST_SUCCESS: {
+			return {
+				...state,
+				isRemovingPost: false,
+				isRemovedPost: true,
+				mainPosts: action.data,
+
+			}
+		}
+		case REMOVE_SELECTED_POST_FAILURE: {
+			return {
+				...state,
+				isRemovingPost: false,
 			}
 		}
 
