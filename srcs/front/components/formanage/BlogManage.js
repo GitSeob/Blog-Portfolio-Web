@@ -110,8 +110,6 @@ const ChangeCate = ({category_list}) => {
 }
 
 const BlogManage = ({ category_list, mainPosts }) => {
-	const { isRemovedPost } = useSelector(state=>state.posts);
-
 	const [openAddCate, setOpenAddCate] = useState(false);
 	const [isChanged, setChanged] = useState(false);
 	const [addCateName, setAddCateName, OCAddCateName] = useSetInput('');
@@ -119,6 +117,9 @@ const BlogManage = ({ category_list, mainPosts }) => {
 	const [cateIndex, setCateIndex] = useState(-1);
 	const [descriptionValue, setDesValue, OCDesValue] = useSetInput('');
 	const [blogTitleValue, setBlogTitleValue, OCBlogTitleValue] = useSetInput('');
+	const [checkEachPost, setCheckEachPost] = useState(Array(mainPosts.length).fill(false));
+	const [checkedPostsId, setCheckedPostsId] = useState([]);
+	const [checkAllPosts, setCheckAllPosts] = useState(false);
 
 	const dispatch = useDispatch();
 
@@ -197,6 +198,40 @@ const BlogManage = ({ category_list, mainPosts }) => {
 		}
 	}, [addCateName]);
 
+	const selectPost = useCallback((i, c) => (e) => {
+		setCheckEachPost(checkEachPost.map((elem, idx) => {
+			if (idx === i) {
+				return e.target.checked;
+			} else {
+				return elem;
+			}
+		}))
+		if (e.target.checked) {
+			setCheckedPostsId([...checkedPostsId, c.id]);
+		} else {
+			setCheckedPostsId(checkedPostsId.filter(v => v !== c.id));
+		}
+	})
+
+	const selectAllPost = useCallback((e) => {
+		setCheckAllPosts(e.target.checked);
+		if (e.target.checked) {
+			let tempArray = new Array();
+			mainPosts.map((c) => {
+				tempArray.push(c.id);
+			})
+			setCheckedPostsId(tempArray);
+			setCheckEachPost(Array(mainPosts.length).fill(true))
+		} else {
+			setCheckedPostsId([]);
+			setCheckEachPost(Array(mainPosts.length).fill(false))
+		}
+	})
+
+	useEffect(() => {
+		console.log(checkedPostsId);
+	}, [checkedPostsId])
+
 	return (
 		<>
 		<form>
@@ -233,7 +268,7 @@ const BlogManage = ({ category_list, mainPosts }) => {
 								<div className="manage-attr-name">
 									DESCRIPTION
 								</div>
-								<textarea rows={3} value={descriptionValue} onChange={OCDesValue} placeholder="Description을 작성해주십시오." className="manage-attr-content" />
+								<input type="text" value={descriptionValue} onChange={OCDesValue} placeholder="Description을 작성해주십시오." className="manage-attr-content" />
 							</div>
 						</div>
 					</div>
@@ -321,7 +356,7 @@ const BlogManage = ({ category_list, mainPosts }) => {
 				<p>게시물을 수정하거나 삭제를 할 수 있습니다.</p>
 				<div className="post-selected-edit manage-wrap-order">
 					<div className="post-selected-header">
-						<input type="checkbox" className="manage-post-checkbox"/>
+						<input type="checkbox" name="all_post" checked={checkAllPosts} onChange={selectAllPost} className="manage-post-checkbox"/>
 						<SelectCate category_list={category_list}/>
 						<div className="manage-btn-container">
 							<ChangeCate category_list={category_list}/>
@@ -336,7 +371,7 @@ const BlogManage = ({ category_list, mainPosts }) => {
 						{mainPosts.map((c, i) => {
 							return (
 								<div key={(c.id)} className="manage-bundle-list">
-									<input type="checkbox" className="manage-post-checkbox"/>
+									<input type="checkbox" onChange={selectPost(i, c)} checked={checkEachPost[i]} name="one_post" className="manage-post-checkbox"/>
 									<div className="manage-post-list-wrap">
 										<h4>{c.title}</h4>
 										<div>
