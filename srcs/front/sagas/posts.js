@@ -255,7 +255,7 @@ function addCategoryAPI(name) {
 
 function* addCategory(action) {
 	try {
-		const result = yield addCategoryAPI(action.data);
+		const result = yield call(addCategoryAPI, action.data);
 		yield put({
 			type: ADD_CATEGORY_SUCCESS,
 			data: result.data,
@@ -283,7 +283,7 @@ function editCategoryAPI(data) {
 
 function* editCategory(action) {
 	try{
-		const result = yield editCategoryAPI(action.data);
+		const result = yield call(editCategoryAPI, action.data);
 		yield put({
 			type: EDIT_CATEGORY_SUCCESS,
 			data: result.data,
@@ -309,7 +309,7 @@ function removeCategoryAPI(categoryId) {
 
 function* removeCategory(action) {
 	try {
-		const result = yield removeCategoryAPI(action.data);
+		const result = yield call(removeCategoryAPI, action.data);
 		yield put({
 			type: REMOVE_CATEGORY_SUCCESS,
 			data: result.data,
@@ -333,7 +333,7 @@ function editPostManageAPI(postId) {
 
 function* editPostManage(action) {
 	try {
-		const result = yield editPostManageAPI(action.data);
+		const result = yield call(editPostManageAPI, action.data);
 		yield put({
 			type: EDIT_POST_MANAGE_SUCCESS,
 			data: result.data,
@@ -359,7 +359,7 @@ function removeSelectedPostsAPI(postIds) {
 
 function* removeSelectedPosts(action) {
 	try {
-		const result = yield removeSelectedPostsAPI(action.data);
+		const result = yield call(removeSelectedPostsAPI, action.data);
 		yield put({
 			type: REMOVE_SELECTED_POST_SUCCESS,
 			data: result.data,
@@ -385,7 +385,7 @@ function changeSelectedCategoryAPI(data) {
 
 function* changeSelectedCategory(action){
 	try {
-		const result = yield changeSelectedCategoryAPI(action.data);
+		const result = yield call(changeSelectedCategoryAPI, action.data);
 		yield put({
 			type: CHANGE_SELECTED_POSTS_CATEGORY_SUCCESS,
 			data: result.data,

@@ -1745,6 +1745,33 @@ ul {
 	content: '';
 }
 
+.manage-attr-content .text-info {
+	color: #BBB;
+	margin-left: 20px;
+}
+
+.manage-attr-content .text-info::before {
+	display: none;
+}
+
+.manage-attr-content .text-info::after {
+	display: inline-block;
+	width: 2px;
+	height: 2px;
+	margin: 9px 8px 0;
+	border-radius: 2px;
+	background: #c5cdd7;
+	vertical-align: top;
+	content: '';
+}
+
+.manage-attr-content .resetFav {
+	margin-left: 10px;
+	width: 23px;
+	height: 23px;
+	color: #EEE;
+}
+
 .manage-post-list-wrap .manage-btn-container{
 	padding: 13px 20px;
 }

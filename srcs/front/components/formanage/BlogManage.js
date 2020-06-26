@@ -1,9 +1,24 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { Reorder, Add, Title, Description, Grade, KeyboardArrowDown } from '@material-ui/icons';
+import { Cancel,Reorder, Add, Title, Description, Grade, KeyboardArrowDown } from '@material-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { EDIT_CATEGORY_REQUEST, ADD_CATEGORY_REQUEST, REMOVE_CATEGORY_REQUEST, EDIT_POST_MANAGE_REQUEST, REMOVE_POST_REQUEST, LOAD_CATEGORY_POSTS_REQUEST, LOAD_MAIN_POSTS_REQUEST, REMOVE_SELECTED_POST_REQUEST, CHANGE_SELECTED_POSTS_CATEGORY_REQUEST } from '../../reducers/posts';
+import {
+	EDIT_CATEGORY_REQUEST,
+	ADD_CATEGORY_REQUEST,
+	REMOVE_CATEGORY_REQUEST,
+	EDIT_POST_MANAGE_REQUEST,
+	REMOVE_POST_REQUEST,
+	LOAD_CATEGORY_POSTS_REQUEST,
+	LOAD_MAIN_POSTS_REQUEST,
+	REMOVE_SELECTED_POST_REQUEST,
+	CHANGE_SELECTED_POSTS_CATEGORY_REQUEST,
+} from '../../reducers/posts';
+import {
+	UPLOAD_FAV_REQUEST,
+	RESET_CHANGED_FAVICON,
+	EDIT_INFORMATION_REQUEST,
+} from '../../reducers/information';
 
 export const useSetInput = (initialValue = null) => {
 	const [value, setter] = useState(initialValue);
@@ -138,7 +153,7 @@ const ChangeCate = ({category_list, checkedPostsId}) => {
 }
 
 const BlogManage = ({ category_list, mainPosts }) => {
-	const { blogTitle, description, faviconURL } = useSelector(state=>state.information);
+	const { blogTitle, description, faviconURL, IconURLWillChanged } = useSelector(state=>state.information);
 
 	const [openAddCate, setOpenAddCate] = useState(false);
 	const [isChanged, setChanged] = useState(false);
@@ -150,12 +165,48 @@ const BlogManage = ({ category_list, mainPosts }) => {
 	const [checkEachPost, setCheckEachPost] = useState(Array(mainPosts.length).fill(false));
 	const [checkedPostsId, setCheckedPostsId] = useState([]);
 	const [checkAllPosts, setCheckAllPosts] = useState(false);
+	const [faviconURLValue, setFaviconURL] = useState(faviconURL);
+	const imageInput = useRef();
 
 	const dispatch = useDispatch();
+
+	let favChanged = faviconURL !== IconURLWillChanged;
+
+	const onChangeImg = useCallback((e) => {
+		const imageFormData = new FormData();
+		imageFormData.append('image', e.target.files[0]);
+		dispatch({
+			type: UPLOAD_FAV_REQUEST,
+			data: imageFormData,
+		})
+	}, []);
+
+	const resetFav = useCallback((e) => {
+		e.preventDefault();
+		dispatch({
+			type: RESET_CHANGED_FAVICON,
+			data: faviconURLValue,
+		})
+	}, []);
+
+	const submitInformation = useCallback((e) => {
+		e.preventDefault();
+		if (confirm(`변경사항을 저장하시겠습니까?`)) {
+			dispatch({
+				type: EDIT_INFORMATION_REQUEST,
+				data: {
+					blogTitle: blogTitleValue,
+					description: descriptionValue,
+					faviconURL: IconURLWillChanged,
+				}
+			})
+		}
+	}, [blogTitleValue, descriptionValue, IconURLWillChanged]);
 
 	const open_add_category = useCallback(() => {
 		setOpenAddCate(true);
 	}, []);
+
 	const close_add_category = useCallback(() => {
 		setOpenAddCate(false);
 	}, []);
@@ -269,12 +320,13 @@ const BlogManage = ({ category_list, mainPosts }) => {
 	})
 
 	useEffect(() => {
-		if ((blogTitleValue !== blogTitle) || (description !== descriptionValue)) {
+		favChanged = faviconURL !== IconURLWillChanged;
+		if (favChanged || (blogTitleValue !== blogTitle) || (description !== descriptionValue)) {
 			setChanged(true);
 		} else {
 			setChanged(false);
 		}
-	}, [blogTitleValue, descriptionValue ,blogTitle, description, faviconURL]);
+	}, [IconURLWillChanged, blogTitleValue, descriptionValue ,blogTitle, description, faviconURL]);
 
 
 	return (
@@ -293,7 +345,7 @@ const BlogManage = ({ category_list, mainPosts }) => {
 								<div className="manage-attr-name">
 									TITLE
 								</div>
-								<input type='text' value={blogTitleValue} onChange={OCBlogTitleValue} required placeholder="이곳에 블로그 타이틀을 작성해주세요." className="manage-attr-content" />
+								<input type='text' value={blogTitleValue ? blogTitleValue : ''} onChange={OCBlogTitleValue} required placeholder="이곳에 블로그 타이틀을 작성해주세요." className="manage-attr-content" />
 							</div>
 							<div className="manage-blog-info favicon-edit-wrap">
 								<Grade style={{position: 'absolute', left: 0, top: '50%',fontSize: "16px", color: "#B4BAC2", transform: 'translate(50%, -50%)'}}/>
@@ -304,8 +356,17 @@ const BlogManage = ({ category_list, mainPosts }) => {
 									<img src={faviconURL}/>
 									<div className="filebox">
 										<label htmlFor="ex_file">변경</label>
-										<input type="file" id="ex_file" />
+										<input type="file" id="ex_file" ref={imageInput} onChange={onChangeImg} accept=".ico"/>
 									</div>
+									{favChanged && <>
+										<span className="text-info">
+											변경될 icon 미리보기
+										</span>
+										<img src={IconURLWillChanged}/>
+										<button onClick={resetFav} className="resetFav">
+											<Cancel />
+										</button>
+									</>}
 								</div>
 							</div>
 							<div className="manage-blog-info">
@@ -313,13 +374,13 @@ const BlogManage = ({ category_list, mainPosts }) => {
 								<div className="manage-attr-name">
 									DESCRIPTION
 								</div>
-								<input type="text" value={descriptionValue} onChange={OCDesValue} placeholder="Description을 작성해주십시오." className="manage-attr-content" />
+								<input type="text" value={descriptionValue ? descriptionValue : ''} onChange={OCDesValue} placeholder="Description을 작성해주십시오." className="manage-attr-content" />
 							</div>
 						</div>
 					</div>
 					<div className="set_btn">
 						{ isChanged ?
-							<button type="button" className="btn_save">
+							<button type="button" onClick={submitInformation} className="btn_save">
 								변경사항 저장
 							</button>
 							:

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import AppLayout from '../containers/AppLayout';
 // import Helmet from 'react-helmet';
@@ -30,50 +30,56 @@ import ManageMenu from '../containers/ManageMenu';
 const Home = ({ pathname, Component, store }) => {
 	const WrapComponent = () => {
 		const { blogTitle, description, faviconURL } = useSelector(state=>state.information);
-		if (pathname === '/portfolio' || pathname === '/login')
-		{
-			return (
-				<>
-				<Head>
-					<title>{blogTitle}</title>
-					<link rel="shortcut icon" href={faviconURL} />
-				</Head>
-				<Background>
-					<Component/>
-				</Background>
-				</>
-			);
-		}
-		else if ( pathname === '/manage')
-		{
-			return (
-				<>
-				<Head>
-					<title>{blogTitle}</title>
-					<link rel="shortcut icon" href={faviconURL} />
-				</Head>
-				<Background>
-					<ManageMenu>
+		const LayOut = useCallback(() => {
+			if (pathname === '/portfolio' || pathname === '/login')
+			{
+				return (
+					<>
+					<Head>
+						<title>{blogTitle}</title>
+						<link rel="shortcut icon" href={faviconURL} />
+					</Head>
+					<Background>
 						<Component/>
-					</ManageMenu>
-				</Background>
-				</>
-			)
-		}
-		else
-		{
-			return (
-				<>
-				<Head>
-					<title>{blogTitle}</title>
-					<link rel="shortcut icon" href={faviconURL} />
-				</Head>
-				<AppLayout pathname={pathname}>
-					<Component />
-				</AppLayout>
-				</>
-			);
-		}
+					</Background>
+					</>
+				);
+			}
+			else if ( pathname === '/manage')
+			{
+				return (
+					<>
+					<Head>
+						<title>{blogTitle}</title>
+						<link rel="shortcut icon" href={faviconURL} />
+					</Head>
+					<Background>
+						<ManageMenu>
+							<Component/>
+						</ManageMenu>
+					</Background>
+					</>
+				)
+			}
+			else
+			{
+				return (
+					<>
+					<Head>
+						<title>{blogTitle}</title>
+						<link rel="shortcut icon" href={faviconURL} />
+					</Head>
+					<AppLayout pathname={pathname}>
+						<Component />
+					</AppLayout>
+					</>
+				);
+			}
+		}, [blogTitle, description, faviconURL]);
+
+		return (
+			<LayOut />
+		);
 	}
 
 	return (
