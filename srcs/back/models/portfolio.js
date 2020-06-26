@@ -49,5 +49,10 @@ module.exports = (sequelize, DataTypes) => {
 		collate: 'utf8_general_ci'
 	})
 
+	Portfolio.associate = (db) =>{
+		db.Portfolio.hasMany(db.Abilities);
+		db.Portfolio.hasMany(db.Works);
+	};
+
 	return Portfolio;
 }

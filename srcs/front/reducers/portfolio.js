@@ -69,9 +69,9 @@ export const initialState = {
 }
 
 
-export const LOAD_DATA_REQUEST = 'LOAD_DATA_REQUEST';
-export const LOAD_DATA_SUCCUESS = 'LOAD_DATA_SUCCUESS';
-export const LOAD_DATA_FAILURE = 'LOAD_DATA_FAILURE';
+export const LOAD_PORT_DATA_REQUEST = 'LOAD_PORT_DATA_REQUEST';
+export const LOAD_PORT_DATA_SUCCESS = 'LOAD_PORT_DATA_SUCCESS';
+export const LOAD_PORT_DATA_FAILURE = 'LOAD_PORT_DATA_FAILURE';
 
 export const ABOUT_EDIT_REQUEST = 'ABOUT_EDIT_REQUEST';
 export const ABOUT_EDIT_SUCCESS = 'ABOUT_EDIT_SUCCESS';
@@ -122,19 +122,19 @@ export const ADD_DUMY = 'ADD_DUMY';
 
 const portfolio = (state=initialState, action) => {
 	switch (action.type) {
-		case LOAD_DATA_REQUEST: {
+		case LOAD_PORT_DATA_REQUEST: {
 			return {
 				...state,
 			}
 		}
-		case LOAD_DATA_SUCCUESS: {
+		case LOAD_PORT_DATA_SUCCESS: {
 			return {
 				...state,
-				data: dummy,
+				data: action.data,
 				isLoaded: true,
 			}
 		}
-		case LOAD_DATA_FAILURE: {
+		case LOAD_PORT_DATA_FAILURE: {
 			return {
 				...state,
 				isLoaded: false,

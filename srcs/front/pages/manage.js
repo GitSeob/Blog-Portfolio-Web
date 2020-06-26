@@ -5,6 +5,7 @@ import DefaultManage from '../components/formanage/DefaultManage';
 import BlogManage from '../components/formanage/BlogManage';
 import PortManage from '../components/formanage/PortManage';
 import { LOAD_CATEGORY_REQUEST, LOAD_MAIN_POSTS_REQUEST } from '../reducers/posts';
+import { LOAD_PORT_DATA_REQUEST } from '../reducers/portfolio';
 
 const Manage = () => {
 	const { menuStatus } = useSelector(state=>state.manage);
@@ -62,9 +63,12 @@ const Manage = () => {
 Manage.getInitialProps = async(context) => {
 	context.store.dispatch({
 		type: LOAD_CATEGORY_REQUEST,
-	})
+	});
 	context.store.dispatch({
 		type: LOAD_MAIN_POSTS_REQUEST,
+	});
+	context.store.dispatch({
+		type: LOAD_PORT_DATA_REQUEST
 	})
 }
 

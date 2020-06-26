@@ -28,14 +28,19 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.TEXT,
 			allowNull: false,
 		},
+		imgSrc: {
+			type: DataTypes.TEXT,
+			allowNull: true,
+		}
 	}, {
 		charset: 'utf8',
 		collate: 'utf8_general_ci'
 	})
 
 	Works.associate = (db) => {
-		// db.Works.hasOne(db.Posts);
+		db.Works.belongsTo(db.Portfolio);
 		db.Works.hasOne(db.Image);
+		db.Works.hasMany(db.Work_row);
 	}
 
 	return Works;

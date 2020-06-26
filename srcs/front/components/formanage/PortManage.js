@@ -1,117 +1,150 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Reorder, Add, Title, Description, Grade } from '@material-ui/icons';
-import { useDispatch } from 'react-redux';
+import { Subtitles, AlternateEmail, ContactPhone, Code, Comment, Reorder, Add, Title, Description, Grade } from '@material-ui/icons';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { EDIT_CATEGORY_REQUEST, ADD_CATEGORY_REQUEST, REMOVE_CATEGORY_REQUEST } from '../../reducers/posts';
 import {useSetInput} from './BlogManage';
 
-const PortManage = ({ category_list }) => {
+const PortManage = ({  }) => {
+	const {
+		data,
+	} = useSelector(state=>state.portfolio);
 
-	const [openAddCate, setOpenAddCate] = useState(false);
-	const [isChanged, setChanged] = useState(false);
-	const [addCateName, setAddCateName, OCAddCateName] = useSetInput('');
-	const [editCateName, setEditCateName, OCEditCateName] = useSetInput('')
-	const [cateIndex, setCateIndex] = useState(-1);
-	const [descriptionValue, setDesValue, OCDesValue] = useSetInput('');
-	const [blogTitleValue, setBlogTitleValue, OCBlogTitleValue] = useSetInput('');
+	const [aboutTitleValue, setAboutTitleValue, OCAboutTitleValue] = useSetInput(data.about_title);
+	const [aboutSubTitleValue, setAboutSubTitleValue, OCAboutSubTitleValue] = useSetInput(data.about_sub_title);
+	const [aboutContentValue, setAboutContentValue, OCAboutContentValue] = useSetInput(data.about_content);
+	const [abilityTitleValue, setAbilityTitleValue, OCAbilityTitleValue] = useSetInput(data.ability_title);
+	const [abilitySubTitleValue, setAbilitySubTitleValue, OCAbilitySubTitleValue] = useSetInput(data.ability_sub_title);
+	const [workTitleValue, setWorkTitleValue, OCWorkTitleValue] = useSetInput(data.work_title);
+	const [workSubTitleValue, setWorkSubTitleValue, OCWorkSubTitleValue] = useSetInput(data.work_sub_title);
+	const [emailValue, setEmailValue, OCEmailValue] = useSetInput(data.email);
+	const [kakaoValue, setKakaoValue, OCKakaoValue] = useSetInput(data.kakao);
+	const [githubURLValue, setGithubURLValue, OCGithubURLValue] = useSetInput(data.github);
+	const [commentValue, setCommentValue, OCCommentValue] = useSetInput(data.comment);
 
+	const [openAddAbil, setOpenAddAbil] = useState(false);
+	const [openAddWork, setOpenAddWork] = useState(false);
 	const dispatch = useDispatch();
 
-	const open_add_category = useCallback(() => {
-		setOpenAddCate(true);
+	let isChanged = true;
+
+	const open_add_ability = useCallback(() => {
+		setOpenAddAbil(true);
 	}, []);
-	const close_add_category = useCallback(() => {
-		setOpenAddCate(false);
+	const close_add_ability = useCallback(() => {
+		setOpenAddAbil(false);
 	}, []);
 
-	const cancelAdd = useCallback((e) => {
+	const open_add_work = useCallback(() => {
+		setOpenAddWork(true);
+	}, []);
+	const close_add_work = useCallback(() => {
+		setOpenAddWork(false);
+	}, []);
+
+	const cancelAddAbil = useCallback((e) => {
 		e.preventDefault();
-		setAddCateName('');
-		setOpenAddCate(false);
+		setOpenAddAbil(false);
 	}, [])
 
-	const clickedEditBtn = useCallback((i, c) => (e) => {
+	const cancelAddWork = useCallback((e) => {
 		e.preventDefault();
-		setEditCateName(c.name);
-		setCateIndex(i);
+		setOpenAddAbil(false);
 	}, [])
-
-	const clickedCancelEditBtn = useCallback((e) => {
-		e.preventDefault();
-		setCateIndex(-1);
-	}, []);
-
-	const submitEditCate = useCallback((i) => (e) => {
-		e.preventDefault();
-		if (confirm(`${category_list[i].name}를 ${editCateName}로 변경하겠습니까?`)){
-			dispatch({
-				type: EDIT_CATEGORY_REQUEST,
-				data: {
-					index: i+1,
-					name: editCateName,
-				}
-			})
-		}
-	}, [editCateName]);
-
-	const removeCate = useCallback((i) => (e) => {
-		e.preventDefault();
-		if (confirm(`${category_list[i].name} 카테고리를 삭제하시겠습니까?`)) {
-			dispatch({
-				type: REMOVE_CATEGORY_REQUEST,
-				data: i+1
-			});
-		}
-	})
-
-	const submitAddCate = useCallback((e) => {
-		e.preventDefault();
-		if (confirm(`${addCateName} 이름으로 카테고리를 추가하시겠습니까?`)) {
-			dispatch({
-				type: ADD_CATEGORY_REQUEST,
-				data: addCateName,
-			})
-		}
-	}, [addCateName]);
 
 	return (
 		<>
 		<form>
 			<div className="manage-attr-wrap">
-				<h3>블로그 정보 관리</h3>
+				<h3>포트폴리오 데이터 관리</h3>
 				<br />
 				<div className="manage-content-wrap">
-					<strong>이곳에서 블로그 정보를 관리할 수 있습니다.</strong>
-					<p>블로그 타이틀과 Favicon을 수정할 수 있습니다.</p>
+					<strong>이곳에서 포트폴리오 기존 정보를 관리할 수 있습니다.</strong>
+					<p>프로젝트와 장, 단점 데이터를 제외한 데이터를 여기서 관리할 수 있습니다.</p>
 					<div className="manage-wrap-order">
 						<div className="manage-list-order">
 							<div className="manage-blog-info">
 								<Title style={{position: 'absolute', left: 0, top: '50%',fontSize: "16px", color: "#B4BAC2", transform: 'translate(50%, -50%)'}}/>
 								<div className="manage-attr-name">
-									TITLE
+									ABOUT TITLE
 								</div>
-								<input type='text' value={blogTitleValue} onChange={OCBlogTitleValue} required placeholder="이곳에 블로그 타이틀을 작성해주세요." className="manage-attr-content" />
+								<input type='text' value={aboutTitleValue} onChange={OCAboutTitleValue} required placeholder="About 페이지의 타이틀을 입력해주세요." className="manage-attr-content" />
 							</div>
-							<div className="manage-blog-info favicon-edit-wrap">
-								<Grade style={{position: 'absolute', left: 0, top: '50%',fontSize: "16px", color: "#B4BAC2", transform: 'translate(50%, -50%)'}}/>
+							<div className="manage-blog-info">
+								<Subtitles style={{position: 'absolute', left: 0, top: '10px',fontSize: "16px", color: "#B4BAC2", transform: 'translateX(50%)'}}/>
 								<div className="manage-attr-name">
-									FAVICON
+									ABOUT SUB TITLE
 								</div>
-								<div className="manage-attr-content">
-									<img src="./images/favicon.ico"/>
-									<div className="filebox">
-										<label htmlFor="ex_file">변경</label>
-										<input type="file" id="ex_file" />
-									</div>
-								</div>
+								<input type='text' value={aboutSubTitleValue} onChange={OCAboutSubTitleValue} required placeholder="About 페이지의 서브 타이틀을 입력해주세요." className="manage-attr-content" />
 							</div>
 							<div className="manage-blog-info">
 								<Description style={{position: 'absolute', left: 0, top: '10px',fontSize: "16px", color: "#B4BAC2", transform: 'translateX(50%)'}}/>
 								<div className="manage-attr-name">
-									DESCRIPTION
+									ABOUT SUB CONTENT
 								</div>
-								<textarea rows={3} value={descriptionValue} onChange={OCDesValue} placeholder="Description을 작성해주십시오." className="manage-attr-content" />
+								<textarea rows={5} value={aboutContentValue} onChange={OCAboutContentValue} required placeholder="About 페이지의 내용을 입력해주세요." className="manage-attr-content" />
+							</div>
+						</div>
+						<div className="manage-list-order">
+							<div className="manage-blog-info">
+								<Title style={{position: 'absolute', left: 0, top: '50%',fontSize: "16px", color: "#B4BAC2", transform: 'translate(50%, -50%)'}}/>
+								<div className="manage-attr-name">
+									ABILITY TITLE
+								</div>
+								<input type='text' value={abilityTitleValue} onChange={OCAbilityTitleValue} required placeholder="Ability 페이지의 타이틀을 입력해주세요." className="manage-attr-content" />
+							</div>
+							<div className="manage-blog-info">
+								<Subtitles style={{position: 'absolute', left: 0, top: '10px',fontSize: "16px", color: "#B4BAC2", transform: 'translateX(50%)'}}/>
+								<div className="manage-attr-name">
+									ABILITY SUB TITLE
+								</div>
+								<input type='text' value={abilitySubTitleValue} onChange={OCAbilityTitleValue} required placeholder="Ability 페이지의 서브 타이틀을 입력해주세요." className="manage-attr-content" />
+							</div>
+						</div>
+						<div className="manage-list-order">
+							<div className="manage-blog-info">
+								<Title style={{position: 'absolute', left: 0, top: '50%',fontSize: "16px", color: "#B4BAC2", transform: 'translate(50%, -50%)'}}/>
+								<div className="manage-attr-name">
+									WORK TITLE
+								</div>
+								<input type='text' value={workTitleValue} onChange={OCWorkTitleValue} required placeholder="Work 페이지의 타이틀을 입력해주세요." className="manage-attr-content" />
+							</div>
+							<div className="manage-blog-info">
+								<Subtitles style={{position: 'absolute', left: 0, top: '10px',fontSize: "16px", color: "#B4BAC2", transform: 'translateX(50%)'}}/>
+								<div className="manage-attr-name">
+									WORK SUB TITLE
+								</div>
+								<input type='text' value={workSubTitleValue} onChange={OCWorkSubTitleValue} required placeholder="Work 페이지의 서브 타이틀을 입력해주세요." className="manage-attr-content" />
+							</div>
+						</div>
+						<div className="manage-list-order">
+							<div className="manage-blog-info">
+								<AlternateEmail style={{position: 'absolute', left: 0, top: '50%',fontSize: "16px", color: "#B4BAC2", transform: 'translate(50%, -50%)'}}/>
+								<div className="manage-attr-name">
+									E-mail
+								</div>
+								<input type='text' value={emailValue} onChange={OCEmailValue} required placeholder="Work 페이지의 타이틀을 입력해주세요." className="manage-attr-content" />
+							</div>
+							<div className="manage-blog-info">
+								<ContactPhone style={{position: 'absolute', left: 0, top: '10px',fontSize: "16px", color: "#B4BAC2", transform: 'translateX(50%)'}}/>
+								<div className="manage-attr-name">
+									Kakao Talk
+								</div>
+								<input type='text' value={kakaoValue} onChange={OCKakaoValue} required placeholder="Work 페이지의 서브 타이틀을 입력해주세요." className="manage-attr-content" />
+							</div>
+							<div className="manage-blog-info">
+								<Code style={{position: 'absolute', left: 0, top: '10px',fontSize: "16px", color: "#B4BAC2", transform: 'translateX(50%)'}}/>
+								<div className="manage-attr-name">
+									Github URL
+								</div>
+								<input type='text' value={githubURLValue} onChange={OCGithubURLValue} required placeholder="Work 페이지의 서브 타이틀을 입력해주세요." className="manage-attr-content" />
+							</div>
+							<div className="manage-blog-info">
+								<Comment style={{position: 'absolute', left: 0, top: '10px',fontSize: "16px", color: "#B4BAC2", transform: 'translateX(50%)'}}/>
+								<div className="manage-attr-name">
+									Comment
+								</div>
+								<input type='text' value={commentValue} onChange={OCCommentValue} required placeholder="Work 페이지의 서브 타이틀을 입력해주세요." className="manage-attr-content" />
 							</div>
 						</div>
 					</div>
@@ -130,61 +163,15 @@ const PortManage = ({ category_list }) => {
 			</div>
 		</form>
 		<div className="manage-attr-wrap">
-			<h3>카테고리 관리</h3>
+			<h3>ABILITY 관리</h3>
 			<br/>
 			<div className="manage-content-wrap">
-				<strong>이곳에서 블로그의 카테고리를 관리할 수 있습니다.</strong>
-				<p>최대 20개까지 추가 가능합니다.</p>
+				<strong>이곳에서 포트폴리오의 ABILITY 정보를 관리할 수 있습니다.</strong>
+				<p>각 항목을 수정하거나 삭제, 추가할 수 있습니다.</p>
 				<div className="manage-wrap-order">
 					<div className="manage-list-order">
-						{category_list.map((c, i) => {
-							return (
-								<div key={(i)} className="manage-bundle-list" >
-									<Reorder style={{position: 'absolute', left: 0, top: '50%',fontSize: "16px", color: "#B4BAC2", transform: 'translate(50%, -50%)'}}/>
-									{ cateIndex === i ?
-									<>
-										<form className="add-cate-container">
-											<input className="add-cate-ipt" type="text" value={editCateName} onChange={OCEditCateName} required/>
-											<div className="manage-btn-container">
-												<button type='reset' className="manage-cate-btn" onClick={clickedCancelEditBtn}>
-													취소
-												</button>
-												<button className="manage-cate-btn" onClick={submitEditCate(i, c)}>
-													수정
-												</button>
-											</div>
-										</form>
-									</>
-									:
-									<>
-										{c.name}
-										<div className="manage-btn-container">
-											<button className="manage-cate-btn" onClick={clickedEditBtn(i, c)}>
-												수정
-											</button>
-											<button className="manage-cate-btn" onClick={removeCate(i)}>
-												삭제
-											</button>
-										</div>
-									</>
-									}
-								</div>
-							)
-						})}
-						{openAddCate &&
-							<form className="manage-bundle-list add-cate-container">
-								<input className="add-cate-ipt" type="text" value={addCateName} onChange={OCAddCateName} required/>
-								<div className="manage-btn-container">
-									<button type='reset' className="manage-cate-btn" onClick={cancelAdd}>
-										취소
-									</button>
-									<button className="manage-cate-btn" onClick={submitAddCate}>
-										추가
-									</button>
-								</div>
-							</form>
-						}
-						<button className="manage-bundle-list" onClick={!openAddCate ? open_add_category : close_add_category}>
+						hi
+						<button className="manage-bundle-list" onClick={!openAddAbil ? open_add_ability : close_add_ability}>
 							< Add style={{position: 'absolute', left: 0, top: '50%',fontSize: "16px", color: "#B4BAC2", transform: 'translate(50%, -50%)'}} />카테고리 추가하기
 						</button>
 					</div>

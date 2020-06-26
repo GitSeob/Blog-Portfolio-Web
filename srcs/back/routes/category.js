@@ -7,7 +7,8 @@ const { isLoggedIn } = require('./middleware');
 router.get('/', async (req, res, next) => {
 	try {
 		const categories = await db.Category.findAll({
-			attributes: ['id', 'name']
+			attributes: ['id', 'name'],
+			order: [['createdAt', 'ASC']],
 		});
 		return res.json(categories);
 	} catch(e) {

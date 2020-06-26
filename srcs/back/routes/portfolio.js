@@ -9,7 +9,7 @@ const router = express.Router()
 const upload = multer({
 	storage: multer.diskStorage({
 		destination(req, file, done) {
-			done(null, 'uploads')
+			done(null, 'img_for_portfolio');
 		},
 		filename(req, file, done){
 			let ext = path.extname(file.originalname);
@@ -23,43 +23,26 @@ const upload = multer({
 
 router.get('/', async (req, res, next) => {
 	try {
-		const info = await db.Blog.findOne({
-			where: {id: 1}
+		const portData = await db.Portfolio.findOne({
+			where: {id: 1},
+			include: [{
+				model: db.Works,
+				include: [{
+					model: db.Work_row,
+				}]
+			}, {
+				model: db.Abilities,
+				include: [{
+					model: db.Ab_list,
+				}]
+			}]
 		});
-		return res.json(info);
+		console.log(portData);
+		return res.json(portData);
 	} catch (e) {
 		console.error(e);
 		next(e);
 	}
-})
-
-router.post('/', async (req, res, next) => {
-	try {
-		await db.Blog.update({
-			title: req.body.blogTitle,
-			description: req.body.description,
-			favicon_url: req.body.faviconURL,
-		}, {
-			where: {
-				id: 1,
-			}
-		})
-		const info = await db.Blog.findOne({
-			where: {
-				id: 1
-			},
-		})
-		return res.json(info);
-	} catch(e) {
-		console.error(e);
-		next(e);
-	}
-})
-
-router.post('/image', upload.single('image'), async (req, res) => {
-	res.json({
-		url: `http://localhost:3065/${req.file.filename}`
-	});
 })
 
 module.exports = router;
