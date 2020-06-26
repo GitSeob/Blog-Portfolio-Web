@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
 	})
 
 	Abilities.associate = (db) => {
+		db.Abilities.belongsTo(db.Portfolio);
 		db.Abilities.hasMany(db.Ab_list);
 	}
 
