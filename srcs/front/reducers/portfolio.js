@@ -66,6 +66,7 @@ export const dummy = {
 export const initialState = {
 	isLoaded: false,
 	data: dummy,
+	addAbilityErrorReason: '',
 }
 
 
@@ -140,6 +141,25 @@ const portfolio = (state=initialState, action) => {
 				isLoaded: false,
 			}
 		}
+
+		case ABILITY_ADD_REQUEST: {
+			return {
+				...state,
+			}
+		}
+		case ABILITY_ADD_SUCCESS: {
+			return {
+				...state,
+				Abilities: [...state.data.Abilities, action.data],
+			}
+		}
+		case ABILITY_ADD_FAILURE: {
+			return {
+				...state,
+				addAbilityErrorReason: action.error,
+			}
+		}
+
 		case ADD_DUMY: {
 			return {
 				...state,

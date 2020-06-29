@@ -8,7 +8,7 @@ import Contact from '../containers/Contact';
 import Footer from '../containers/Footer';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { LOAD_DATA_REQUEST } from '../reducers/portfolio';
+import { LOAD_PORT_DATA_REQUEST } from '../reducers/portfolio';
 import Introduction from '../containers/Introduction';
 
 const Portfolio = props => {
@@ -32,7 +32,7 @@ Portfolio.propTypes = {
 
 Portfolio.getInitialProps = async ( context ) => {
 	context.store.dispatch({
-		type: LOAD_DATA_REQUEST,
+		type: LOAD_PORT_DATA_REQUEST,
 	})
 }
 

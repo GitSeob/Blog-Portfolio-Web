@@ -37,8 +37,36 @@ router.get('/', async (req, res, next) => {
 				}]
 			}]
 		});
-		console.log(portData);
 		return res.json(portData);
+	} catch (e) {
+		console.error(e);
+		next(e);
+	}
+})
+
+router.post('/add/Ability', async (req, res, next) => {
+	try {
+		console.log(req.body);
+		const newAbility = await db.Abilities.create({
+			list_title: req.body.title,
+			PortfolioId: 1,
+		})
+		console.log(newAbility);
+		req.body.list.map(async (c) => {
+			await db.Ab_list.create({
+				list_attribute: c,
+				AbilityId: newAbility.id,
+			})
+		})
+
+		const resAbility = await db.Abilities.findOne({
+			where: {id: newAbility.id},
+			include: [{
+				model: db.Ab_list
+			}]
+		})
+		console.log(resAbility);
+		return res.json(resAbility)
 	} catch (e) {
 		console.error(e);
 		next(e);
