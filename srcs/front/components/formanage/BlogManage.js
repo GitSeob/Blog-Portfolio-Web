@@ -61,7 +61,7 @@ const SelectCate = ({category_list}) => {
 			})
 		}
 		setClick(false);
-	});
+	},[cateName]);
 
 	return (
 		<div className="cateSelect-ipt" role="button">
@@ -292,7 +292,7 @@ const BlogManage = ({ category_list, mainPosts }) => {
 		} else {
 			setCheckedPostsId(checkedPostsId.filter(v => v !== c.id));
 		}
-	})
+	}, [checkedPostsId])
 
 	const selectAllPost = useCallback((e) => {
 		setCheckAllPosts(e.target.checked);
@@ -311,11 +311,16 @@ const BlogManage = ({ category_list, mainPosts }) => {
 
 	const removeSelectedPosts = useCallback((e) => {
 		e.preventDefault();
-		if (confirm(`선택한 ${checkedPostsId.length}개 게시물을 삭제하시겠습니까?`)) {
-			dispatch({
-				type: REMOVE_SELECTED_POST_REQUEST,
-				data: checkedPostsId,
-			})
+		if (checkedPostsId.length === 0) {
+			alert('게시물을 선택해주세요.');
+		}
+		else {
+			if (confirm(`선택한 ${checkedPostsId.length}개 게시물을 삭제하시겠습니까?`)) {
+				dispatch({
+					type: REMOVE_SELECTED_POST_REQUEST,
+					data: checkedPostsId,
+				})
+			}
 		}
 	})
 
@@ -326,7 +331,12 @@ const BlogManage = ({ category_list, mainPosts }) => {
 		} else {
 			setChanged(false);
 		}
-	}, [IconURLWillChanged, blogTitleValue, descriptionValue ,blogTitle, description, faviconURL]);
+		if (checkedPostsId.length === mainPosts.length){
+			setCheckAllPosts(true);
+		} else {
+			setCheckAllPosts(false);
+		}
+	}, [checkedPostsId, IconURLWillChanged, blogTitleValue, descriptionValue ,blogTitle, description, faviconURL]);
 
 
 	return (

@@ -63,7 +63,7 @@ router.post('/remove', isLoggedIn, async (req, res, next) => {
 		console.error(e);
 		next(e);
 	}
-})
+}) // 카테고리 index도 받아서 해당 index의 게시물 데이터를 res하도록 수정
 
 router.post('/changeCategory', isLoggedIn, async (req, res, next) => {
 	try {
