@@ -46,28 +46,137 @@ router.get('/', async (req, res, next) => {
 
 router.post('/add/Ability', async (req, res, next) => {
 	try {
-		console.log(req.body);
 		const newAbility = await db.Abilities.create({
 			list_title: req.body.title,
 			PortfolioId: 1,
-		})
-		console.log(newAbility);
-		req.body.list.map(async (c) => {
-			await db.Ab_list.create({
-				list_attribute: c,
-				AbilityId: newAbility.id,
-			})
-		})
-
+		});
+		const list_data = req.body.list;
+		list_data.map((c) => {
+			c['AbilityId'] = newAbility.id;
+		});
+		await db.Ab_list.bulkCreate(list_data, {
+			returning: true,
+		});
 		const resAbility = await db.Abilities.findOne({
 			where: {id: newAbility.id},
 			include: [{
-				model: db.Ab_list
-			}]
-		})
+				model: db.Ab_list,
+				attributes: ['id', 'list_attribute']
+			}],
+		});
 		console.log(resAbility);
 		return res.json(resAbility)
 	} catch (e) {
+		console.error(e);
+		next(e);
+	}
+})
+
+router.post('/remove/ability', async (req, res, next) => {
+	try {
+		const ability = await db.Abilities.findOne({ where: {id: req.body.abilityId}});
+		if (!ability) {
+			return res.status(404).send('존재하지 않는 어빌리티입니다.');
+		}
+		await db.Abilities.destroy({ where: { id: req.body.abilityId }});
+		// await db.Ab_list.destroy({
+		// 	where: {
+		// 		AbilityId: req.body.abilityId
+		// 	}
+		// });
+
+		const abilities = await db.Abilities.findAll({
+			include: [{
+				model: db.Ab_list,
+				attributes: ['id', 'list_attribute']
+			}]
+		});
+
+		return res.json(abilities);
+	} catch (e) {
+		console.error(e);
+		next(e);
+	}
+})
+
+router.post('/ability/edit/:ability_id', async (req, res, next) => {
+	try {
+		await db.Abilities.update({
+			list_title: req.body.title
+		}, {
+			where: {id: req.params.ability_id}
+		})
+
+		await db.Ab_list.destroy({
+			where: {AbilityId: req.params.ability_id}
+		})
+		const list_data = req.body.list;
+		list_data.map((c) => {
+			c['AbilityId'] = req.params.ability_id;
+		});
+		await db.Ab_list.bulkCreate(list_data, {
+			returning: true,
+		});
+
+		const resValue = await db.Abilities.findAll({
+			include: [{
+				model: db.Ab_list,
+				attributes: ['id', 'list_attribute']
+			}]
+		})
+
+		return res.json(resValue);
+	} catch(e) {
+		console.error(e);
+		next(e);
+	}
+});
+
+router.post('/ability/editTitle/:ability_id', async (req, res, next) => {
+	try {
+		await db.Abilities.update({
+			list_title: req.body.title
+		}, {
+			where: {id: req.params.ability_id}
+		})
+
+		const resValue = await db.Abilities.findAll({
+			include: [{
+				model: db.Ab_list,
+				attributes: ['id', 'list_attribute']
+			}]
+		})
+
+		return res.json(resValue);
+	} catch(e) {
+		console.error(e);
+		next(e);
+	}
+});
+
+router.post('/ability/editAttr/:ability_id', async (req, res, next) => {
+	try {
+		await db.Ab_list.destroy({
+			where: {AbilityId: req.params.ability_id}
+		})
+
+		const list_data = req.body.list;
+		list_data.map((c) => {
+			c['AbilityId'] = req.params.ability_id;
+		});
+		await db.Ab_list.bulkCreate(list_data, {
+			returning: true,
+		});
+
+		const resValue = await db.Abilities.findAll({
+			include: [{
+				model: db.Ab_list,
+				attributes: ['id', 'list_attribute']
+			}]
+		})
+
+		return res.json(resValue);
+	} catch(e) {
 		console.error(e);
 		next(e);
 	}

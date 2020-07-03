@@ -46,7 +46,7 @@ router.post('/', isLoggedIn, async (req, res, next) => {
 			where: {id: newPost.id },
 			include: [{
 				model: db.Category,
-				attribute: ['id', 'name'],
+				attributes: ['id', 'name'],
 			}]
 		})
 		return res.json(fullPosts);
@@ -62,7 +62,7 @@ router.get('/:id', async (req, res, next) => {
 			where: {id: req.params.id},
 			include: [{
 				model: db.Category,
-				attribute: ['id', 'name']
+				attributes: ['id', 'name']
 			}]
 		})
 		if (!post) {
@@ -109,7 +109,7 @@ router.patch('/:id', isLoggedIn, async (req, res, next) => {
 			where: {id: req.params.id},
 			include: [{
 				model: db.Category,
-				attribute: ['id', 'name']
+				attributes: ['id', 'name']
 			}]
 		})
 		return res.json(updatedPost);
