@@ -5,6 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import {
 	ABILITY_ADD_REQUEST,
+	ABILITY_DELETE_REQUEST,
+	ABILITY_EDIT_REQUEST,
+	ABILITY_EDIT_ONLY_ATTR_REQUEST,
+	ABILITY_EDIT_ONLY_TITLE_REQUEST,
 } from '../../reducers/portfolio';
 import {useSetInput} from './BlogManage';
 
@@ -15,14 +19,20 @@ const AddAbility = ({ addAbilName, OCAddAbilName, cancelAddAbil }) => {
 
 	const dispatch = useDispatch();
 
+	const [inputStatus, setInputStatus] = useState('');
+
 	const openAddAttr = useCallback((e) => {
 		e.preventDefault();
+		if (addAbilName === '') {
+			setInputStatus('타이틀을 입력하세요.');
+			return ;
+		}
 		if (addAttr) {
 			setAddAttr(false);
 		} else {
 			setAddAttr(true);
 		}
-	}, []);
+	}, [inputStatus, addAttr, addAbilName]);
 
 	const onAddAttr = useCallback((e) => {
 		e.preventDefault();
@@ -47,20 +57,27 @@ const AddAbility = ({ addAbilName, OCAddAbilName, cancelAddAbil }) => {
 
 	const onSubmitAbility = useCallback((e) => {
 		e.preventDefault();
+
 		if (attrList.length > 0) {
 			if (confirm('Ability를 추가하시겠습니까?')) {
+				const containAttr = new Array();
+				attrList.map(c => {
+					containAttr.push({
+						list_attribute: c,
+					})
+				});
 				dispatch({
 					type: ABILITY_ADD_REQUEST,
 					data: {
 						title: addAbilName,
-						list: attrList,
+						list: containAttr,
 					}
 				})
 			}
 		} else {
 			alert('요소를 하나 이상 추가하십시오.');
 		}
-	})
+	}, [attrList])
 
 	return (
 		<>
@@ -68,8 +85,15 @@ const AddAbility = ({ addAbilName, OCAddAbilName, cancelAddAbil }) => {
 			{ !addAttr ?
 				<>
 				<Title style={{position: 'absolute', left: 0, top: '50%',fontSize: "16px", color: "#B4BAC2", transform: 'translate(50%, -50%)'}}/>
-				<input className="add-cate-ipt" type="text" value={addAbilName} onChange={OCAddAbilName} placeholder="ABILITY 이름을 입력해주세요." required/>
-				<div className="manage-btn-container">
+				<span>
+					<input className="add-cate-ipt" type="text" value={addAbilName} onChange={OCAddAbilName} placeholder="ABILITY 이름을 입력해주세요." required/>
+					{inputStatus !== '' &&
+						<span className="ipt-title-error">
+							{inputStatus}
+						</span>
+					}
+				</span>
+				<div className="manage-btn-container" style={{display: 'block'}}>
 					<button type='reset' className="manage-cate-btn" onClick={cancelAddAbil}>
 						취소
 					</button>
@@ -81,27 +105,32 @@ const AddAbility = ({ addAbilName, OCAddAbilName, cancelAddAbil }) => {
 				:
 				<>
 				<Title style={{position: 'absolute', left: 0, top: '10px',fontSize: "16px", color: "#B4BAC2", transform: 'translateX(50%)'}}/>
-						<div className="manage-add-attr-title">{addAbilName}</div>
-						<div className="manage-add-attr">
-							{ attrList.map((c, i) => {
-								return (
-									<div key={(i)} className="add-attr-bubble">
-										<div className="manage-add-attr-name">
-											{c}
-										</div>
-										<button onClick={removeAbilAttr(i)}>
-											<Cancel />
-										</button>
+					<div className="manage-add-attr-title" >
+						{addAbilName}
+						<button type='reset' className="manage-cate-btn" onClick={cancelAddAbil}>
+							취소
+						</button>
+					</div>
+					<div className="manage-add-attr">
+						{ attrList.map((c, i) => {
+							return (
+								<div key={(i)} className="add-attr-bubble">
+									<div className="manage-add-attr-name">
+										{c}
 									</div>
-								);
-							})}
-							<div className="add-attr-bubble">
-								<input type='text' className="manage-add-attr-ipt" value={attrName} onChange={OCAttrName} />
-								<button onClick={onAddAttr}>
-									<AddCircle/>
-								</button>
-							</div>
+									<button onClick={removeAbilAttr(i)}>
+										<Cancel />
+									</button>
+								</div>
+							);
+						})}
+						<div className="add-attr-bubble">
+							<input type='text' className="manage-add-attr-ipt" value={attrName} onChange={OCAttrName} />
+							<button onClick={onAddAttr}>
+								<AddCircle/>
+							</button>
 						</div>
+					</div>
 				<button onClick={onSubmitAbility} className="add-abil-submit-btn">
 					<Send />
 				</button>
@@ -135,6 +164,9 @@ const PortManage = ({  }) => {
 		data,
 	} = useSelector(state=>state.portfolio);
 
+	const [eachAbOpened, setEachAbOpened] = useState(Array(data.Abilities.length).fill(false));
+	const [editAbilList, setEditAbilList] = useState([]);
+
 	const [aboutTitleValue, setAboutTitleValue, OCAboutTitleValue] = useSetInput(data.about_title);
 	const [aboutSubTitleValue, setAboutSubTitleValue, OCAboutSubTitleValue] = useSetInput(data.about_sub_title);
 	const [aboutContentValue, setAboutContentValue, OCAboutContentValue] = useSetInput(data.about_content);
@@ -158,9 +190,14 @@ const PortManage = ({  }) => {
 	const [addAbilName, setAddAbilName, OCAddAbilName] = useSetInput('');
 	const [addWorkName, setAddWorkName, OCAddWorkName] = useSetInput('');
 
+	const [attrName, setAttrName, OCAttrName] = useSetInput('');
+	const [isEditAbilList, setIsEditAbilList] = useState(false);
+
 	const dispatch = useDispatch();
 
 	let isChanged = true;
+
+	const diffAbilAttrIdx = [];
 
 	const open_add_ability = useCallback((e) => {
 		e.preventDefault();
@@ -184,7 +221,7 @@ const PortManage = ({  }) => {
 		e.preventDefault();
 		setOpenAddAbil(false);
 		setAddAbilName('');
-	}, [])
+	}, [addAbilName])
 
 	const cancelAddWork = useCallback((e) => {
 		e.preventDefault();
@@ -195,17 +232,34 @@ const PortManage = ({  }) => {
 	const clickedCancelEditAbilBtn = useCallback((e) => {
 		e.preventDefault();
 		setAbilIndex(-1);
+		setEachAbOpened(Array(eachAbOpened.length).fill(false));
+		setEditAbilList([]);
+		setIsEditAbilList(false);
+		setAttrName('');
 	})
 
 	const clickedAbilEditBtn = useCallback((i, c) => (e) => {
 		e.preventDefault();
+		setEachAbOpened(Array(eachAbOpened.length).fill(false));
+		const tempArray = new Array();
+		c.Ab_lists.map(c => {
+			tempArray.push(c.list_attribute);
+		})
 		setEditAbilName(c.list_title);
+		setIsEditAbilList(false);
+		setEditAbilList(tempArray);
+		setAttrName('');
 		setAbilIndex(i);
 	})
 
-	const removeAbil = useCallback((i) => (e) => {
+	const removeAbil = useCallback((c) => (e) => {
 		e.preventDefault();
-		console.log('remove abil');
+		if (confirm(`${c.list_title} 항목을 삭제하시겠습니까?`)) {
+			dispatch({
+				type: ABILITY_DELETE_REQUEST,
+				id: c.id
+			})
+		}
 	})
 
 	const clickedCancelEditWorkBtn = useCallback((e) => {
@@ -224,6 +278,116 @@ const PortManage = ({  }) => {
 		console.log('remove work');
 	})
 
+	const selectAbility = useCallback((i, c) => (e) => {
+		e.preventDefault();
+		setAttrName('');
+		setAbilIndex(-1);
+		setIsEditAbilList(false);
+		const tempArray = new Array();
+		c.Ab_lists.map(c => {
+			tempArray.push(c.list_attribute);
+		})
+		setEditAbilList(tempArray);
+		setEachAbOpened(eachAbOpened.map((elem, idx) => {
+			if (idx === i) {
+				return true;
+			} else {
+				return false;
+			}
+		}));
+	})
+
+	const reClickedAbility = useCallback((e) => {
+		e.preventDefault();
+		setEachAbOpened(Array(eachAbOpened.length).fill(false));
+	})
+
+	const editAbilAttr = useCallback((i, c, ab_c) => (e) => {
+		e.preventDefault();
+		const temp = [...editAbilList];
+		temp[i] = e.target.value;
+		setEditAbilList(temp);
+		setIsEditAbilList(true);
+	}, [editAbilList])
+
+	const onAddAttr = useCallback((e) => {
+		e.preventDefault();
+		const temp = [...editAbilList];
+		temp.push(attrName);
+		setEditAbilList(temp);
+		setIsEditAbilList(true);
+		setAttrName('');
+	}, [attrName, editAbilList]);
+
+	const deleteAttr = useCallback((i, c) => (e) => {
+		e.preventDefault();
+		const tempArray = [...editAbilList];
+		tempArray.splice(i, 1);
+		setIsEditAbilList(true);
+		setEditAbilList(tempArray);
+	})
+
+	const editAbil = useCallback((ab_c) => (e) => {
+		e.preventDefault();
+		let changeNameStatus = false;
+
+		if (editAbilName !== ab_c.list_title) {
+			changeNameStatus = true;
+		}
+		if (!isEditAbilList) {
+			if (!changeNameStatus) {
+				alert('변경된 정보가 없습니다.');
+				return ;
+			} else {
+				if (confirm('Ability 정보를 수정하시겠습니까?')) {
+					dispatch({
+						type: ABILITY_EDIT_ONLY_TITLE_REQUEST,
+						data: {
+							ability_id: ab_c.id,
+							title: editAbilName,
+						}
+					})
+				}
+			}
+		}
+		else {
+			if (!changeNameStatus) {
+				if (confirm('Ability 정보를 수정하시겠습니까?')) {
+					const containAttr = new Array();
+					editAbilList.map(c => {
+						containAttr.push({
+							list_attribute: c,
+						});
+					});
+					dispatch({
+						type: ABILITY_EDIT_ONLY_ATTR_REQUEST,
+						data: {
+							ability_id: ab_c.id,
+							list: containAttr,
+						}
+					})
+				}
+			}
+			else {
+				if (confirm('Ability 정보를 수정하시겠습니까?')) {
+					const containAttr = new Array();
+					editAbilList.map(c => {
+						containAttr.push({
+							list_attribute: c,
+						});
+					});
+					dispatch({
+						type: ABILITY_EDIT_REQUEST,
+						data: {
+							ability_id: ab_c.id,
+							title: editAbilName,
+							list: containAttr,
+						}
+					})
+				}
+			}
+		}
+	}, [editAbilName, editAbilList, isEditAbilList])
 
 	return (
 		<>
@@ -344,11 +508,12 @@ const PortManage = ({  }) => {
 				<div className="manage-wrap-order">
 					<div className="manage-list-order">
 						{
-							data.Abilities.map((c, i) => {
+							data.Abilities.map((ab_c, ab_i) => {
 								return (
-									<div key={(i)} className="manage-bundle-list" >
+									<div key={(ab_i)}>
+									<div className="manage-bundle-list" >
 										<Reorder style={{position: 'absolute', left: 0, top: '50%',fontSize: "16px", color: "#B4BAC2", transform: 'translate(50%, -50%)'}}/>
-										{ abilIndex === i ?
+										{ abilIndex === ab_i ?
 										<>
 											<form className="add-cate-container">
 												<input className="add-cate-ipt" type="text" value={editAbilName} onChange={OCEditAbilName} required/>
@@ -356,27 +521,59 @@ const PortManage = ({  }) => {
 													<button type='reset' className="manage-cate-btn" onClick={clickedCancelEditAbilBtn}>
 														취소
 													</button>
-													<button className="manage-cate-btn"
-													//  onClick={submitEditAbil(i, c)}
-													>
-														수정
-													</button>
 												</div>
 											</form>
 										</>
 										:
 										<>
-											{c.list_title}
+											<button onClick={!eachAbOpened[ab_i] ? selectAbility(ab_i, ab_c) : reClickedAbility}>{ab_c.list_title}</button>
 											<div className="manage-btn-container">
-												<button className="manage-cate-btn" onClick={clickedAbilEditBtn(i, c)}>
+												<button className="manage-cate-btn" onClick={clickedAbilEditBtn(ab_i, ab_c)}>
 													수정
 												</button>
-												<button className="manage-cate-btn" onClick={removeAbil(i)}>
+												<button className="manage-cate-btn" onClick={removeAbil(ab_c)}>
 													삭제
 												</button>
 											</div>
 										</>
 										}
+									</div>
+									{
+										(eachAbOpened[ab_i] || abilIndex === ab_i) &&
+										<div className="manage-edit-abil">
+										{ editAbilList.map((c, i) => {
+											return (
+												<div key={(i)} className="add-attr-bubble">
+													{ abilIndex === ab_i ?
+														<>
+														<input type='text' value={editAbilList[i]} onChange={editAbilAttr(i, c, ab_c)} className="manage-add-attr-ipt" />
+														<button onClick={deleteAttr(i, c)}>
+															<Cancel />
+														</button>
+														</>
+														:
+														<div className="manage-add-attr-name">
+															{c}
+														</div>
+													}
+												</div>
+											);
+										})}
+										{ abilIndex === ab_i &&
+											<div className="add-attr-bubble">
+												<input type='text' className="manage-add-attr-ipt" value={attrName} onChange={OCAttrName} />
+												<button onClick={onAddAttr}>
+													<AddCircle/>
+												</button>
+											</div>
+										}
+										{ abilIndex === ab_i &&
+											<button className="add-abil-submit-btn" onClick={editAbil(ab_c)}>
+												<Send />
+											</button>
+										}
+										</div>
+									}
 									</div>
 								);
 							})

@@ -6,7 +6,19 @@ import {
 	LOAD_PORT_DATA_FAILURE,
 	ABILITY_ADD_REQUEST,
 	ABILITY_ADD_SUCCESS,
-	ABILITY_ADD_FAILURE
+	ABILITY_ADD_FAILURE,
+	ABILITY_DELETE_REQUEST,
+	ABILITY_DELETE_SUCCESS,
+	ABILITY_DELETE_FAILURE,
+	ABILITY_EDIT_REQUEST,
+	ABILITY_EDIT_SUCCESS,
+	ABILITY_EDIT_FAILURE,
+	ABILITY_EDIT_ONLY_ATTR_REQUEST,
+	ABILITY_EDIT_ONLY_ATTR_SUCCESS,
+	ABILITY_EDIT_ONLY_ATTR_FAILURE,
+	ABILITY_EDIT_ONLY_TITLE_REQUEST,
+	ABILITY_EDIT_ONLY_TITLE_SUCCESS,
+	ABILITY_EDIT_ONLY_TITLE_FAILURE,
 } from '../reducers/portfolio';
 
 
@@ -62,10 +74,118 @@ function* watchAddAbility() {
 	yield takeLatest(ABILITY_ADD_REQUEST, addAbility);
 }
 
+function removeAbilityAPI(abilityId) {
+	return axios.post('/portfolio/remove/ability', { abilityId: abilityId}, {
+		withCredentials: true,
+	})
+}
+
+function* removeAbility(action) {
+	try {
+		const result = yield call(removeAbilityAPI, action.id);
+		yield put({
+			type: ABILITY_DELETE_SUCCESS,
+			data: result.data,
+		})
+	} catch (e) {
+		console.error(e);
+		yield put({
+			type: ABILITY_DELETE_FAILURE,
+			error: e,
+		})
+	}
+}
+
+function* watchRemoveAbility() {
+	yield takeLatest(ABILITY_DELETE_REQUEST, removeAbility);
+}
+
+function editAbilityAPI(abilityData){
+	return axios.post(`/portfolio/ability/edit/${abilityData.ability_id}`, abilityData, {
+		withCredentials: true,
+	})
+}
+
+function* editAbility(action) {
+	try {
+		const result = yield call(editAbilityAPI, action.data);
+		yield put({
+			type: ABILITY_EDIT_SUCCESS,
+			data: result.data,
+		})
+	} catch(e) {
+		console.error(e);
+		yield put({
+			type: ABILITY_EDIT_FAILURE,
+			error: e,
+		})
+	}
+}
+
+function* watchEditAbility() {
+	yield takeLatest(ABILITY_EDIT_REQUEST, editAbility);
+}
+
+function editAbilityOnlyTitleAPI(abilityData){
+	return axios.post(`/portfolio/ability/EditTitle/${abilityData.ability_id}`, abilityData, {
+		withCredentials: true,
+	})
+}
+
+function* editAbilityOnlyTitle(action) {
+	try {
+		const result = yield call(editAbilityOnlyTitleAPI, action.data);
+		yield put({
+			type: ABILITY_EDIT_ONLY_TITLE_SUCCESS,
+			data: result.data,
+		})
+	} catch(e) {
+		console.error(e);
+		yield put({
+			type: ABILITY_EDIT_ONLY_TITLE_FAILURE,
+			error: e,
+		})
+	}
+}
+
+function* watchEditAbilityOnlyTitle() {
+	yield takeLatest(ABILITY_EDIT_ONLY_TITLE_REQUEST, editAbilityOnlyTitle);
+}
+
+function editAbilityOnlyAttrAPI(abilityData){
+	return axios.post(`/portfolio/ability/EditAttr/${abilityData.ability_id}`, abilityData, {
+		withCredentials: true,
+	})
+}
+
+function* editAbilityOnlyAttr(action) {
+	try {
+		const result = yield call(editAbilityOnlyAttrAPI, action.data);
+		yield put({
+			type: ABILITY_EDIT_ONLY_ATTR_SUCCESS,
+			data: result.data,
+		})
+	} catch(e) {
+		console.error(e);
+		yield put({
+			type: ABILITY_EDIT_ONLY_ATTR_FAILURE,
+			error: e,
+		})
+	}
+}
+
+function* watchEditAbilityOnlyAttr() {
+	yield takeLatest(ABILITY_EDIT_ONLY_ATTR_REQUEST, editAbilityOnlyAttr);
+}
+
 export default function* portfolioSaga(){
 	yield all([
 		fork(watchLoadPort),
 		fork(watchAddAbility),
+		fork(watchRemoveAbility),
+		fork(watchEditAbility),
+		fork(watchEditAbilityOnlyAttr),
+		fork(watchEditAbilityOnlyTitle),
 		// call과 fork의 차이
 		// call은 ()내의 함수 종료까지 기다림 -> 동기호출
 		// fork도 ()내의 함수 종료가 아니여도 다른 부분 수행 -> 비동기호출

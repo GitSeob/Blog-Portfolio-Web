@@ -40,7 +40,9 @@ module.exports = (sequelize, DataTypes) => {
 	Works.associate = (db) => {
 		db.Works.belongsTo(db.Portfolio);
 		db.Works.hasOne(db.Image);
-		db.Works.hasMany(db.Work_row);
+		db.Works.hasMany(db.Work_row, {
+			onDelete: 'cascade',
+		});
 	}
 
 	return Works;
