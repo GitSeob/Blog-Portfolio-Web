@@ -285,10 +285,12 @@ button {
 
 .gallery-table-col.col1 {
 	width: 6em;
+	border-right: 1px solid #EEE;
 }
 
 .gallery-table-col.col2 {
 	width: 25%;
+	border-right: 1px solid #EEE;
 }
 
 .ui-group {
@@ -1602,6 +1604,7 @@ ul {
 
 .manage-blog-info .manage-attr-name {
 	width: 100px;
+	min-width: 100px;
 	padding-right: 10px;
 	margin-right: 15px;
 	border-right: 1px solid #E4EAF2;
@@ -1903,3 +1906,162 @@ ul {
 	background: #E7EDF3;
 	padding: 10px 0px 0px 0px;
 }
+
+.manage-work-view {
+	box-sizing: border-box;
+	position: relative;
+	width: 100%;
+	padding: 10px;
+	display: flex;
+	flex-direction: column;
+	padding-bottom: 50px;
+}
+
+.manage-work-view .manage-work-container {
+	box-sizing: border-box;
+	display: flex;
+	flex-flow: row wrap;
+}
+
+.manage-work-container .manage-img-container {
+	box-sizing: border-box;
+	position: relative;
+	width: 40%;
+	min-width: 300px;
+	max-width: 100%;
+	margin-right: 20px;
+}
+
+.manage-img-container .manage-work-img {
+	width: 100%;
+}
+
+.manage-img-container .manage-img-btn {
+	position: absolute;
+	text-align: center;
+	right: 10px;
+	bottom: 0;
+	padding: 5px 20px;
+	background: rgba(200, 200, 200, 0.4);
+	color: white;
+	font-size: 12px;
+	width: fit-content;
+	transform: translateY(-50%);
+	cursor: pointer;
+}
+
+.manage-img-container .manage-img-btn label {
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+}
+.manage-img-btn input[type="file"] {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
+  }
+
+.manage-img-container .manage-img-btn p {
+	color: white;
+	text-align: center;
+	margin-left: 5px;
+}
+
+.manage-work-container .manage-work-information {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	flex: 1 1;
+	min-width: 300px;
+	border: 1px solid #E4EAF2;
+	border-bottom: none;
+}
+
+.manage-work-view .manage-work-table-container {
+	box-sizing: border-box;
+}
+
+.manage-work-view .gallery-table {
+	font-size: 13px;
+	color: #666;
+}
+
+.manage-work-view .gallery-table tbody tr td{
+	padding: 12px 10px;
+}
+
+.manage-work-view .manage-work-btn-container {
+	position: absolute;
+	display: flex;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.manage-work-view .manage-work-btn-container button {
+	width: 100px;
+	padding: 15px 20px;
+	text-align: center;
+	margin: 0 5px;
+	border-radius: 20px;
+	box-shadow: 0px 0px 1px 3px rgba(90, 90, 90, 0.15);
+	color: #777;
+	transition: .5s;
+}
+
+.manage-work-btn-container > .btn-edit:hover {
+	background: #03a9f4;
+	color: white;
+	box-shadow: 0px 0px 10px 7px rgba(126, 186, 255, 0.5);
+}
+
+.manage-work-btn-container > .btn-delete:hover {
+	background: rgb(228, 116, 116);
+	color: white;
+	box-shadow: 0px 0px 10px 7px rgba(228, 116, 116, 0.5);
+}
+
+.manage-blog-info input,
+.manage-blog-info textarea {
+	width: calc(100% - 100px);
+	min-width: 120px;
+	font-size: 14px;
+}
+
+.gallery-table .edit-table-add-btn {
+	width: 100%;
+	text-align: center;
+	background: rgba(77,128,153,0.05);
+	padding: 10px 0;
+}
+
+.gallery-table tbody tr {
+	position: relative;
+}
+
+.gallery-table tbody tr .manage-row-btn-container {
+	position: absolute;
+	display: flex;
+	right: 10px;
+	top: 0;
+	/* transform: translateY(50%); */
+}
+
+
+/* /// */
+.gallery-table tbody tr .manage-row-btn-container button {
+	margin-left: 10px;
+	padding: 0 10px;
+	border-radius: 5px;
+	border: 1px solid #999;
+}
+.gallery-table tbody tr .manage-row-btn-container button:hover {
+	box-shadow: 0px 0px 2px 1px rgba(90, 90, 90, 0.3);
+}
+
+/* /// */
