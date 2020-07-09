@@ -6,7 +6,7 @@ const Test = ({ page , id = 1}) => {
 		<article role='article' id={id} className="gallery-item">
 			<figure role="group" className="gallery-figure">
 				<div className="gallery-image">
-					<img className="gallery-image-thumb" src={page.imgPath} alt={page.proj_name} />
+					<img className="gallery-image-thumb" src={page.imgSrc} alt={page.proj_name} />
 				</div>
 				<figcaption className="gallery-caption">
 					<h3 className="gallery-title">
@@ -65,17 +65,17 @@ const Test = ({ page , id = 1}) => {
 					</tr>
 				</thead>
 				<tbody>
-						{page.table_rows.map((c, i) => {
+						{page.Work_rows.map((c, i) => {
 								return (
 									<tr key={(i)}>
 										<td data-th="col1">
-											{c.col1}
+											{c.row_name}
 										</td>
 										<td data-th="col2">
-											{c.col2}
+											{c.row_descript}
 										</td>
 										<td data-th="col3">
-											{c.col3}
+											{c.row_content}
 										</td>
 									</tr>
 								);

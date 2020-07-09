@@ -2,7 +2,7 @@ const express = require('express');
 const multer = require('multer')
 const path = require('path')
 const db = require('../models')
-const { isLoggedIn } = require('./middleware')
+const { isLoggedIn } = require('./middleware');
 
 const router = express.Router()
 
@@ -46,7 +46,7 @@ router.post('/', isLoggedIn, async (req, res, next) => {
 			where: {id: newPost.id },
 			include: [{
 				model: db.Category,
-				attribute: ['id', 'name'],
+				attributes: ['id', 'name'],
 			}]
 		})
 		return res.json(fullPosts);
@@ -62,7 +62,7 @@ router.get('/:id', async (req, res, next) => {
 			where: {id: req.params.id},
 			include: [{
 				model: db.Category,
-				attribute: ['id', 'name']
+				attributes: ['id', 'name']
 			}]
 		})
 		if (!post) {
@@ -109,7 +109,7 @@ router.patch('/:id', isLoggedIn, async (req, res, next) => {
 			where: {id: req.params.id},
 			include: [{
 				model: db.Category,
-				attribute: ['id', 'name']
+				attributes: ['id', 'name']
 			}]
 		})
 		return res.json(updatedPost);
@@ -128,7 +128,7 @@ router.delete('/:id', isLoggedIn, async (req, res, next) => {
 		if (post.UserId !== req.user.id) {
 			return res.status(403).send('다른 사람의 글은 삭제할 수 없습니다.');
 		}
-		console.log('params id : ' + req.params.id);
+
 		await db.Posts.destroy({ where: {id: req.params.id}})
 		res.send(req.params.id);
 	} catch(e) {

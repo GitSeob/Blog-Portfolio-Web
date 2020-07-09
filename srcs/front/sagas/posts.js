@@ -26,6 +26,26 @@ import {
 	SEARCH_POSTS_FAILURE,
 	SEARCH_POSTS_REQUEST,
 	LOAD_MAIN_POSTS_FAILURE,
+	ADD_CATEGORY_REQUEST,
+	ADD_CATEGORY_SUCCESS,
+	ADD_CATEGORY_FAILURE,
+	EDIT_CATEGORY_SUCCESS,
+	EDIT_CATEGORY_FAILURE,
+	EDIT_CATEGORY_REQUEST,
+	REMOVE_CATEGORY_SUCCESS,
+	REMOVE_CATEGORY_REQUEST,
+	REMOVE_CATEGORY_FAILURE,
+	EDIT_POST_MANAGE_REQUEST,
+	EDIT_POST_MANAGE_FAILURE,
+	OPEN_POSTING,
+	EDIT_POST_MANAGE_SUCCESS,
+	ON_EDIT,
+	REMOVE_SELECTED_POST_REQUEST,
+	REMOVE_SELECTED_POST_SUCCESS,
+	REMOVE_SELECTED_POST_FAILURE,
+	CHANGE_SELECTED_POSTS_CATEGORY_REQUEST,
+	CHANGE_SELECTED_POSTS_CATEGORY_SUCCESS,
+	CHANGE_SELECTED_POSTS_CATEGORY_FAILURE,
 } from '../reducers/posts';
 
 function addPostAPI(postData) {
@@ -102,7 +122,7 @@ function* watchLoadOnePost() {
 }
 
 function loadCategoryAPI() {
-	return axios.get('/posts/category');
+	return axios.get('/category');
 }
 
 function* loadCategory(action) {
@@ -152,7 +172,7 @@ function* watchRemovePost() {
 }
 
 function loadCategoryPostsAPI(categoryName) {
-	return axios.get(`/posts/category/${encodeURIComponent(categoryName)}`)
+	return axios.get(`/category/${encodeURIComponent(categoryName)}`)
 }
 
 function* loadCategoryPosts(action) {
@@ -225,6 +245,161 @@ function* watchLoadSearch() {
 	yield takeLatest(SEARCH_POSTS_REQUEST, loadSearchPost);
 }
 
+function addCategoryAPI(name) {
+	return axios.post('/category', {
+		name: name
+	}, {
+		withCredentials: true,
+	})
+}
+
+function* addCategory(action) {
+	try {
+		const result = yield call(addCategoryAPI, action.data);
+		yield put({
+			type: ADD_CATEGORY_SUCCESS,
+			data: result.data,
+		})
+	} catch(e) {
+		console.error(e);
+		yield put({
+			type: ADD_CATEGORY_FAILURE,
+			error: e,
+		})
+	}
+}
+
+function* watchAddCategory() {
+	yield takeLatest(ADD_CATEGORY_REQUEST, addCategory);
+}
+
+function editCategoryAPI(data) {
+	return axios.patch(`/category/${data.index}`, {
+		name: data.name,
+	}, {
+		withCredentials: true,
+	})
+}
+
+function* editCategory(action) {
+	try{
+		const result = yield call(editCategoryAPI, action.data);
+		yield put({
+			type: EDIT_CATEGORY_SUCCESS,
+			data: result.data,
+		})
+	} catch(e) {
+		console.error(e);
+		yield put({
+			type: EDIT_CATEGORY_FAILURE,
+			error: e,
+		})
+	}
+}
+
+function* watchEditCategory() {
+	yield takeLatest(EDIT_CATEGORY_REQUEST, editCategory);
+}
+
+function removeCategoryAPI(categoryId) {
+	return axios.delete(`/category/${categoryId}`, {
+		withCredentials: true,
+	})
+}
+
+function* removeCategory(action) {
+	try {
+		const result = yield call(removeCategoryAPI, action.data);
+		yield put({
+			type: REMOVE_CATEGORY_SUCCESS,
+			data: result.data,
+		})
+	} catch(e) {
+		console.error(e);
+		yield put({
+			type: REMOVE_CATEGORY_FAILURE,
+			error: e,
+		})
+	}
+}
+
+function* watchRemoveCategory() {
+	yield takeLatest(REMOVE_CATEGORY_REQUEST, removeCategory);
+}
+
+function editPostManageAPI(postId) {
+	return axios.get(`/post/${postId}`);
+}
+
+function* editPostManage(action) {
+	try {
+		const result = yield call(editPostManageAPI, action.data);
+		yield put({
+			type: EDIT_POST_MANAGE_SUCCESS,
+			data: result.data,
+		})
+	} catch(e) {
+		console.error(e);
+		yield put({
+			type: EDIT_POST_MANAGE_FAILURE,
+			error: e,
+		})
+	}
+}
+
+function* watchEditPostManage() {
+	yield takeLatest(EDIT_POST_MANAGE_REQUEST, editPostManage);
+}
+
+function removeSelectedPostsAPI(postIds) {
+	return axios.post('/posts/remove', postIds, {
+		withCredentials: true,
+	})
+}
+
+function* removeSelectedPosts(action) {
+	try {
+		const result = yield call(removeSelectedPostsAPI, action.data);
+		yield put({
+			type: REMOVE_SELECTED_POST_SUCCESS,
+			data: result.data,
+		})
+	} catch(e) {
+		console.error(e);
+		yield put({
+			type: REMOVE_SELECTED_POST_FAILURE,
+			error: e,
+		})
+	}
+}
+
+function* watchRemoveSelectedPosts() {
+	yield takeLatest(REMOVE_SELECTED_POST_REQUEST, removeSelectedPosts);
+}
+
+function changeSelectedCategoryAPI(data) {
+	return axios.post('/posts/changeCategory', data, {
+		withCredentials: true,
+	})
+}
+
+function* changeSelectedCategory(action){
+	try {
+		const result = yield call(changeSelectedCategoryAPI, action.data);
+		yield put({
+			type: CHANGE_SELECTED_POSTS_CATEGORY_SUCCESS,
+			data: result.data,
+		})
+	} catch(e) {
+		console.error(e);
+		yield
+	}
+}
+
+function* watchChangeSelectedCategory() {
+	yield takeLatest(CHANGE_SELECTED_POSTS_CATEGORY_REQUEST, changeSelectedCategory);
+}
+
 export default function* postSaga(){
 	yield all([
 		fork(watchAddPost),
@@ -234,6 +409,12 @@ export default function* postSaga(){
 		fork(watchRemovePost),
 		fork(watchLoadCategoryPosts),
 		fork(watchEditPost),
-		fork(watchLoadSearch)
+		fork(watchLoadSearch),
+		fork(watchAddCategory),
+		fork(watchEditCategory),
+		fork(watchRemoveCategory),
+		fork(watchEditPostManage),
+		fork(watchRemoveSelectedPosts),
+		fork(watchChangeSelectedCategory),
 	])
 }

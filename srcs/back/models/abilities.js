@@ -7,7 +7,10 @@ module.exports = (sequelize, DataTypes) => {
 	})
 
 	Abilities.associate = (db) => {
-		db.Abilities.hasMany(db.Ab_list);
+		db.Abilities.belongsTo(db.Portfolio);
+		db.Abilities.hasMany(db.Ab_list, {
+			onDelete: 'cascade',
+		});
 	}
 
 	return Abilities

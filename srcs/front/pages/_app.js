@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import AppLayout from '../containers/AppLayout';
 // import Helmet from 'react-helmet';
@@ -8,7 +8,7 @@ import Head from 'next/head';
 
 // modules for Redux connect
 import { createStore, applyMiddleware, compose } from 'redux';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
 import reducer from '../reducers';
 import createSagaMiddleware from '@redux-saga/core';
@@ -23,25 +23,68 @@ import '../css/main.css';
 import 'codemirror/lib/codemirror.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
-import { LOAD_MAIN_POSTS_REQUEST, LOAD_CATEGORY_REQUEST } from '../reducers/posts';
 import { LOAD_ADMIN_REQUEST } from '../reducers/admin';
+import {LOAD_INFORMATION_REQUEST} from '../reducers/information';
+import ManageMenu from '../containers/ManageMenu';
 
 const Home = ({ pathname, Component, store }) => {
+	const WrapComponent = () => {
+		const { blogTitle, description, faviconURL } = useSelector(state=>state.information);
+		const LayOut = useCallback(() => {
+			if (pathname === '/portfolio' || pathname === '/login')
+			{
+				return (
+					<>
+					<Head>
+						<title>{blogTitle}</title>
+						<link rel="shortcut icon" href={faviconURL} />
+					</Head>
+					<Background>
+						<Component/>
+					</Background>
+					</>
+				);
+			}
+			else if ( pathname === '/manage')
+			{
+				return (
+					<>
+					<Head>
+						<title>관리자 페이지</title>
+						<link rel="shortcut icon" href={faviconURL} />
+					</Head>
+					<Background>
+						<ManageMenu>
+							<Component/>
+						</ManageMenu>
+					</Background>
+					</>
+				)
+			}
+			else
+			{
+				return (
+					<>
+					<Head>
+						<title>{blogTitle}</title>
+						<link rel="shortcut icon" href={faviconURL} />
+					</Head>
+					<AppLayout pathname={pathname}>
+						<Component />
+					</AppLayout>
+					</>
+				);
+			}
+		}, [blogTitle, description, faviconURL]);
+
+		return (
+			<LayOut />
+		);
+	}
 
 	return (
 		<Provider store={store}>
-			<Head>
-				<title>anjoy의 블로그와 포트폴리오</title>
-			</Head>
-			{pathname==="/portfolio" || pathname === "/login" ?
-				<Background>
-					<Component/>
-				</Background>
-				:
-				<AppLayout pathname={pathname}>
-					<Component />
-				</AppLayout>
-			}
+			<WrapComponent />
 		</Provider>
 	);
 };
@@ -68,10 +111,11 @@ Home.getInitialProps = async (context) => {
 		ctx.store.dispatch({
 			type: LOAD_ADMIN_REQUEST,
 		})
-		ctx.store.dispatch({
-			type: LOAD_CATEGORY_REQUEST,
-		})
 	}
+	ctx.store.dispatch({
+		type: LOAD_INFORMATION_REQUEST,
+	})
+
 	if (ctx.isServer && cookie) { // 클라이언트일 경우에는 브라우저가 있으므로 서버사이드 렌더링일 경우에만 실행
 		axios.defaults.headers.Cookie = cookie; // 프론트 서버에서 백 서버로 보낼 때 쿠키를 동봉해준다는 코드
 	}
