@@ -19,6 +19,9 @@ import {
 	ABILITY_EDIT_ONLY_TITLE_REQUEST,
 	ABILITY_EDIT_ONLY_TITLE_SUCCESS,
 	ABILITY_EDIT_ONLY_TITLE_FAILURE,
+	WORK_EDIT_REQUEST,
+	WORK_EDIT_SUCCESS,
+	WORK_EDIT_FAILURE
 } from '../reducers/portfolio';
 
 
@@ -178,6 +181,33 @@ function* watchEditAbilityOnlyAttr() {
 	yield takeLatest(ABILITY_EDIT_ONLY_ATTR_REQUEST, editAbilityOnlyAttr);
 }
 
+function editWorkAPI(data){
+	return axios.post(`/portfolio/work/${data.id}`, data, {
+		withCredentials: true,
+	})
+}
+
+function* editWork(action) {
+	try {
+		const result = yield call(editWorkAPI, action.data);
+		yield put({
+			type: WORK_EDIT_SUCCESS,
+			data: result.data,
+		})
+	} catch(e) {
+		console.error(e);
+		yield put({
+			type: WORK_EDIT_SUCCESS,
+			error: e,
+		})
+	}
+}
+
+function* watchEditWork() {
+	yield takeLatest(WORK_EDIT_REQUEST, editWork);
+}
+
+
 export default function* portfolioSaga(){
 	yield all([
 		fork(watchLoadPort),
@@ -186,6 +216,7 @@ export default function* portfolioSaga(){
 		fork(watchEditAbility),
 		fork(watchEditAbilityOnlyAttr),
 		fork(watchEditAbilityOnlyTitle),
+		fork(watchEditWork),
 		// call과 fork의 차이
 		// call은 ()내의 함수 종료까지 기다림 -> 동기호출
 		// fork도 ()내의 함수 종료가 아니여도 다른 부분 수행 -> 비동기호출

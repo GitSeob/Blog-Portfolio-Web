@@ -1,9 +1,12 @@
 export const initialState = {
 	isLoaded: false,
 	data: null,
+	workComponentIndex: -1,
+	imageWillChanged: '',
 	addAbilityErrorReason: '',
 	removeAbilityErrorReason: '',
 	editAbilityErrorReason: '',
+	editWorkErrorReason: '',
 }
 
 
@@ -58,6 +61,8 @@ export const WORK_DELETE_FAILURE = 'WORK_DELETE_FAILURE';
 export const WORK_IMG_UPLOAD_REQUEST = 'WORK_IMG_UPLOAD_REQUEST';
 export const WORK_IMG_UPLOAD_SUCCESS = 'WORK_IMG_UPLOAD_SUCCESS';
 export const WORK_IMG_UPLOAD_FAILURE = 'WORK_IMG_UPLOAD_FAILURE';
+
+export const CLICK_WORK_LIST = 'CLICK_WORK_LIST';
 
 export const ADD_DUMY = 'ADD_DUMY';
 
@@ -189,6 +194,34 @@ const portfolio = (state=initialState, action) => {
 			return {
 				...state,
 				editAbilityErrorReason: action.error,
+			}
+		}
+
+		case WORK_EDIT_REQUEST: {
+			return {
+				...state,
+			}
+		}
+		case WORK_EDIT_SUCCESS: {
+			return {
+				...state,
+				data: {
+					...state.data,
+					Works: action.data
+				}
+			}
+		}
+		case WORK_EDIT_FAILURE: {
+			return {
+				...state,
+				editWorkErrorReason: action.error,
+			}
+		}
+
+		case CLICK_WORK_LIST: {
+			return {
+				...state,
+				workComponentIndex: action.data,
 			}
 		}
 

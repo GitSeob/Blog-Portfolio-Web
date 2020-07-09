@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { Reorder, Add } from '@material-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,56 +6,64 @@ import { useDispatch, useSelector } from 'react-redux';
 import {useSetInput} from './BlogManage';
 import AddWork from './AddWork';
 import OpenedWork from './OpenedWork';
+import { CLICK_WORK_LIST } from '../../reducers/portfolio';
 
 const ReviseWork = props => {
-	const { data } = useSelector(state=>state.portfolio);
+	const dispatch = useDispatch();
+	const { data, workComponentIndex } = useSelector(state=>state.portfolio);
 
+	// const [workComponentIndex, setWorkComponentIndex] = useState(-1);
 	const [editWorkName, setEditWorkName, OCEditWorkName] = useSetInput('');
-	const [workIndex, setWorkIndex] = useState(-1);
 	const [openAddWork, setOpenAddWork] = useState(false);
 	const [addWorkName, setAddWorkName, OCAddWorkName] = useSetInput('');
 
 	const openWork = useCallback((i) => (e) => {
 		e.preventDefault();
-		setWorkIndex(i);
-	}, [workIndex])
+		dispatch({
+			type: CLICK_WORK_LIST,
+			data: i,
+		})
+		// setWorkComponentIndex(i);
+	}, [workComponentIndex]);
 
 	const closeWork = useCallback((e) => {
 		e.preventDefault();
-		setWorkIndex(-1);
-	})
+		// setWorkComponentIndex(-1);
+		dispatch({
+			type: CLICK_WORK_LIST,
+			data: i,
+		})
+	}, [workComponentIndex])
 
 	const open_add_work = useCallback((e) => {
 		e.preventDefault();
 		setOpenAddWork(true);
-	}, []);
+	}, [openAddWork]);
+
 	const close_add_work = useCallback((e) => {
 		e.preventDefault();
 		setOpenAddWork(false);
-	}, []);
+	}, [openAddWork]);
 
 	const cancelAddWork = useCallback((e) => {
 		e.preventDefault();
 		setAddWorkName('');
 		setOpenAddWork(false);
-	}, [])
+	}, [addWorkName, openAddWork])
 
 	const clickedCancelEditWorkBtn = useCallback((e) => {
 		e.preventDefault();
-		setWorkIndex(-1);
 	})
 
 	const clickedAbilWorkBtn = useCallback((i, c) => (e) => {
 		e.preventDefault();
 		setEditWorkName(c.proj_name);
-		setWorkIndex(i);
 	})
 
 	const removeWork = useCallback((i) => (e) => {
 		e.preventDefault();
 		console.log('remove work');
 	});
-
 
 	return (
 		<div className="manage-attr-wrap">
@@ -70,11 +78,11 @@ const ReviseWork = props => {
 							data.Works.map((c, i) => {
 								return (
 									<div key={(i)}>
-										<button className="manage-bundle-list"  onClick={workIndex !== i ? openWork(i): closeWork}>
+										<button className="manage-bundle-list"  onClick={workComponentIndex !== i ? openWork(i) : closeWork}>
 											<Reorder style={{position: 'absolute', left: 0, top: '50%',fontSize: "16px", color: "#B4BAC2", transform: 'translate(50%, -50%)'}}/>
 											{c.proj_name}
 										</button>
-										{ workIndex === i && <OpenedWork works={c} />}
+										{ workComponentIndex === i && <OpenedWork works={c} idx={i} />}
 									</div>
 								);
 							})

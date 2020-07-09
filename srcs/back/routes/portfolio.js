@@ -9,12 +9,12 @@ const router = express.Router()
 const upload = multer({
 	storage: multer.diskStorage({
 		destination(req, file, done) {
-			done(null, 'img_for_portfolio');
+			done(null, 'uploads');
 		},
 		filename(req, file, done){
 			let ext = path.extname(file.originalname);
 			let basename = path.basename(file.originalname, ext);
-			let savename = "favicon_" + basename + ext;
+			let savename = "work_" + basename + ext;
 			done(null, savename);
 		}
 	}),
@@ -175,6 +175,51 @@ router.post('/ability/editAttr/:ability_id', async (req, res, next) => {
 			}]
 		})
 
+		return res.json(resValue);
+	} catch(e) {
+		console.error(e);
+		next(e);
+	}
+})
+
+router.post('/work/imgUpload', upload.single('image'), async (req, res) => {
+	res.json({
+		url: `http://localhost:3065/${req.file.filename}`
+	});
+})
+
+router.post('/work/:work_id', async (req, res, next) => {
+	try {
+		const work = await db.Works.findOne({
+			where: {id: req.params.work_id}
+		})
+		if (!work) {
+			return res.status(401).send('work id error');
+		}
+		await db.Works.update({
+			proj_name: req.body.proj_name,
+			category: req.body.category,
+			period: req.body.period,
+			members: req.body.members,
+			repo: req.body.repo,
+			description: req.body.description,
+			imgSrc: req.body.imgSrc,
+		}, {
+			where: {id: req.params.work_id}
+		})
+
+		await db.Work_row.destroy({
+			where: {WorkId: req.params.work_id}
+		});
+		await db.Work_row.bulkCreate(req.body.Work_rows ,{
+			returning: true,
+		})
+
+		const resValue = await db.Works.findAll({
+			include: [{
+				model: db.Work_row,
+			}]
+		})
 		return res.json(resValue);
 	} catch(e) {
 		console.error(e);
