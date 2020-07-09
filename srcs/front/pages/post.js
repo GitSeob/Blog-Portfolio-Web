@@ -52,7 +52,7 @@ const OnePost = ({ id, postData }) => {
 	return (
 		<>
 		<Head>
-			<title>post page</title>
+			<title>{postData.title} :: anjoy</title>
 			<meta property="og:url" content={`http://localhost:3060/post/${id}`} />
 		</Head>
 		<div className="post-category-list index-type-common index-type-horizontal">

@@ -11,7 +11,7 @@ const Work = ({ data }) => {
 			<Header classname='work' subTitle={data.work_sub_title} title={data.work_title} />
 			{/* <Port /> */}
 			<div id="portfolio" className="section-content gallery alternate">
-				{data.work_attribute.map((c, i) => {
+				{data.Works.map((c, i) => {
 					return (
 						<Test key={(i)} page={c} />
 					);

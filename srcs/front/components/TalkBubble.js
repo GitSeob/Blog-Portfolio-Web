@@ -8,12 +8,12 @@ const TalkBubble = ({ abil }) => {
 	return (
 		<Container className="abil">
 			<Bubble>
-				<figcaption>{abil.name}</figcaption>
+				<figcaption>{abil.list_title}</figcaption>
 				<ListContainer>
-					{abil.list.map((c, i) => {
+					{abil.Ab_lists.map((c, i) => {
 						return (
 							<ListOne key={(i)}>
-								<CheckCircle style={{width: '14px'}}/><p>{c}</p>
+								<CheckCircle style={{width: '14px'}}/><p>{c.list_attribute}</p>
 							</ListOne>
 						);
 					})}

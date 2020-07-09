@@ -14,7 +14,6 @@ const Editor = dynamic(import ('../components/Toast'), {
 
 const SelectCate = ({category_list, setCategory, category_index}) => {
 	const [isClicked, setClick] = useState(false);
-	const [cate_name, setCateName] = useState(category_list[category_index].name);
 
 	const cateOpen = {
 		display: `${isClicked ? 'block' : 'none'}`,
@@ -35,7 +34,7 @@ const SelectCate = ({category_list, setCategory, category_index}) => {
 	const onChangeCate = useCallback(i =>(e) => {
 		e.preventDefault();
 		setCategory(i);
-		setCateName(category_list[i].name);
+		// setCateName(category_list[i].name);
 		setClick(false);
 	}, []);
 
@@ -43,7 +42,7 @@ const SelectCate = ({category_list, setCategory, category_index}) => {
 		<div className="cateSelect-ipt" role="button">
 			<div className="cs-ipt-btn" role="button">
 				<button type="button" className="cs-btn" onClick={isOpen}>
-					<i className="cs-text"> {cate_name} </i>
+					<i className="cs-text"> {category_list[category_index].name} </i>
 					<span className="cs-icon" style={allowTurn}>
 						<KeyboardArrowDown />
 					</span>
@@ -66,12 +65,18 @@ const SelectCate = ({category_list, setCategory, category_index}) => {
 	);
 }
 
-const Posting = ( ) => {
-	const { category_list, isAddedPost, isAddingPost, isEdittingPost, isEditedPost, postEditMode, postData } = useSelector(state=>state.posts);
+const Posting = ({category_list}) => {
+	const { isAddedPost, isAddingPost, isEdittingPost, isEditedPost, postEditMode, postData } = useSelector(state=>state.posts);
 	const { admin } = useSelector(state=>state.admin);
 	const dispatch = useDispatch();
 
-	const targetPost = (postEditMode && postData) ? postData : null;
+	let targetPost = (postEditMode && postData) ? postData : null;
+
+	// (postEditMode && postData) ? postData :
+
+	useEffect(() => {
+		targetPost = postData;
+	}, [postEditMode, postData])
 
 	const closeWindow = useCallback(() => {
 		dispatch({
@@ -85,7 +90,7 @@ const Posting = ( ) => {
 
 	const [editorValue, OCV] = useState(targetPost ? targetPost.content : '');
 	const [postTitle, OCPT] = useInput(targetPost ? targetPost.title : '');
-	const [category_index, setCategory] = useState(targetPost ? targetPost.CategoryId - 1 : 1);
+	const [category_index, setCategory] = useState(targetPost ? targetPost.CategoryId - 1 : 0);
 
 	const defaultSubmit = useCallback((e) => {
 		e.preventDefault();
@@ -134,6 +139,7 @@ const Posting = ( ) => {
 	useEffect(() => {
 		if (isAddedPost) {
 			alert("글이 등록되었습니다.");
+			closeWindow();
 			Router.push('/');
 		}
 		if (isEditedPost) {

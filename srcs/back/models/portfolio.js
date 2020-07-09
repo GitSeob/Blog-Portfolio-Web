@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.TEXT,
 			allowNull: false,
 		},
-		commnet: {
+		comment: {
 			type: DataTypes.TEXT,
 			allowNull: false,
 		}
@@ -48,6 +48,11 @@ module.exports = (sequelize, DataTypes) => {
 		charset: 'utf8',
 		collate: 'utf8_general_ci'
 	})
+
+	Portfolio.associate = (db) =>{
+		db.Portfolio.hasMany(db.Abilities);
+		db.Portfolio.hasMany(db.Works);
+	};
 
 	return Portfolio;
 }
