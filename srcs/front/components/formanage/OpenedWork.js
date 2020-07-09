@@ -71,13 +71,27 @@ const OpenedWork = ({ works }) => {
 		}
 	})
 
-	const editRow = useCallback((i) => (e) => {
+	const onEditRow = useCallback((i, c) => (e) => {
 		e.preventDefault();
 		setEditRowStatus(i);
+		setRowValue(c);
+	});
+
+	const applyRow = useCallback((row, idx) => (e) => {
+		e.preventDefault();
+		const tempTableValue = [...tableValue];
+		tempTableValue.splice(idx, 1, rowValue);
+		setTableValue(tempTableValue);
+		setEditRowStatus(-1);
+	}, [rowValue, tableValue]);
+
+	const cancelEditRow = useCallback((e) => {
+		e.preventDefault();
+		setEditRowStatus(-1);
 	})
 
 	const onChangeTableValue = useCallback((col) => (e) => {
-		const tempArray = rowValue;
+		let tempArray = {...rowValue};
 		if (col === 1) {
 			tempArray['row_name'] = e.target.value;
 		}
@@ -89,17 +103,19 @@ const OpenedWork = ({ works }) => {
 		} else {
 			return ;
 		}
-	})
+		setRowValue(tempArray);
+	}, [rowValue]);
 
 	return (
-		<article role="article" role="group" className="manage-work-view">
-			<figure className="manage-work-container">
+		<>
+		<article role="article" id={works.id} className="manage-work-view">
+			<figure role="group" className="manage-work-container">
 				<div className="manage-img-container">
 					<img src={imgSrcValue} className="manage-work-img" />
 					{
 						editStatus &&
 						<div className="manage-img-btn">
-							<label for="input-file">
+							<label htmlFor="input-file">
 								<InsertPhoto />
 								<p>이미지 변경하기</p>
 							</label>
@@ -206,12 +222,11 @@ const OpenedWork = ({ works }) => {
 					</tr>
 				</thead>
 				<tbody>
-					{works.Work_rows.map((c, i) => {
+					{tableValue.map((c, i) => {
 						return (
-							<>
+							<tr key={(i)}>
 							{editRowStatus !== i ?
 								<>
-									<tr key={(i)}>
 										<td data-th="col1">
 											{c.row_name}
 										</td>
@@ -223,7 +238,7 @@ const OpenedWork = ({ works }) => {
 												{c.row_content}
 												{editStatus &&
 													<div className="manage-row-btn-container">
-														<button onClick={editRow(i)}>
+														<button onClick={onEditRow(i, c)}>
 															수정
 														</button>
 														<button>
@@ -233,36 +248,33 @@ const OpenedWork = ({ works }) => {
 												}
 											</div>
 										</td>
-									</tr>
 								</>
 							:
 								<>
-									<tr key={(i)}>
 										<td data-th="col1">
-											<input value={c.row_name} />
+											<input value={rowValue.row_name} onChange={onChangeTableValue(1)}/>
 										</td>
 										<td data-th="col2">
-											<input value={c.row_descript} />
+											<input value={rowValue.row_descript} onChange={onChangeTableValue(2)}/>
 										</td>
 										<td data-th="col3">
 										<div style={{position: 'relative'}}>
-											<input value={c.row_content} type="text" />
+											<input value={rowValue.row_content} type="text" onChange={onChangeTableValue(3)}/>
 												{editStatus &&
-													<div className="manage-row-btn-container">
-														<button onClick={editRow(i)}>
+													<div className="manage-row-btn-container on-edit">
+														<button onClick={applyRow(c, i)}>
 															적용
 														</button>
-														<button>
+														<button onClick={cancelEditRow}>
 															취소
 														</button>
 													</div>
 												}
 											</div>
 										</td>
-									</tr>
-								</>
+									</>
 							}
-							</>
+							</tr>
 						);
 					})}
 					{editStatus &&
@@ -298,6 +310,7 @@ const OpenedWork = ({ works }) => {
 				}
 			</div>
 		</article>
+		</>
 	);
 };
 
