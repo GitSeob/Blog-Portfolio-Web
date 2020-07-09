@@ -3,6 +3,7 @@ export const initialState = {
 	data: null,
 	workComponentIndex: -1,
 	imageWillChanged: '',
+	editPortErrorReason: '',
 	addAbilityErrorReason: '',
 	removeAbilityErrorReason: '',
 	editAbilityErrorReason: '',
@@ -16,17 +17,9 @@ export const LOAD_PORT_DATA_REQUEST = 'LOAD_PORT_DATA_REQUEST';
 export const LOAD_PORT_DATA_SUCCESS = 'LOAD_PORT_DATA_SUCCESS';
 export const LOAD_PORT_DATA_FAILURE = 'LOAD_PORT_DATA_FAILURE';
 
-export const ABOUT_EDIT_REQUEST = 'ABOUT_EDIT_REQUEST';
-export const ABOUT_EDIT_SUCCESS = 'ABOUT_EDIT_SUCCESS';
-export const ABOUT_EDIT_FAILURE = 'ABOUT_EDIT_FAILURE';
-
-export const FOOTER_EDIT_REQUEST = 'FOOTER_EDIT_REQUEST';
-export const FOOTER_EDIT_SUCCESS = 'FOOTER_EDIT_SUCCESS';
-export const FOOTER_EDIT_FAILURE = 'FOOTER_EDIT_FAILURE';
-
-export const LINK_EDIT_REQUEST = 'LINK_EDIT_REQUEST';
-export const LINK_EDIT_SUCCESS = 'LINK_EDIT_SUCCESS';
-export const LINK_EDIT_FAILURE = 'LINK_EDIT_FAILURE';
+export const PORT_EDIT_REQUEST = 'PORT_EDIT_REQUEST';
+export const PORT_EDIT_SUCCESS = 'PORT_EDIT_SUCCESS';
+export const PORT_EDIT_FAILURE = 'PORT_EDIT_FAILURE';
 
 export const ABILITY_ADD_REQUEST = 'ABILITY_ADD_REQUEST';
 export const ABILITY_ADD_SUCCESS = 'ABILITY_ADD_SUCCESS';
@@ -84,10 +77,27 @@ const portfolio = (state=initialState, action) => {
 			return {
 				...state,
 				data: action.data,
-				isLoaded: true,
 			}
 		}
 		case LOAD_PORT_DATA_FAILURE: {
+			return {
+				...state,
+				editPortErrorReason: action.error,
+			}
+		}
+
+		case PORT_EDIT_REQUEST: {
+			return {
+				...state,
+			}
+		}
+		case PORT_EDIT_SUCCESS: {
+			return {
+				...state,
+				data: action.data,
+			}
+		}
+		case PORT_EDIT_FAILURE: {
 			return {
 				...state,
 				isLoaded: false,

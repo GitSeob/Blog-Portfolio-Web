@@ -1,6 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import Head from 'next/head';
+
 import DefaultManage from '../components/formanage/DefaultManage';
 import BlogManage from '../components/formanage/BlogManage';
 import PortManage from '../components/formanage/PortManage';
@@ -13,11 +15,7 @@ const Manage = () => {
 	const { admin } = useSelector(state=>state.admin);
 
 	let ComponentTitle = '';
-
-	if (menuStatus.main) {
-		ComponentTitle = "기본 정보";
-	}
-	else if (menuStatus.blog) {
+	if (menuStatus.blog) {
 		ComponentTitle = "블로그";
 	}
 	else if (menuStatus.port) {
@@ -25,12 +23,7 @@ const Manage = () => {
 	}
 
 	const ManageComponent = () => {
-		if (menuStatus.main) {
-			return (
-				<DefaultManage />
-			);
-		}
-		else if (menuStatus.blog) {
+		if (menuStatus.blog) {
 			return (
 				<>
 				<BlogManage category_list={category_list} mainPosts={mainPosts}/>

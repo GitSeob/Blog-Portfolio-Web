@@ -14,7 +14,7 @@ import {
 	QuitButton,
 } from '../css/styledEdit';
 import { ExitToApp, Tv, ListAlt, AccountBox } from '@material-ui/icons';
-import { SET_MAIN, SET_BLOG, SET_PORT } from '../reducers/manage';
+import { SET_BLOG, SET_PORT } from '../reducers/manage';
 import LoginForm from '../components/LoginForm';
 import Posting from '../containers/Posting';
 
@@ -28,15 +28,10 @@ const ManageMenu = ({ children }) => {
 		e.preventDefault();
 		if (i === 0) {
 			dispatch({
-				type: SET_MAIN,
-			})
-		}
-		else if (i === 1) {
-			dispatch({
 				type: SET_PORT,
 			})
 		}
-		else if (i == 2){
+		else if (i == 1){
 			dispatch({
 				type: SET_BLOG
 			})
@@ -53,15 +48,11 @@ const ManageMenu = ({ children }) => {
 		<Container>
 			<Aside>
 				<SideTitle><img  style={{width: '100%'}} src={'./images/mainIcon.png'} /></SideTitle>
-				<SideCate className={menuStatus.main && 'click'} name="port" onClick={clickMenu(0)}>
-					<AccountBox style={{ width: '1em', height: '1em', fontSize: '1.5rem', color: 'inherit', marginLeft:'15px', position: 'absolute', top: '50%', transform: 'translateY(-50%)'}}/>
-					<div>Profile</div>
-				</SideCate>
-				<SideCate className={menuStatus.port && 'click'} name="port" onClick={clickMenu(1)}>
+				<SideCate className={menuStatus.port && 'click'} name="port" onClick={clickMenu(0)}>
 					<Tv style={{ width: '1em', height: '1em', fontSize: '1.5rem',color: 'inherit', marginLeft:'15px', position: 'absolute', top: '50%', transform: 'translateY(-50%)'}}/>
 					<div>Portfolio</div>
 				</SideCate>
-				<SideCate className={menuStatus.blog && 'click'} name="post" onClick={clickMenu(2)}>
+				<SideCate className={menuStatus.blog && 'click'} name="post" onClick={clickMenu(1)}>
 					<ListAlt style={{ width: '1em', height: '1em', fontSize: '1.5rem',color: 'inherit', marginLeft:'15px', position: 'absolute', top: '50%', transform: 'translateY(-50%)'}}/>
 					<div>Blog</div>
 				</SideCate>

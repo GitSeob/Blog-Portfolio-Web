@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { Title, Description, Subtitles, AlternateEmail, ContactPhone, Code, Comment } from '@material-ui/icons';
 
 import {useSetInput} from './BlogManage';
+import { PORT_EDIT_REQUEST } from '../../reducers/portfolio';
 
 const RevisePortfolio = props => {
 	const { data } = useSelector(state=>state.portfolio);
+
+	const dispatch = useDispatch();
 
 	const [aboutTitleValue, setAboutTitleValue, OCAboutTitleValue] = useSetInput(data.about_title);
 	const [aboutSubTitleValue, setAboutSubTitleValue, OCAboutSubTitleValue] = useSetInput(data.about_sub_title);
@@ -20,11 +23,56 @@ const RevisePortfolio = props => {
 	const [githubURLValue, setGithubURLValue, OCGithubURLValue] = useSetInput(data.github);
 	const [commentValue, setCommentValue, OCCommentValue] = useSetInput(data.comment);
 
-	let isChanged = true;
+	const [isChanged, setIsChanged] = useState(true);
+
+	// const resetValues = useCallback(() => {
+
+	// })
+
+	const submitChangedValue = useCallback((e) => {
+		e.preventDefault();
+		if (confirm(`변경사항을 저장하시겠습니까?`)) {
+			dispatch({
+				type: PORT_EDIT_REQUEST,
+				data: {
+					about_title: aboutTitleValue,
+					about_sub_title: aboutSubTitleValue,
+					about_content: aboutContentValue,
+					ability_title: abilityTitleValue,
+					ability_sub_title: abilitySubTitleValue,
+					work_title: workTitleValue,
+					work_sub_title: workSubTitleValue,
+					email: emailValue,
+					kakao: kakaoValue,
+					github: githubURLValue,
+					comment: commentValue
+				}
+			})
+		}
+	})
+
+	useEffect(() => {
+		if ((aboutTitleValue !== data.about_title ) ||
+			(aboutSubTitleValue !== data.about_sub_title) ||
+			(aboutContentValue !== data.about_content) ||
+			(abilityTitleValue !== data.ability_title) ||
+			(abilitySubTitleValue !== data.ability_sub_title) ||
+			(workTitleValue !== data.work_title) ||
+			(workSubTitleValue !== data.work_sub_title) ||
+			(emailValue !== data.email) ||
+			(kakaoValue !== data.kakao) ||
+			(githubURLValue !== data.github) ||
+			(commentValue !== data.comment)) {
+				setIsChanged(true);
+		} else {
+			setIsChanged(false);
+		}
+	}, [data, aboutTitleValue, aboutSubTitleValue, aboutContentValue, abilityTitleValue, abilitySubTitleValue, workTitleValue, workSubTitleValue, emailValue, kakaoValue, githubURLValue, commentValue]);
+
 
 	return (
 		<>
-		<form>
+		<form onSubmit={submitChangedValue}>
 			<div className="manage-attr-wrap">
 				<h3>포트폴리오 데이터 관리</h3>
 				<br />
@@ -68,7 +116,7 @@ const RevisePortfolio = props => {
 								<div className="manage-attr-name">
 									ABILITY SUB TITLE
 								</div>
-								<input type='text' value={abilitySubTitleValue} onChange={OCAbilityTitleValue} required placeholder="Ability 페이지의 서브 타이틀을 입력해주세요." className="manage-attr-content" />
+								<input type='text' value={abilitySubTitleValue} onChange={OCAbilitySubTitleValue} required placeholder="Ability 페이지의 서브 타이틀을 입력해주세요." className="manage-attr-content" />
 							</div>
 						</div>
 						<div className="manage-list-order">
@@ -120,7 +168,7 @@ const RevisePortfolio = props => {
 					</div>
 					<div className="set_btn">
 						{ isChanged ?
-							<button type="button" className="btn_save">
+							<button type="submit" className="btn_save">
 								변경사항 저장
 							</button>
 							:
