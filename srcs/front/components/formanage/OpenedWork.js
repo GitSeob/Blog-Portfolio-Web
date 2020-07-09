@@ -1,13 +1,11 @@
 import React, {useState, useCallback, useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector, batch } from 'react-redux';
-import { Title, Category, History, People, Code, Description, InsertPhoto } from '@material-ui/icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { Title, Category, History, People, Code, Description, InsertPhoto, Create } from '@material-ui/icons';
 
 import axios from 'axios';
-
-import {useInput} from '../LoginForm';
 import {useSetInput} from './BlogManage';
-import { WORK_EDIT_REQUEST, WORK_DELETE_REQUEST } from '../../reducers/portfolio';
+import { WORK_EDIT_REQUEST, WORK_DELETE_REQUEST, CLICK_WORK_LIST } from '../../reducers/portfolio';
 
 const OpenedWork = ({ idx }) => {
 	const dispatch = useDispatch();
@@ -20,6 +18,7 @@ const OpenedWork = ({ idx }) => {
 
 	const [titleValue, setTitleValue, OCTitleValue] = useSetInput(data.Works[idx].proj_name);
 	const [categoryValue, setCategoryValue, OCCategoryValue] = useSetInput(data.Works[idx].category);
+	const [contentValue, setContentValue, OCContentValue] = useSetInput(data.Works[idx].content);
 	const [periodValue, setPeriodValue, OCPeriodValue] = useSetInput(data.Works[idx].period);
 	const [memberValue, setMemberValue] = useState(data.Works[idx].members);
 	const [repoValue, setRepoValue, OCRepoValue] = useSetInput(data.Works[idx].repo);
@@ -55,7 +54,8 @@ const OpenedWork = ({ idx }) => {
 		setRepoValue(data.Works[idx].repo);
 		setdescriptionValue(data.Works[idx].description);
 		setTableValue(data.Works[idx].Work_rows);
-	}, [titleValue, categoryValue, periodValue, memberValue, repoValue, descriptionValue, tableValue])
+		setContentValue(data.Works[idx].content);
+	}, [titleValue, categoryValue, periodValue, memberValue, repoValue, descriptionValue, tableValue, contentValue])
 
 	const onEdit = useCallback((e) => {
 		e.preventDefault();
@@ -74,7 +74,13 @@ const OpenedWork = ({ idx }) => {
 		if (confirm(`정말 [ ${data.Works[idx].proj_name} ] 프로젝트를 삭제하시겠습니까?`)) {
 			dispatch({
 				type: WORK_DELETE_REQUEST,
-				data: data.Works[idx].id,
+				data: {
+					id: data.Works[idx].id,
+				},
+			})
+			dispatch({
+				type: CLICK_WORK_LIST,
+				data: -1,
 			})
 		}
 	}, [])
@@ -99,6 +105,7 @@ const OpenedWork = ({ idx }) => {
 			(data.Works[idx].period === periodValue) &&
 			(data.Works[idx].members === memberValue) &&
 			(data.Works[idx].repo === repoValue) &&
+			(data.Works[idx].content === contentValue) &&
 			(data.Works[idx].description === descriptionValue) &&
 			(imageWillChanged === '') &&
 			(editedRowIndex.length === 0 || deletedRowIndex.length === 0 ) &&
@@ -114,6 +121,7 @@ const OpenedWork = ({ idx }) => {
 					proj_name: titleValue,
 					category: categoryValue,
 					period: periodValue,
+					content: contentValue,
 					members: memberValue,
 					repo: repoValue,
 					description: descriptionValue,
@@ -124,7 +132,7 @@ const OpenedWork = ({ idx }) => {
 				}
 			})
 		}
-	}, [titleValue, categoryValue, periodValue, memberValue, repoValue, descriptionValue, imageWillChanged, editedRowIndex, deletedRowIndex, editSomeThing])
+	}, [titleValue, contentValue, categoryValue, periodValue, memberValue, repoValue, descriptionValue, imageWillChanged, editedRowIndex, deletedRowIndex, editSomeThing])
 
 	const onEditRow = useCallback((i, c) => (e) => {
 		e.preventDefault();
@@ -274,6 +282,19 @@ const OpenedWork = ({ idx }) => {
 							</span>
 							:
 							<input value={periodValue} onChange={OCPeriodValue} />
+						}
+					</div>
+					<div className="manage-blog-info">
+						<Create style={{position: 'absolute', left: 0, top: '50%',fontSize: "16px", color: "#B4BAC2", transform: 'translate(50%, -50%)'}}/>
+						<span className="manage-attr-name">
+							CONTENT
+						</span>
+						{ !editStatus ?
+							<span>
+								{data.Works[idx].content}
+							</span>
+							:
+							<input value={contentValue} onChange={OCContentValue} />
 						}
 					</div>
 					<div className="manage-blog-info">

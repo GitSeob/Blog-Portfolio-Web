@@ -7,6 +7,8 @@ export const initialState = {
 	removeAbilityErrorReason: '',
 	editAbilityErrorReason: '',
 	editWorkErrorReason: '',
+	deleteWorkErrorReason: '',
+	addWorkErrorReason: '',
 }
 
 
@@ -215,6 +217,48 @@ const portfolio = (state=initialState, action) => {
 			return {
 				...state,
 				editWorkErrorReason: action.error,
+			}
+		}
+
+		case WORK_DELETE_REQUEST: {
+			return {
+				...state,
+			}
+		}
+		case WORK_DELETE_SUCCESS: {
+			return {
+				...state,
+				data: {
+					...state.data,
+					Works: state.data.Works.filter(v => v.id !== action.data)
+				}
+			}
+		}
+		case WORK_DELETE_FAILURE: {
+			return {
+				...state,
+				deleteWorkErrorReason: action.error,
+			}
+		}
+
+		case WORK_ADD_REQUEST: {
+			return {
+				...state,
+			}
+		}
+		case WORK_ADD_SUCCESS: {
+			return {
+				...state,
+				data: {
+					...state.data,
+					Works: [...state.data.Works, action.data]
+				}
+			}
+		}
+		case WORK_ADD_FAILURE: {
+			return {
+				...state,
+				addWorkErrorReason: action.error,
 			}
 		}
 

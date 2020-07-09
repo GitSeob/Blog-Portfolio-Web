@@ -1,22 +1,24 @@
 import React, {useState, useCallback, useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector, batch } from 'react-redux';
-import { Title, Category, History, People, Code, Description, InsertPhoto } from '@material-ui/icons';
+import axios from 'axios';
+import { useDispatch} from 'react-redux';
+import { Title, Category, History, People, Code, Description, InsertPhoto, Create } from '@material-ui/icons';
 
 import {useInput} from '../LoginForm';
 import {useSetInput} from './BlogManage';
-import { WORK_IMG_UPLOAD_REQUEST } from '../../reducers/portfolio';
+import { WORK_ADD_REQUEST } from '../../reducers/portfolio';
 
-const AddWork = ({ }) => {
+const AddWork = ({ close_add_work}) => {
 	const dispatch = useDispatch();
-	const { imageWillChanged } = useSelector(state=>state.portfolio);
+
 
 	const imageInput = useRef();
-
+	const [imageWillChanged, setImageWillChanged] = useState('');
 	const [editStatus, setEditStatus] = useState(false);
 
 	const [titleValue, setTitleValue, OCTitleValue] = useSetInput('');
 	const [categoryValue, setCategoryValue, OCCategoryValue] = useSetInput('');
+	const [contentValue, setContentValue, OCContentValue] = useSetInput('');
 	const [periodValue, setPeriodValue, OCPeriodValue] = useSetInput('');
 	const [memberValue, setMemberValue] = useState('');
 	const [repoValue, setRepoValue, OCRepoValue] = useSetInput('');
@@ -48,6 +50,7 @@ const AddWork = ({ }) => {
 		setMemberValue('');
 		setRepoValue('');
 		setdescriptionValue('');
+		setContentValue('');
 	}, [])
 
 	const onEdit = useCallback((e) => {
@@ -65,18 +68,48 @@ const AddWork = ({ }) => {
 	const onChangeImg = useCallback((e) => {
 		const imgFormData = new FormData();
 		imgFormData.append('image', e.target.files[0]);
-		dispatch({
-			type: WORK_IMG_UPLOAD_REQUEST,
-			data: imgFormData
-		});
+		axios.post('http://localhost:3065/api/portfolio/work/imgUpload', imgFormData, {
+			withCredentials: true
+		}).then(res => {
+			setImageWillChanged(res.data.url);
+		}).catch(e => {
+			console.error(e);
+			alert(`${e} 에러가 발생했습니다.`);
+		})
 	}, [dispatch, imageWillChanged]);
 
-	const submitForEdit = useCallback((e) => {
+	const submitForAdd = useCallback((e) => {
 		e.preventDefault();
-		if (confirm(`프로젝트를 추가하시겠습니까?`)) {
-			console.log('edit');
+		if (('' === titleValue) ||
+			('' === categoryValue) ||
+			('' === periodValue) ||
+			('' === memberValue) ||
+			('' === repoValue) ||
+			('' === contentValue) ||
+			('' === descriptionValue)) {
+				alert('빈 값이 존재합니다.');
+				return ;
+		} else if (tableValue.length === 0) {
+			alert('테이블 row를 최소 1개 입력해야합니다.');
+			return ;
 		}
-	}, [])
+		if (confirm(`프로젝트를 추가하시겠습니까?`)) {
+			dispatch({
+				type: WORK_ADD_REQUEST,
+				data: {
+					proj_name: titleValue,
+					category: categoryValue,
+					period: periodValue,
+					content: contentValue,
+					members: memberValue,
+					repo: repoValue,
+					description: descriptionValue,
+					Work_rows: tableValue,
+					imgSrc: imageWillChanged,
+				}
+			})
+		}
+	}, [titleValue, categoryValue, periodValue, memberValue, repoValue, descriptionValue, tableValue, contentValue])
 
 	const onEditRow = useCallback((i, c) => (e) => {
 		e.preventDefault();
@@ -119,7 +152,6 @@ const AddWork = ({ }) => {
 	const openAddRow = useCallback((e) => {
 		e.preventDefault();
 		setRowValue({
-			id: -1,
 			row_name: '',
 			row_descript: '',
 			row_content: '',
@@ -168,28 +200,35 @@ const AddWork = ({ }) => {
 						<span className="manage-attr-name">
 							TITLE
 						</span>
-						<input value={titleValue} onChange={OCTitleValue} />
+						<input placeholder='프로젝트 이름을 입력하세요.' value={titleValue} onChange={OCTitleValue} />
 					</div>
 					<div className="manage-blog-info">
 						<Category style={{position: 'absolute', left: 0, top: '50%',fontSize: "16px", color: "#B4BAC2", transform: 'translate(50%, -50%)'}}/>
 						<span className="manage-attr-name">
 							CATEGORY
 						</span>
-						<input value={categoryValue} onChange={OCCategoryValue} />
+						<input placeholder='프로젝트 카테고리를 입력하세요.' value={categoryValue} onChange={OCCategoryValue} />
 					</div>
 					<div className="manage-blog-info">
 						<History style={{position: 'absolute', left: 0, top: '50%',fontSize: "16px", color: "#B4BAC2", transform: 'translate(50%, -50%)'}}/>
 						<span className="manage-attr-name">
 							PERIOD
 						</span>
-						<input value={periodValue} onChange={OCPeriodValue} />
+						<input placeholder='프로젝트 기간을 입력하세요.' value={periodValue} onChange={OCPeriodValue} />
+					</div>
+					<div className="manage-blog-info">
+						<Create style={{position: 'absolute', left: 0, top: '50%',fontSize: "16px", color: "#B4BAC2", transform: 'translate(50%, -50%)'}}/>
+						<span className="manage-attr-name">
+							CONTENT
+						</span>
+						<input placeholder='프로젝트 콘텐츠를 입력하세요.' value={contentValue} onChange={OCContentValue} />
 					</div>
 					<div className="manage-blog-info">
 						<People style={{position: 'absolute', left: 0, top: '50%',fontSize: "16px", color: "#B4BAC2", transform: 'translate(50%, -50%)'}}/>
 						<span className="manage-attr-name">
 							MEMBER
 						</span>
-						<input type="text" value={memberValue} onChange={OCMemberValue} />
+						<input placeholder='프로젝트 인원을 입력하세요.' type="text" value={memberValue} onChange={OCMemberValue} />
 						{memberIptError !== '' && <p style={{position: 'absolute', right: '10px', color: 'red'}}>{memberIptError}</p>}
 					</div>
 					<div className="manage-blog-info">
@@ -197,14 +236,14 @@ const AddWork = ({ }) => {
 						<span className="manage-attr-name">
 							REPO
 						</span>
-						<input value={repoValue} onChange={OCRepoValue} />
+						<input placeholder='프로젝트 repo URL을 입력하세요.' value={repoValue} onChange={OCRepoValue} />
 					</div>
 					<div className="manage-blog-info" style={{height: '100%'}}>
 						<Description style={{position: 'absolute', left: 0, top: '10px',fontSize: "16px", color: "#B4BAC2", transform: 'translateX(50%)'}}/>
 						<span className="manage-attr-name">
 							DESCRIPTION
 						</span>
-						<textarea value={descriptionValue} onChange={OCDescriptionValue} />
+						<textarea placeholder='프로젝트 Description을 입력하세요.' value={descriptionValue} onChange={OCDescriptionValue} />
 					</div>
 				</figcaption>
 			</figure>
@@ -253,14 +292,14 @@ const AddWork = ({ }) => {
 							:
 								<>
 										<td data-th="col1">
-											<input value={rowValue.row_name} onChange={onChangeTableValue(1)}/>
+											<input placeholder='row name' value={rowValue.row_name} onChange={onChangeTableValue(1)}/>
 										</td>
 										<td data-th="col2">
-											<input value={rowValue.row_descript} onChange={onChangeTableValue(2)}/>
+											<input placeholder='row description' value={rowValue.row_descript} onChange={onChangeTableValue(2)}/>
 										</td>
 										<td data-th="col3">
 										<div style={{position: 'relative'}}>
-											<input value={rowValue.row_content} type="text" onChange={onChangeTableValue(3)}/>
+											<input placeholder='row content' value={rowValue.row_content} type="text" onChange={onChangeTableValue(3)}/>
 												{editStatus &&
 													<div className="manage-row-btn-container on-edit">
 														<button onClick={applyRow(c, i)}>
@@ -281,14 +320,14 @@ const AddWork = ({ }) => {
 					{ openAddRowStatus &&
 					<tr style={{border: "2px solid #DDD"}}>
 						<td data-th="col1">
-							<input value={rowValue.row_name} onChange={onChangeTableValue(1)}/>
+							<input placeholder='row name' value={rowValue.row_name} onChange={onChangeTableValue(1)}/>
 						</td>
 						<td data-th="col2">
-							<input value={rowValue.row_descript} onChange={onChangeTableValue(2)}/>
+							<input placeholder='row description' value={rowValue.row_descript} onChange={onChangeTableValue(2)}/>
 						</td>
 						<td data-th="col3" >
 							<div style={{position: 'relative'}}>
-								<input value={rowValue.row_content} onChange={onChangeTableValue(3)}/>
+								<input placeholder='row content' value={rowValue.row_content} onChange={onChangeTableValue(3)}/>
 								<div className="manage-row-btn-container on-edit">
 									<button onClick={addNewRow}>
 										추가
@@ -311,10 +350,10 @@ const AddWork = ({ }) => {
 				</tbody>
 			</table>
 			<div className="manage-work-btn-container">
-				<button className="btn-delete" onClick={offEdit}>
+				<button className="btn-delete" onClick={close_add_work}>
 					취소
 				</button>
-				<button className="btn-edit" onClick={submitForEdit}>
+				<button className="btn-edit" onClick={submitForAdd}>
 					제출
 				</button>
 			</div>
