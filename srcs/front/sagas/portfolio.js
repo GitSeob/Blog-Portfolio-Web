@@ -28,6 +28,9 @@ import {
 	WORK_ADD_REQUEST,
 	WORK_ADD_SUCCESS,
 	WORK_ADD_FAILURE,
+	PORT_EDIT_REQUEST,
+	PORT_EDIT_SUCCESS,
+	PORT_EDIT_FAILURE,
 } from '../reducers/portfolio';
 
 
@@ -56,6 +59,32 @@ function* loadPortfolio(action){
 function* watchLoadPort(){
 	yield takeLatest(LOAD_PORT_DATA_REQUEST, loadPortfolio);
 }
+
+function editPortfolioAPI(portData){
+	return axios.patch('/portfolio', portData, {
+		withCredentials: true,
+	});
+};
+
+function* editPortfolio(action){
+	try{
+		const result = yield call(editPortfolioAPI, action.data);
+		yield put({
+			type: PORT_EDIT_SUCCESS,
+			data: result.data
+		})
+	} catch(e){
+		yield put({
+			type: PORT_EDIT_FAILURE,
+			error: e
+		})
+	}
+}
+
+function* watchEditPortfolio(){
+	yield takeLatest(PORT_EDIT_REQUEST, editPortfolio);
+}
+
 
 function addAbilityAPI(abilityData) {
 	return axios.post('/portfolio/add/Ability', abilityData, {
@@ -268,6 +297,7 @@ function* watchAddWork() {
 export default function* portfolioSaga(){
 	yield all([
 		fork(watchLoadPort),
+		fork(watchEditPortfolio),
 		fork(watchAddAbility),
 		fork(watchRemoveAbility),
 		fork(watchEditAbility),

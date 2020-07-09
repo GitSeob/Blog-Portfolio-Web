@@ -39,9 +39,52 @@ router.get('/', async (req, res, next) => {
 				}]
 			}]
 		});
-		console.log(portData);
 		return res.json(portData);
 	} catch (e) {
+		console.error(e);
+		next(e);
+	}
+})
+
+
+
+router.patch('/', async (req, res, next) => {
+	try {
+		await db.Portfolio.update({
+			about_title: req.body.about_title,
+			about_sub_title: req.body.about_sub_title,
+			about_content: req.body.about_content,
+			ability_title: req.body.ability_title,
+			ability_sub_title: req.body.ability_sub_title,
+			work_title: req.body.work_Title,
+			work_sub_title: req.body.work_sub_title,
+			email: req.body.email,
+			kakao: req.body.kakao,
+			github: req.body.github,
+			comment: req.body.comment
+		}, {
+			where: {id: 1}
+		})
+
+		const portData = await db.Portfolio.findOne({
+			where: {id: 1},
+			include: [{
+				model: db.Works,
+				include: [{
+					model: db.Work_row,
+					order: [['id', 'ASC']],
+				}]
+			}, {
+				model: db.Abilities,
+				include: [{
+					model: db.Ab_list,
+					order: [['id', 'ASC']],
+				}]
+			}]
+		});
+
+		return res.json(portData);
+	} catch(e) {
 		console.error(e);
 		next(e);
 	}

@@ -1,32 +1,19 @@
 const initialState = {
 	menuStatus: {
-		main: true,
-		blog: false,
+		blog: true,
 		port: false,
 	},
 }
 
-export const SET_MAIN = 'SET_MAIN';
 export const SET_BLOG = 'SET_BLOG';
 export const SET_PORT = 'SET_PORT';
 
 const manage = (state=initialState, action) => {
 	switch(action.type) {
-		case SET_MAIN: {
-			return {
-				...state,
-				menuStatus: {
-					main: true,
-					blog: false,
-					port: false,
-				}
-			}
-		}
 		case SET_BLOG: {
 			return {
 				...state,
 				menuStatus: {
-					main: false,
 					blog: true,
 					port: false,
 				}
@@ -36,7 +23,6 @@ const manage = (state=initialState, action) => {
 			return {
 				...state,
 				menuStatus: {
-					main: false,
 					blog: false,
 					port: true,
 				}

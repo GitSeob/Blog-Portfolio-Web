@@ -50,7 +50,7 @@ const Home = ({ pathname, Component, store }) => {
 				return (
 					<>
 					<Head>
-						<title>{blogTitle}</title>
+						<title>관리자 페이지</title>
 						<link rel="shortcut icon" href={faviconURL} />
 					</Head>
 					<Background>
