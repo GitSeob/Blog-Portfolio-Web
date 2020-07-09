@@ -29,14 +29,17 @@ router.get('/', async (req, res, next) => {
 				model: db.Works,
 				include: [{
 					model: db.Work_row,
+					order: [['id', 'ASC']],
 				}]
 			}, {
 				model: db.Abilities,
 				include: [{
 					model: db.Ab_list,
+					order: [['id', 'ASC']],
 				}]
 			}]
 		});
+		console.log(portData);
 		return res.json(portData);
 	} catch (e) {
 		console.error(e);
@@ -61,7 +64,8 @@ router.post('/add/Ability', async (req, res, next) => {
 			where: {id: newAbility.id},
 			include: [{
 				model: db.Ab_list,
-				attributes: ['id', 'list_attribute']
+				attributes: ['id', 'list_attribute'],
+				order: [['id', 'ASC']],
 			}],
 		});
 		console.log(resAbility);
@@ -88,7 +92,8 @@ router.post('/remove/ability', async (req, res, next) => {
 		const abilities = await db.Abilities.findAll({
 			include: [{
 				model: db.Ab_list,
-				attributes: ['id', 'list_attribute']
+				attributes: ['id', 'list_attribute'],
+				order: [['id', 'ASC']],
 			}]
 		});
 
@@ -121,7 +126,8 @@ router.post('/ability/edit/:ability_id', async (req, res, next) => {
 		const resValue = await db.Abilities.findAll({
 			include: [{
 				model: db.Ab_list,
-				attributes: ['id', 'list_attribute']
+				attributes: ['id', 'list_attribute'],
+				order: [['id', 'ASC']],
 			}]
 		})
 
@@ -143,7 +149,8 @@ router.post('/ability/editTitle/:ability_id', async (req, res, next) => {
 		const resValue = await db.Abilities.findAll({
 			include: [{
 				model: db.Ab_list,
-				attributes: ['id', 'list_attribute']
+				attributes: ['id', 'list_attribute'],
+				order: [['id', 'ASC']],
 			}]
 		})
 
@@ -171,7 +178,8 @@ router.post('/ability/editAttr/:ability_id', async (req, res, next) => {
 		const resValue = await db.Abilities.findAll({
 			include: [{
 				model: db.Ab_list,
-				attributes: ['id', 'list_attribute']
+				attributes: ['id', 'list_attribute'],
+				order: [['id', 'ASC']],
 			}]
 		})
 
@@ -186,6 +194,42 @@ router.post('/work/imgUpload', upload.single('image'), async (req, res) => {
 	res.json({
 		url: `http://localhost:3065/${req.file.filename}`
 	});
+})
+
+router.post('/work', async (req, res, next) => {
+	try {
+		const addedWork = await db.Works.create({
+			proj_name: req.body.proj_name,
+			category: req.body.category,
+			period: req.body.period,
+			content: req.body.content,
+			members: req.body.members,
+			repo: req.body.repo,
+			description: req.body.description,
+			imgSrc: req.body.imgSrc,
+			PortfolioId: 1,
+		})
+		const workRows = req.body.Work_rows;
+		workRows.map((c) => {
+			c['WorkId'] = addedWork.id;
+		})
+		await db.Work_row.bulkCreate(workRows, {
+			returning: true
+		});
+		console.log(addedWork);
+		const resRow = await db.Works.findOne({
+			where: {id: addedWork.id},
+			include: [{
+				model: db.Work_row,
+				order: [['id', 'ASC']],
+			}]
+		})
+		console.log(resRow);
+		return res.json(resRow);
+	} catch(e) {
+		console.error(e);
+		next(e);
+	}
 })
 
 router.post('/work/:work_id', async (req, res, next) => {
@@ -203,7 +247,7 @@ router.post('/work/:work_id', async (req, res, next) => {
 			members: req.body.members,
 			repo: req.body.repo,
 			description: req.body.description,
-			imgSrc: req.body.imgSrc,
+			imgSrc: req.body.imgSrc === '' ? 'http://localhost:3065/globalImg/noImg.png' : req.body.imgSrc,
 		}, {
 			where: {id: req.params.work_id}
 		})
@@ -218,9 +262,24 @@ router.post('/work/:work_id', async (req, res, next) => {
 		const resValue = await db.Works.findAll({
 			include: [{
 				model: db.Work_row,
+				order: [['id', 'ASC']],
 			}]
 		})
 		return res.json(resValue);
+	} catch(e) {
+		console.error(e);
+		next(e);
+	}
+})
+
+router.delete('/work/:work_id', async (req, res, next) => {
+	try {
+		const work = await db.Works.findOne({ where: { id: req.params.work_id}})
+		if (!work) {
+			return res.status(404).send('work attribute error');
+		}
+		await db.Works.destroy({ where: {id: req.params.work_id}})
+		res.send(req.params.work_id);
 	} catch(e) {
 		console.error(e);
 		next(e);

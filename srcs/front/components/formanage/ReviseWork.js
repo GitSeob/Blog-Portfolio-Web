@@ -13,9 +13,7 @@ const ReviseWork = props => {
 	const { data, workComponentIndex } = useSelector(state=>state.portfolio);
 
 	// const [workComponentIndex, setWorkComponentIndex] = useState(-1);
-	const [editWorkName, setEditWorkName, OCEditWorkName] = useSetInput('');
 	const [openAddWork, setOpenAddWork] = useState(false);
-	const [addWorkName, setAddWorkName, OCAddWorkName] = useSetInput('');
 
 	const openWork = useCallback((i) => (e) => {
 		e.preventDefault();
@@ -31,7 +29,7 @@ const ReviseWork = props => {
 		// setWorkComponentIndex(-1);
 		dispatch({
 			type: CLICK_WORK_LIST,
-			data: i,
+			data: -1,
 		})
 	}, [workComponentIndex])
 
@@ -47,9 +45,8 @@ const ReviseWork = props => {
 
 	const cancelAddWork = useCallback((e) => {
 		e.preventDefault();
-		setAddWorkName('');
 		setOpenAddWork(false);
-	}, [addWorkName, openAddWork])
+	}, [openAddWork])
 
 	const clickedCancelEditWorkBtn = useCallback((e) => {
 		e.preventDefault();
@@ -57,12 +54,10 @@ const ReviseWork = props => {
 
 	const clickedAbilWorkBtn = useCallback((i, c) => (e) => {
 		e.preventDefault();
-		setEditWorkName(c.proj_name);
 	})
 
-	const removeWork = useCallback((i) => (e) => {
+	const removeWork = useCallback((c) => (e) => {
 		e.preventDefault();
-		console.log('remove work');
 	});
 
 	return (
@@ -88,7 +83,7 @@ const ReviseWork = props => {
 							})
 						}
 						{openAddWork &&
-							<AddWork addWorkName={addWorkName} OCAddWorkName={OCAddWorkName} cancelAddWork={cancelAddWork} />
+							<AddWork close_add_work={close_add_work} />
 						}
 						<button className="manage-bundle-list" onClick={!openAddWork ? open_add_work : close_add_work}>
 							< Add style={{position: 'absolute', left: 0, top: '50%',fontSize: "16px", color: "#B4BAC2", transform: 'translate(50%, -50%)'}} />

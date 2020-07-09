@@ -21,7 +21,13 @@ import {
 	ABILITY_EDIT_ONLY_TITLE_FAILURE,
 	WORK_EDIT_REQUEST,
 	WORK_EDIT_SUCCESS,
-	WORK_EDIT_FAILURE
+	WORK_EDIT_FAILURE,
+	WORK_DELETE_REQUEST,
+	WORK_DELETE_SUCCESS,
+	WORK_DELETE_FAILURE,
+	WORK_ADD_REQUEST,
+	WORK_ADD_SUCCESS,
+	WORK_ADD_FAILURE,
 } from '../reducers/portfolio';
 
 
@@ -197,7 +203,7 @@ function* editWork(action) {
 	} catch(e) {
 		console.error(e);
 		yield put({
-			type: WORK_EDIT_SUCCESS,
+			type: WORK_EDIT_FAILURE,
 			error: e,
 		})
 	}
@@ -207,6 +213,57 @@ function* watchEditWork() {
 	yield takeLatest(WORK_EDIT_REQUEST, editWork);
 }
 
+function deleteWorkAPI(data){
+	return axios.delete(`/portfolio/work/${data.id}`, data, {
+		withCredentials: true,
+	})
+}
+
+function* deleteWork(action) {
+	try {
+		const result = yield call(deleteWorkAPI, action.data);
+		yield put({
+			type: WORK_DELETE_SUCCESS,
+			data: result.data,
+		})
+	} catch(e) {
+		console.error(e);
+		yield put({
+			type: WORK_DELETE_FAILURE,
+			error: e,
+		})
+	}
+}
+
+function* watchDeleteWork() {
+	yield takeLatest(WORK_DELETE_REQUEST, deleteWork);
+}
+
+function addWorkAPI(data){
+	return axios.post(`/portfolio/work/`, data, {
+		withCredentials: true,
+	})
+}
+
+function* addWork(action) {
+	try {
+		const result = yield call(addWorkAPI, action.data);
+		yield put({
+			type: WORK_ADD_SUCCESS,
+			data: result.data,
+		})
+	} catch(e) {
+		console.error(e);
+		yield put({
+			type: WORK_ADD_FAILURE,
+			error: e,
+		})
+	}
+}
+
+function* watchAddWork() {
+	yield takeLatest(WORK_ADD_REQUEST, addWork);
+}
 
 export default function* portfolioSaga(){
 	yield all([
@@ -217,6 +274,8 @@ export default function* portfolioSaga(){
 		fork(watchEditAbilityOnlyAttr),
 		fork(watchEditAbilityOnlyTitle),
 		fork(watchEditWork),
+		fork(watchDeleteWork),
+		fork(watchAddWork),
 		// call과 fork의 차이
 		// call은 ()내의 함수 종료까지 기다림 -> 동기호출
 		// fork도 ()내의 함수 종료가 아니여도 다른 부분 수행 -> 비동기호출
