@@ -1,4 +1,6 @@
-export const initialState = {
+import produce from 'immer';
+
+const initialState = {
 	isLoaded: false,
 	data: null,
 	workComponentIndex: -1,
@@ -67,224 +69,113 @@ export const ADD_DUMY = 'ADD_DUMY';
 // ###########################################################################################
 
 const portfolio = (state=initialState, action) => {
-	switch (action.type) {
-		case LOAD_PORT_DATA_REQUEST: {
-			return {
-				...state,
+	return produce(state, (draft) => {
+		switch (action.type) {
+			case LOAD_PORT_DATA_REQUEST: {
+				break;
 			}
-		}
-		case LOAD_PORT_DATA_SUCCESS: {
-			return {
-				...state,
-				data: action.data,
+			case LOAD_PORT_DATA_SUCCESS: {
+				draft.data = action.data;
+				break;
 			}
-		}
-		case LOAD_PORT_DATA_FAILURE: {
-			return {
-				...state,
-				editPortErrorReason: action.error,
+			case LOAD_PORT_DATA_FAILURE: {
+				draft.editPortErrorReason = action.error;
+				break;
 			}
-		}
 
-		case PORT_EDIT_REQUEST: {
-			return {
-				...state,
+			case PORT_EDIT_REQUEST: {
+				break;
 			}
-		}
-		case PORT_EDIT_SUCCESS: {
-			return {
-				...state,
-				data: action.data,
+			case PORT_EDIT_SUCCESS: {
+				draft.data = action.data;
+				break;
 			}
-		}
-		case PORT_EDIT_FAILURE: {
-			return {
-				...state,
-				isLoaded: false,
+			case PORT_EDIT_FAILURE: {
+				draft.isLoaded = false;
+				break;
 			}
-		}
 
-		case ABILITY_ADD_REQUEST: {
-			return {
-				...state,
+			case ABILITY_ADD_REQUEST: {
+				break;
 			}
-		}
-		case ABILITY_ADD_SUCCESS: {
-			return {
-				...state,
-				data: {
-					...state.data,
-					Abilities: [...state.data.Abilities, action.data],
-				}
+			case ABILITY_ADD_SUCCESS: {
+				draft.data.Abilities.push(action.data);
+				break;
 			}
-		}
-		case ABILITY_ADD_FAILURE: {
-			return {
-				...state,
-				addAbilityErrorReason: action.error,
+			case ABILITY_ADD_FAILURE: {
+				draft.addAbilityErrorReason = action.error;
+				break;
 			}
-		}
 
-		case ABILITY_DELETE_REQUEST: {
-			return {
-				...state,
+			case ABILITY_EDIT_ONLY_ATTR_REQUEST:
+			case ABILITY_EDIT_ONLY_TITLE_REQUEST:
+			case ABILITY_EDIT_REQUEST:
+			case ABILITY_DELETE_REQUEST: {
+				break;
 			}
-		}
-		case ABILITY_DELETE_SUCCESS: {
-			return {
-				...state,
-				data: {
-					...state.data,
-					Abilities: action.data,
-				}
-			}
-		}
-		case ABILITY_DELETE_FAILURE: {
-			return {
-				...state,
-				removeAbilityErrorReason: action.error
-			}
-		}
 
-		case ABILITY_EDIT_REQUEST: {
-			return {
-				...state,
+			case ABILITY_EDIT_ONLY_ATTR_SUCCESS:
+			case ABILITY_EDIT_ONLY_TITLE_SUCCESS:
+			case ABILITY_EDIT_SUCCESS:
+			case ABILITY_DELETE_SUCCESS: {
+				draft.data.Abilities = action.data;
+				break;
 			}
-		}
-		case ABILITY_EDIT_SUCCESS: {
-			return {
-				...state,
-				data: {
-					...state.data,
-					Abilities: action.data,
-				}
+			case ABILITY_DELETE_FAILURE: {
+				draft.removeAbilityErrorReason = action.error;
+				break;
 			}
-		}
-		case ABILITY_EDIT_FAILURE: {
-			return {
-				...state,
-				editAbilityErrorReason: action.error,
-			}
-		}
 
-		case ABILITY_EDIT_ONLY_TITLE_REQUEST: {
-			return {
-				...state,
+			case ABILITY_EDIT_ONLY_ATTR_FAILURE:
+			case ABILITY_EDIT_ONLY_TITLE_FAILURE:
+			case ABILITY_EDIT_FAILURE: {
+				draft.editAbilityErrorReason = action.error;
+				break;
 			}
-		}
-		case ABILITY_EDIT_ONLY_TITLE_SUCCESS: {
-			return {
-				...state,
-				data: {
-					...state.data,
-					Abilities: action.data,
-				}
-			}
-		}
-		case ABILITY_EDIT_ONLY_TITLE_FAILURE: {
-			return {
-				...state,
-				editAbilityErrorReason: action.error,
-			}
-		}
 
-		case ABILITY_EDIT_ONLY_ATTR_REQUEST: {
-			return {
-				...state,
+			case WORK_EDIT_REQUEST:
+			case WORK_DELETE_REQUEST:
+			case WORK_ADD_REQUEST: {
+				break;
 			}
-		}
-		case ABILITY_EDIT_ONLY_ATTR_SUCCESS: {
-			return {
-				...state,
-				data: {
-					...state.data,
-					Abilities: action.data,
-				}
+			case WORK_EDIT_SUCCESS: {
+				draft.data.Works = action.data;
+				break;
 			}
-		}
-		case ABILITY_EDIT_ONLY_ATTR_FAILURE: {
-			return {
-				...state,
-				editAbilityErrorReason: action.error,
+			case WORK_EDIT_FAILURE: {
+				draft.editWorkErrorReason = action.error;
+				break;
 			}
-		}
 
-		case WORK_EDIT_REQUEST: {
-			return {
-				...state,
+			case WORK_DELETE_SUCCESS: {
+				const indez = draft.data.Works.findIndex(v => v.id === action.data);
+				draft.data.Works.splice(index, 1);
+				break;
 			}
-		}
-		case WORK_EDIT_SUCCESS: {
-			return {
-				...state,
-				data: {
-					...state.data,
-					Works: action.data
-				}
+			case WORK_DELETE_FAILURE: {
+				draft.deleteWorkErrorReason = action.error;
+				break;
 			}
-		}
-		case WORK_EDIT_FAILURE: {
-			return {
-				...state,
-				editWorkErrorReason: action.error,
-			}
-		}
 
-		case WORK_DELETE_REQUEST: {
-			return {
-				...state,
+			case WORK_ADD_SUCCESS: {
+				draft.data.Works.push(action.data);
+				break;
 			}
-		}
-		case WORK_DELETE_SUCCESS: {
-			return {
-				...state,
-				data: {
-					...state.data,
-					Works: state.data.Works.filter(v => v.id !== action.data)
-				}
+			case WORK_ADD_FAILURE: {
+				draft.addWorkErrorReason = action.error;
+				break;
 			}
-		}
-		case WORK_DELETE_FAILURE: {
-			return {
-				...state,
-				deleteWorkErrorReason: action.error,
-			}
-		}
 
-		case WORK_ADD_REQUEST: {
-			return {
-				...state,
+			case CLICK_WORK_LIST: {
+				draft.workComponentIndex = action.data;
+				break;
 			}
-		}
-		case WORK_ADD_SUCCESS: {
-			return {
-				...state,
-				data: {
-					...state.data,
-					Works: [...state.data.Works, action.data]
-				}
-			}
-		}
-		case WORK_ADD_FAILURE: {
-			return {
-				...state,
-				addWorkErrorReason: action.error,
-			}
-		}
 
-		case CLICK_WORK_LIST: {
-			return {
-				...state,
-				workComponentIndex: action.data,
+			default: {
+				break;
 			}
 		}
-
-		default: {
-			return {
-				...state,
-			}
-		}
-	}
+	})
 }
 
 export default portfolio;

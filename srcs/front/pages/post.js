@@ -31,6 +31,12 @@ const OnePost = ({ id, postData }) => {
 		})
 	}, []);
 
+	const onEditPost = useCallback((e) => {
+		e.preventDefault();
+		dispatch({ type: ON_EDIT })
+		dispatch({ type: OPEN_POSTING })
+	})
+
 	useEffect(() => {
 		if(isRemovedPost) {
 			alert('글이 삭제되었습니다!');
@@ -78,10 +84,7 @@ const OnePost = ({ id, postData }) => {
 								</div>
 								{(admin && admin.id) === postData.UserId &&
 									<div className="edit-post">
-										<button onClick={() => {
-											dispatch({ type: ON_EDIT })
-											dispatch({ type: OPEN_POSTING })
-										}}>
+										<button onClick={onEditPost}>
 											수정
 										</button>
 										|

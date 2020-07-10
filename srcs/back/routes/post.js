@@ -34,6 +34,7 @@ router.post('/', isLoggedIn, async (req, res, next) => {
 		} else {
 			thumb_img = "http://localhost:3065/globalImg/noImg.png";
 		}
+		console.log(req.body);
 		const newPost = await db.Posts.create({
 			title: req.body.title,
 			CategoryId: req.body.category_id,
