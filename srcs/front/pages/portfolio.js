@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 import Door from '../containers/Door';
 import Work from '../containers/Work';
-import Contact from '../containers/Contact';
 import Footer from '../containers/Footer';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,8 +19,7 @@ const Portfolio = props => {
 			<Door />
 			<Introduction id="introduction" data={data}/>
 			<Work data={data}/>
-			<Contact />
-			<Footer />
+			<Footer/>
 		</div>
 	);
 };

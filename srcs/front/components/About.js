@@ -5,7 +5,7 @@ import Header from './Header';
 const About = ({ data }) => {
 	return (
 		<Box id='about' role='region' className="l-section">
-			<div className="l-section-inner">
+			<div data-aos="zoom-in-right" className="l-section-inner">
 				<Header classname="right" subTitle={data.about_sub_title} title={data.about_title}/>
 				<AboutContent>
 					{data.about_content}

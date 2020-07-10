@@ -5,7 +5,6 @@ import styled from 'styled-components';
 const Header = ({ classname, title, subTitle }) => {
 	return (
 		<Container className={classname}>
-			{classname === 'work' && <Line className={classname}/>}
 			<SubTitle className={classname}>
 				{subTitle}
 			</SubTitle>
@@ -17,7 +16,7 @@ const Header = ({ classname, title, subTitle }) => {
 	);
 };
 
-const Container = styled.h2`
+const Container = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -62,8 +61,8 @@ const SubTitle = styled.span`
 
 const Title = styled.span`
 	color: #FFFFFF;
-	font-size: 40pt;
-	font-weight: 600;
+	padding-bottom: 16px;
+	font-size: 64px;
 	text-align: center;
 
 	&.work {
