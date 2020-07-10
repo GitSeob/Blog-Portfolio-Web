@@ -47,6 +47,7 @@ router.post('/', isLoggedIn, async (req, res, next) => {
 		const resCategory = await db.Category.findOne({
 			where: {id: newCategory.id},
 			attributes: ['id', 'name'],
+			order: [['id', 'ASC']],
 		})
 		return res.json(resCategory);
 	} catch(e) {
@@ -64,9 +65,24 @@ router.patch('/:id', isLoggedIn, async (req, res, next) => {
 		})
 
 		const updatedCategory = await db.Category.findAll({
-			attributes: ['id', 'name']
+			attributes: ['id', 'name'],
+			order: [['id', 'ASC']],
 		})
-		return res.json(updatedCategory);
+
+		const editedPosts = await db.Posts.findAll({
+			include: [{
+				model: db.Category,
+				where: {
+					name: decodeURIComponent(req.params.name)
+				},
+				attributes: ['id', 'name'],
+			}],
+			order: [['createdAt', 'DESC']],
+		});
+		return res.json({
+			category: updatedCategory,
+			posts: editedPosts
+		});
 	} catch(e) {
 		console.error(e);
 		next(e);
@@ -82,7 +98,20 @@ router.delete('/:id', isLoggedIn, async (req, res, next) => {
 		})
 		// 해당 카테고리의 게시물들의 CategoryId를 카테고리 없음(id = 1)로 바꾸어줘야함.
 		await db.Category.destroy({ where: {id: req.params.id }});
-		res.send(req.params.id);
+		const editedPosts = await db.Posts.findAll({
+			include: [{
+				model: db.Category,
+				where: {
+					name: decodeURIComponent(req.params.name)
+				},
+				attributes: ['id', 'name'],
+			}],
+			order: [['createdAt', 'DESC']],
+		});
+		return res.json({
+			category_id : req.params.id,
+			posts: editedPosts,
+		});
 	} catch(e) {
 		console.error(e);
 		next(e);

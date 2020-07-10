@@ -259,12 +259,12 @@ const BlogManage = ({ category_list, mainPosts }) => {
 		}
 	}, []);
 
-	const removeCate = useCallback((i) => (e) => {
+	const removeCate = useCallback((c, i) => (e) => {
 		e.preventDefault();
 		if (confirm(`${category_list[i].name} 카테고리를 삭제하시겠습니까?`)) {
 			dispatch({
 				type: REMOVE_CATEGORY_REQUEST,
-				data: i+1
+				data: c.id
 			});
 		}
 	})
@@ -435,7 +435,7 @@ const BlogManage = ({ category_list, mainPosts }) => {
 											<button className="manage-cate-btn" onClick={clickedEditBtn(i, c)}>
 												수정
 											</button>
-											<button className="manage-cate-btn" onClick={removeCate(i)}>
+											<button className="manage-cate-btn" onClick={removeCate(c, i)}>
 												삭제
 											</button>
 										</div>

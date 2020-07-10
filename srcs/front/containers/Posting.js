@@ -14,6 +14,7 @@ const Editor = dynamic(import ('../components/Toast'), {
 
 const SelectCate = ({category_list, setCategory, category_index}) => {
 	const [isClicked, setClick] = useState(false);
+	// const [cate_name, setCateName] = useState(category_list[category_index].name ? category_list[category_index].name : '카테고리 없음');
 
 	const cateOpen = {
 		display: `${isClicked ? 'block' : 'none'}`,
@@ -70,13 +71,7 @@ const Posting = ({category_list}) => {
 	const { admin } = useSelector(state=>state.admin);
 	const dispatch = useDispatch();
 
-	let targetPost = (postEditMode && postData) ? postData : null;
-
-	// (postEditMode && postData) ? postData :
-
-	useEffect(() => {
-		targetPost = postData;
-	}, [postEditMode, postData])
+	const targetPost = (postEditMode && postData) ? postData : null;
 
 	const closeWindow = useCallback(() => {
 		dispatch({
@@ -90,7 +85,7 @@ const Posting = ({category_list}) => {
 
 	const [editorValue, OCV] = useState(targetPost ? targetPost.content : '');
 	const [postTitle, OCPT] = useInput(targetPost ? targetPost.title : '');
-	const [category_index, setCategory] = useState(targetPost ? targetPost.CategoryId - 1 : 0);
+	const [category_index, setCategory] = useState(targetPost ?  category_list.findIndex(v=>v.id === targetPost.CategoryId) : 0);
 
 	const defaultSubmit = useCallback((e) => {
 		e.preventDefault();
@@ -108,7 +103,7 @@ const Posting = ({category_list}) => {
 					data: {
 						title: postTitle,
 						content: editorValue,
-						category_id: category_index + 1,
+						category_id: category_list[category_index].id,
 					}
 				})
 			}
@@ -129,7 +124,7 @@ const Posting = ({category_list}) => {
 						id: postData.id,
 						title: postTitle,
 						content: editorValue,
-						category_id: category_index + 1,
+						category_id: category_list[category_index].id,
 					}
 				})
 			}
@@ -139,7 +134,9 @@ const Posting = ({category_list}) => {
 	useEffect(() => {
 		if (isAddedPost) {
 			alert("글이 등록되었습니다.");
-			closeWindow();
+			dispatch({
+				type: CLOSE_POSTING,
+			})
 			Router.push('/');
 		}
 		if (isEditedPost) {

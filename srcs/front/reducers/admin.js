@@ -1,3 +1,5 @@
+import produce from 'immer';
+
 const initialState = {
 	isLoggedIn: false,
 	isLoggingIn: false,
@@ -48,79 +50,55 @@ export const EDIT_BLOG_REQUEST = 'EDIT_BLOG_REQUEST';
 export const EDIT_BLOG_SUCCESS = 'EDIT_BLOG_SUCCESS';
 export const EDIT_BLOG_FAILURE = 'EDIT_BLOG_FAILURE';
 
-const dummy_admin = {
-	id: 'anjoy1234',
-	nickname: 'anjoy',
-	permissionLV: 0,
-}
-
 const admin = (state=initialState, action) => {
-	switch (action.type) {
-		case LOAD_ADMIN_REQUEST: {
-			return {
-				...state,
+	return produce(state, (draft) => {
+		switch (action.type) {
+			case LOAD_ADMIN_REQUEST: {
+				break;
 			}
-		}
-		case LOAD_ADMIN_SUCCESS: {
-			return {
-				...state,
-				admin: action.data,
+			case LOAD_ADMIN_SUCCESS: {
+				draft.admin = action.data;
 			}
-		}
-		case LOAD_ADMIN_FAILURE: {
-			return {
-				...state,
+			case LOAD_ADMIN_FAILURE: {
+				break;
 			}
-		}
 
-		case LOGIN_ADMIN_REQUEST: {
-			return {
-				...state,
-				isLoggingIn: true,
-			};
-		}
-		case LOGIN_ADMIN_SUCCESS: {
-			return {
-				...state,
-				isLoggedIn: true,
-				isLoggingIn: false,
-				admin: action.data,
-			};
-		}
-		case LOGIN_ADMIN_FAILURE: {
-			return {
-				...state,
-				isLoggingIn: false,
-				admin: null,
-			};
-		}
+			case LOGIN_ADMIN_REQUEST: {
+				draft.isLoggingIn = true;
+				break;
+			}
+			case LOGIN_ADMIN_SUCCESS: {
+				draft.isLoggedIn = true;
+				draft.isLoggingIn = false;
+				draft.admin = action.data;
+				break;
+			}
+			case LOGIN_ADMIN_FAILURE: {
+				draft.isLoggingIn = false;
+				draft.admin = null;
+				draft.logInErrorReason = action.error;
+				break;
+			}
 
-		case LOGOUT_ADMIN_REQUEST: {
-			return {
-				...state,
-				isLoggingOut: true,
+			case LOGOUT_ADMIN_REQUEST: {
+				draft.isLoggingOut = true;
+				break;
+			}
+			case LOGOUT_ADMIN_SUCCESS: {
+				draft.isLoggingOut = false;
+				draft.isLoggedIn = false;
+				draft.admin = null;
+				break;
+			}
+			case LOGOUT_ADMIN_FAILURE: {
+				draft.isLoggingOut = false;
+				break;
+			}
+			default: {
+				break;
 			}
 		}
-		case LOGOUT_ADMIN_SUCCESS: {
-			return {
-				...state,
-				isLoggingOut: false,
-				isLoggedIn: false,
-				admin: null,
-			}
-		}
-		case LOGOUT_ADMIN_FAILURE: {
-			return {
-				...state,
-				isLoggingOut: false,
-			}
-		}
-		default: {
-			return {
-				...state,
-			};
-		}
-	}
+	})
 }
 
 export default admin;

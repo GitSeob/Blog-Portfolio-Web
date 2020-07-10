@@ -1,3 +1,5 @@
+import produce from 'immer';
+
 const initialState = {
 	menuStatus: {
 		blog: true,
@@ -9,31 +11,23 @@ export const SET_BLOG = 'SET_BLOG';
 export const SET_PORT = 'SET_PORT';
 
 const manage = (state=initialState, action) => {
-	switch(action.type) {
-		case SET_BLOG: {
-			return {
-				...state,
-				menuStatus: {
-					blog: true,
-					port: false,
-				}
+	return produce(state, (draft) => {
+		switch(action.type) {
+			case SET_BLOG: {
+				draft.menuStatus.blog = true;
+				draft.menuStatus.port = false;
+				break;
+			}
+			case SET_PORT: {
+				draft.menuStatus.blog = false;
+				draft.menuStatus.port = true;
+				break;
+			}
+			default: {
+				break;
 			}
 		}
-		case SET_PORT: {
-			return {
-				...state,
-				menuStatus: {
-					blog: false,
-					port: true,
-				}
-			}
-		}
-		default: {
-			return {
-				...state,
-			}
-		}
-	}
+	})
 }
 
 export default manage;
