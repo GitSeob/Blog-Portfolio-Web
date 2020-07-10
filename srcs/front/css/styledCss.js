@@ -87,6 +87,17 @@ export const AboutContent = styled.div`
 	font-align: center;
 	margin-top: 5rem;
 	margin-left: auto;
+
+	& p {
+		font-family: "Roboto",system-ui,-apple-system,BlinkMacSystemFont,"Malgun Gothic",Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+		display: block;
+		margin-block-start: 1em;
+		margin-block-end: 1em;
+		margin-inline-start: 0px;
+		margin-inline-end: 0px;
+		line-height: 2;
+		font-size: 14px;
+	}
 `;
 
 export const UnderLine = styled.div`

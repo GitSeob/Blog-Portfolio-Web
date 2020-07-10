@@ -392,7 +392,10 @@ function* changeSelectedCategory(action){
 		})
 	} catch(e) {
 		console.error(e);
-		yield
+		yield put({
+			type: CHANGE_SELECTED_POSTS_CATEGORY_FAILURE,
+			error: e,
+		})
 	}
 }
 

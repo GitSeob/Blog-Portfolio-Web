@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { call, all, fork, takeLatest, put } from 'redux-saga/effects';
+import { call, all, fork, takeLatest, put, throttle } from 'redux-saga/effects';
 import { LOGIN_ADMIN_REQUEST, LOGIN_ADMIN_SUCCESS, LOGIN_ADMIN_FAILURE, LOAD_ADMIN_REQUEST, LOAD_ADMIN_SUCCESS, LOAD_ADMIN_FAILURE, LOGOUT_ADMIN_SUCCESS, LOGOUT_ADMIN_FAILURE, LOGOUT_ADMIN_REQUEST } from '../reducers/admin';
 
 function loginAPI(loginData){
@@ -24,7 +24,8 @@ function* login(action){
 }
 
 function* watchLogin() {
-	yield takeLatest(LOGIN_ADMIN_REQUEST, login);
+	yield throttle(1000, LOGIN_ADMIN_REQUEST, login) // takeLastest 해도 request가는 건 막을 수 없다. 따라서, throttle을 쓴다.
+    // throttle은 써준 시간동안 같은 리퀘스트를 받을 수 없게 해준다. ex) 1초동안 Action 1번만 ,,
 }
 
 function loadUserAPI(userId) {
@@ -50,7 +51,7 @@ function* loadUser(action) {
 }
 
 function* watchLoadUser() {
-	yield takeLatest(LOAD_ADMIN_REQUEST, loadUser);
+	yield throttle(1000, LOAD_ADMIN_REQUEST, loadUser);
 }
 
 function logoutAPI() {

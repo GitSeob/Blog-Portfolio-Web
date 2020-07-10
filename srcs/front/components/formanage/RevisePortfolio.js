@@ -32,6 +32,7 @@ const RevisePortfolio = props => {
 	const submitChangedValue = useCallback((e) => {
 		e.preventDefault();
 		if (confirm(`변경사항을 저장하시겠습니까?`)) {
+			console.log(aboutContentValue.indexOf('\n'));
 			dispatch({
 				type: PORT_EDIT_REQUEST,
 				data: {
