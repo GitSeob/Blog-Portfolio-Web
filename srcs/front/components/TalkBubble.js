@@ -63,9 +63,7 @@ const ListOne = styled.li`
 
 	& p {
 		margin-left: .5em;
-		font-size: 14px;
 		text-align: left;
-		font-weight: 500;
 	}
 `;
 
