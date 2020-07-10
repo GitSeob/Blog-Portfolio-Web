@@ -1,3 +1,5 @@
+import produce from 'immer';
+
 const initialState = {
 	blogTitle: '',
 	description: '',
@@ -24,83 +26,63 @@ export const UPLOAD_FAV_FAILURE = 'UPLOAD_FAV_FAILURE';
 export const RESET_CHANGED_FAVICON = 'RESET_CHANGED_FAVICON';
 
 const information = (state=initialState, action) => {
-	switch(action.type) {
-		case LOAD_INFORMATION_REQUEST: {
-			return {
-				...state,
+	return produce(state, (draft) => {
+		switch(action.type) {
+			case LOAD_INFORMATION_REQUEST: {
+				break;
 			}
-		}
-		case LOAD_INFORMATION_SUCCESS: {
-			return {
-				...state,
-				blogTitle: action.data.title,
-				description: action.data.description,
-				faviconURL: action.data.favicon_url,
-				IconURLWillChanged: action.data.favicon_url,
+			case LOAD_INFORMATION_SUCCESS: {
+				draft.blogTitle = action.data.title;
+				draft.description = action.data.description;
+				draft.faviconURL = action.data.favicon_url;
+				draft.IconURLWillChanged = action.data.favicon_url;
+				break;
 			}
-		}
-		case LOAD_INFORMATION_FAILURE: {
-			return {
-				...state,
-				loadInfoErrorReason: action.error,
+			case LOAD_INFORMATION_FAILURE: {
+				draft.loadInfoErrorReason = action.error;
+				break;
 			}
-		}
 
-		case EDIT_INFORMATION_REQUEST: {
-			return {
-				...state,
-				isLoading: true,
+			case EDIT_INFORMATION_REQUEST: {
+				draft.isLoading = true;
+				break;
 			}
-		}
-		case EDIT_INFORMATION_SUCCESS: {
-			return {
-				...state,
-				blogTitle: action.data.title,
-				description: action.data.description,
-				faviconURL: action.data.favicon_url,
-				IconURLWillChanged: action.data.favicon_url,
-				isLoading: false,
+			case EDIT_INFORMATION_SUCCESS: {
+				draft.blogTitle = action.data.title;
+				draft.description = action.data.description;
+				draft.faviconURL = action.data.favicon_url;
+				draft.IconURLWillChanged = action.data.favicon_url;
+				draft.isLoading = false;
+				break;
 			}
-		}
-		case EDIT_INFORMATION_FAILURE: {
-			return {
-				...state,
-				isLoading: false,
-				editInfoErrorReason: action.error,
+			case EDIT_INFORMATION_FAILURE: {
+				draft.isLoading = false;
+				draft.editInfoErrorReason = action.error;
+				break;
 			}
-		}
 
-		case UPLOAD_FAV_REQUEST: {
-			return {
-				...state,
+			case UPLOAD_FAV_REQUEST: {
+				break;
 			}
-		}
-		case UPLOAD_FAV_SUCCESS: {
-			return {
-				...state,
-				IconURLWillChanged: action.data,
+			case UPLOAD_FAV_SUCCESS: {
+				draft.IconURLWillChanged = action.data;
+				break;
 			}
-		}
-		case UPLOAD_FAV_FAILURE: {
-			return {
-				...state,
-				imgUploadError: action.error,
+			case UPLOAD_FAV_FAILURE: {
+				draft.imgUploadError = action.error;
+				break;
 			}
-		}
 
-		case RESET_CHANGED_FAVICON: {
-			return {
-				...state,
-				IconURLWillChanged: action.data,
+			case RESET_CHANGED_FAVICON: {
+				draft.IconURLWillChanged = action.data;
+				break;
 			}
-		}
 
-		default: {
-			return {
-				...state,
+			default: {
+				break;
 			}
 		}
-	}
+	})
 }
 
 export default information;

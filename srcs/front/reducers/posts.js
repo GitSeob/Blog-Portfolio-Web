@@ -1,3 +1,5 @@
+import produce from 'immer';
+
 const initialState = {
 	category_list: [],
 	mainPosts: [],
@@ -80,325 +82,223 @@ export const CHANGE_SELECTED_POSTS_CATEGORY_SUCCESS = 'CHANGE_SELECTED_POSTS_CAT
 export const CHANGE_SELECTED_POSTS_CATEGORY_FAILURE = 'CHANGE_SELECTED_POSTS_CATEGORY_FAILURE';
 
 const posts = (state=initialState, action) => {
-	switch (action.type) {
-		case OPEN_POSTING: {
-			return {
-				...state,
-				postingWindowOpen: true,
-				isEditedPost: false,
-				isAddedPost: false,
+	return produce(state, (draft) => {
+		switch (action.type) {
+			case OPEN_POSTING: {
+				draft.postingWindowOpen = true;
+				draft.isEditedPost = false;
+				draft.isAddedPost = false;
+				break;
 			}
-		}
-		case CLOSE_POSTING: {
-			return {
-				...state,
-				postingWindowOpen: false,
+			case CLOSE_POSTING: {
+				draft.postingWindowOpen = false;
+				draft.postEditMode = false;
+				draft.isEditedPost = false;
+				break;
 			}
-		}
 
-		case ON_EDIT: {
-			return {
-				...state,
-				postEditMode: true,
+			case ON_EDIT: {
+				draft.postEditMode = true;
+				break;
 			}
-		}
-		case OFF_EDIT: {
-			return {
-				...state,
-				postEditMode: false,
+			case OFF_EDIT: {
+				draft.postEditMode = false;
+				break;
 			}
-		}
 
-		case LOAD_MAIN_POSTS_REQUEST: {
-			return {
-				...state,
-				mainPosts: [],
-			};
-		}
-		case LOAD_MAIN_POSTS_SUCCESS: {
-			return {
-				...state,
-				mainPosts: action.data,
-				isAddedPost: false,
-				isEditedPost: false,
-				isRemovedPost: false,
-				boardTitle: '전체',
+			case LOAD_MAIN_POSTS_REQUEST: {
+				draft.mainPosts = [];
+				break;
 			}
-		}
-		case LOAD_MAIN_POSTS_FAILURE: {
-			return {
-				...state,
+			case LOAD_MAIN_POSTS_SUCCESS: {
+				draft.mainPosts = action.data;
+				draft.isAddedPost = false;
+				draft.isEditedPost = false;
+				draft.isRemovedPost = false;
+				draft.boardTitle = '전체';
+				break;
 			}
-		}
+			case LOAD_MAIN_POSTS_FAILURE: {
+				break;
+			}
 
-		case LOAD_CATEGORY_POSTS_REQUEST: {
-			return {
-				...state,
-				isLoadingPosts: true,
-			};
-		}
-		case LOAD_CATEGORY_POSTS_SUCCESS: {
-			return {
-				...state,
-				isLoadingPosts: false,
-				mainPosts: action.data.posts,
-				boardTitle: action.data.name,
-			};
-		}
-		case LOAD_CATEGORY_POSTS_FAILURE: {
-			return {
-				...state,
-				isLoadingPosts: false,
-				errorReason: action.error,
+			case LOAD_CATEGORY_POSTS_REQUEST: {
+				draft.isLoadingPosts = true;
+				break;
 			}
-		}
+			case LOAD_CATEGORY_POSTS_SUCCESS: {
+				draft.isLoadingPosts = false;
+				draft.mainPosts = action.data.posts;
+				draft.boardTitle = action.data.name;
+				break;
+			}
+			case LOAD_CATEGORY_POSTS_FAILURE: {
+				draft.isLoadingPosts = false;
+				draft.errorReason = action.error;
+			}
 
-		case LOAD_CATEGORY_REQUEST: {
-			return {
-				...state,
-			};
-		}
-		case LOAD_CATEGORY_SUCCESS: {
-			return {
-				...state,
-				category_list: action.data,
+			case LOAD_CATEGORY_REQUEST:
+			case LOAD_CATEGORY_FAILURE: {
+				break;
 			}
-		}
-		case LOAD_CATEGORY_FAILURE: {
-			return {
-				...state,
+			case LOAD_CATEGORY_SUCCESS: {
+				draft.category_list = action.data;
+				break;
 			}
-		}
+
+			case ADD_POST_REQUEST: {
+				draft.isAddingPost = true;
+				break;
+			}
+			case ADD_POST_SUCCESS: {
+				draft.isAddingPost = false;
+				draft.isAddedPost = true;
+				draft.mainPosts.unshift(action.data);
+				break;
+			}
+			case ADD_POST_FAILURE: {
+				draft.isAddingPost = false;
+				draft.errorReason = action.error;
+				break;
+			}
+
+			case LOAD_ONE_POST_REQUEST: {
+				draft.postData= null;
+				break;
+			}
+			case LOAD_ONE_POST_SUCCESS: {
+				draft.postData = action.data;
+				break;
+			}
+			case LOAD_ONE_POST_FAILURE: {
+				draft.errorReason = action.error;
+				break;
+			}
+
+			case EDIT_POST_REQUEST: {
+				draft.isEdittingPost = true;
+				break;
+			}
+			case EDIT_POST_SUCCESS: {
+				draft.isEdittingPost = false;
+				draft.isEditedPost = true;
+				draft.postData = action.data;
+				const index = draft.mainPosts.findIndex(v => v.id === action.data.id);
+				draft.mainPosts.splice(index, 1, action.data);
+				break;
+			}
+			case EDIT_POST_FAILURE: {
+				draft.isEdittingPost = false;
+				draft.errorReason = action.error;
+				break;
+			}
+
+			case REMOVE_POST_REQUEST: {
+				draft.isRemovingPost = true;
+				break;
+			}
+			case REMOVE_POST_SUCCESS: {
+				draft.isRemovingPost = false;
+				draft.isRemovedPost = true;
+				const index = draft.mainPosts.findIndex(v => v.id === action.data);
+				draft.mainPosts.splice(index, 1);
+				break;
+			}
+			case REMOVE_POST_FAILURE: {
+				draft.isRemovingPost = false;
+				draft.errorReason = action.error;
+			}
+
+			case SEARCH_POSTS_REQUEST: {
+				draft.isLoadingPosts = true;
+				break;
+			}
+			case SEARCH_POSTS_SUCCESS: {
+				draft.isLoadingPosts = false;
+				draft.isLoadedPosts = true;
+				draft.mainPosts = action.data.posts;
+				draft.boardTitle = action.data.keyword;
+				break;
+			}
+			case SEARCH_POSTS_FAILURE: {
+				draft.isLoadingPosts = false;
+				errorReason = action.error;
+				break;
+			}
+
+			case EDIT_CATEGORY_REQUEST:
+			case ADD_CATEGORY_REQUEST:
+			case REMOVE_CATEGORY_REQUEST:
+			case EDIT_POST_MANAGE_REQUEST:
+			case CHANGE_SELECTED_POSTS_CATEGORY_REQUEST: {
+				break;
+			}
+			case REMOVE_SELECTED_POST_REQUEST: {
+				draft.isRemovingPost = true;
+				break;
+			}
+			case REMOVE_SELECTED_POST_REQUEST: {
+				draft.isRemovingPost = true;
+				break;
+			}
+
+			case REMOVE_CATEGORY_SUCCESS: {
+				const index = draft.category_list.findIndex(v => v.id === action.data.cateogry_id);
+				draft.mainPosts = action.data.posts;
+				draft.category_list.splice(index, 1);
+				break;
+			}
+
+			case EDIT_POST_MANAGE_SUCCESS: {
+				draft.postingWindowOpen = true;
+				draft.isEdittingPost = false;
+				draft.isAddedPost = false;
+				draft.postEditMode = true;
+				draft.postData = action.data;
+				break;
+			}
+			case REMOVE_SELECTED_POST_SUCCESS: {
+				draft.isRemovingPost = false;
+				draft.isRemovedPost = true;
+				draft.mainPosts = action.data;
+				break;
+			}
+
+			case CHANGE_SELECTED_POSTS_CATEGORY_SUCCESS: {
+				draft.mainPosts = action.data;
+				break;
+			}
 
 
-		case ADD_POST_REQUEST: {
-			return {
-				...state,
-				isAddingPost: true
+			case EDIT_CATEGORY_SUCCESS: {
+				draft.category_list = action.data.category;
+				draft.mainPosts = action.data.posts;
+				break;
 			}
-		}
-		case ADD_POST_SUCCESS: {
-			return {
-				...state,
-				isAddingPost: false,
-				isAddedPost: true,
-				mainPosts: [action.data, ...state.mainPosts],
-			}
-		}
-		case ADD_POST_FAILURE: {
-			return {
-				...state,
-				isAddingPost: false,
-				errorReason: action.error,
-			}
-		}
 
-		case LOAD_ONE_POST_REQUEST: {
-			return {
-				...state,
-				postData: null,
-			};
-		}
-		case LOAD_ONE_POST_SUCCESS: {
-			return {
-				...state,
-				postData: action.data,
-			};
-		}
-		case LOAD_ONE_POST_FAILURE: {
-			return {
-				...state,
-				errorReason: action.error,
-			};
-		}
+			case ADD_CATEGORY_SUCCESS: {
+				draft.category_list.push(action.data);
+				break;
+			}
 
-		case EDIT_POST_REQUEST: {
-			return {
-				...state,
-				isEdittingPost: true,
+			case ADD_CATEGORY_FAILURE:
+			case EDIT_CATEGORY_FAILURE:
+			case REMOVE_CATEGORY_FAILURE:
+			case EDIT_POST_MANAGE_FAILURE:
+			case CHANGE_SELECTED_POSTS_CATEGORY_FAILURE: {
+				draft.errorReason = action.error;
+				break;
 			}
-		}
-		case EDIT_POST_SUCCESS: {
-			return {
-				...state,
-				isEdittingPost: false,
-				isEditedPost: true,
-				postData: action.data,
+			case REMOVE_SELECTED_POST_FAILURE: {
+				draft.isRemovingPost = false;
+				break;
 			}
-		}
-		case EDIT_POST_FAILURE: {
-			return {
-				...state,
-				isEdittingPost: false,
-				errorReason: action.error,
-			}
-		}
 
-		case REMOVE_POST_REQUEST: {
-			return {
-				...state,
-				isRemovingPost: true,
+			default: {
+				break;
 			}
 		}
-		case REMOVE_POST_SUCCESS: {
-			return {
-				...state,
-				isRemovingPost: false,
-				isRemovedPost: true,
-				mainPosts: state.mainPosts.filter(v => v.id !== action.data),
-			}
-		}
-		case REMOVE_POST_FAILURE: {
-			return {
-				...state,
-				isRemovingPost: false,
-				errorReason: action.error,
-			}
-		}
-
-		case SEARCH_POSTS_REQUEST: {
-			return {
-				...state,
-				isLoadingPosts: true,
-			}
-		}
-		case SEARCH_POSTS_SUCCESS: {
-			return {
-				...state,
-				isLoadingPosts: false,
-				isLoadedPosts: true,
-				mainPosts: action.data.posts,
-				boardTitle: action.data.keyword,
-			}
-		}
-		case SEARCH_POSTS_FAILURE: {
-			return {
-				...state,
-				isLoadingPosts: false,
-				errorReason: action.error,
-			}
-		}
-
-		case EDIT_CATEGORY_REQUEST: {
-			return {
-				...state,
-			}
-		}
-		case EDIT_CATEGORY_SUCCESS: {
-			return {
-				...state,
-				category_list: action.data,
-			}
-		}
-		case EDIT_CATEGORY_FAILURE: {
-			return {
-				...state,
-			}
-		}
-
-		case ADD_CATEGORY_REQUEST: {
-			return {
-				...state,
-			}
-		}
-		case ADD_CATEGORY_SUCCESS: {
-			return {
-				...state,
-				category_list: [...state.category_list, action.data],
-			}
-		}
-		case ADD_CATEGORY_FAILURE: {
-			return {
-				...state,
-				errorReason: action.error,
-			}
-		}
-
-		case REMOVE_CATEGORY_REQUEST: {
-			return {
-				...state,
-			}
-		}
-		case REMOVE_CATEGORY_SUCCESS: {
-			return {
-				...state,
-				category_list: state.category_list.filter(v => v.id !== action.data),
-			}
-		}
-		case REMOVE_CATEGORY_FAILURE: {
-			return {
-				...state,
-			}
-		}
-
-		case EDIT_POST_MANAGE_REQUEST: {
-			return {
-				...state,
-			}
-		}
-		case EDIT_POST_MANAGE_SUCCESS: {
-			return {
-				...state,
-				postingWindowOpen: true,
-				isEditedPost: false,
-				isAddedPost: false,
-				postEditMode: true,
-				postData: action.data,
-			}
-		}
-		case EDIT_POST_MANAGE_FAILURE: {
-			return {
-				...state,
-				errorReason: action.error
-			}
-		}
-
-		case REMOVE_SELECTED_POST_REQUEST: {
-			return {
-				...state,
-				isRemovingPost: true,
-			}
-		}
-		case REMOVE_SELECTED_POST_SUCCESS: {
-			return {
-				...state,
-				isRemovingPost: false,
-				isRemovedPost: true,
-				mainPosts: action.data,
-
-			}
-		}
-		case REMOVE_SELECTED_POST_FAILURE: {
-			return {
-				...state,
-				isRemovingPost: false,
-			}
-		}
-
-		case CHANGE_SELECTED_POSTS_CATEGORY_REQUEST: {
-			return {
-				...state,
-			}
-		}
-		case CHANGE_SELECTED_POSTS_CATEGORY_SUCCESS: {
-			return {
-				...state,
-				mainPosts: action.data,
-			}
-		}
-		case CHANGE_SELECTED_POSTS_CATEGORY_FAILURE: {
-			return {
-				...state,
-				errorReason: action.error,
-			}
-		}
-
-		default: {
-			return {
-				...state,
-			}
-		}
-	}
+	})
 }
 
 export default posts

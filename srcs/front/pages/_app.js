@@ -28,6 +28,7 @@ import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { LOAD_ADMIN_REQUEST } from '../reducers/admin';
 import {LOAD_INFORMATION_REQUEST} from '../reducers/information';
 import ManageMenu from '../containers/ManageMenu';
+import { LOAD_CATEGORY_REQUEST } from '../reducers/posts';
 
 const Home = ({ pathname, Component, store }) => {
 	useEffect(() => {
@@ -125,6 +126,10 @@ Home.getInitialProps = async (context) => {
 	}
 	ctx.store.dispatch({
 		type: LOAD_INFORMATION_REQUEST,
+	})
+
+	ctx.store.dispatch({
+		type: LOAD_CATEGORY_REQUEST,
 	})
 
 	if (ctx.isServer && cookie) { // 클라이언트일 경우에는 브라우저가 있으므로 서버사이드 렌더링일 경우에만 실행
