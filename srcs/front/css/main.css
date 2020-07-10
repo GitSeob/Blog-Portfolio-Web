@@ -1,7 +1,7 @@
 * {
 	margin: 0;
 	padding: 0;
-	font-family: sans-serif;
+	/* font-family: sans-serif; */
 	list-style: none;
 	text-decoration: none;
 	outline: none;
@@ -21,17 +21,17 @@ body, html {
 	padding: 0;
 	font-weight: 400;
 	line-height: 1.5;
+	font-family: "Roboto",system-ui,-apple-system,BlinkMacSystemFont,"Malgun Gothic",Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
 }
 
 div {
 	display: block;
 }
 
-/* h1, h2, h3, h4, h5, h6 {
-	margin: 0;
-	line-height: 1.2;
+h1, h2, h3, h4, h5, h6 {
+	font-family: "Quicksand",sans-serif;
 	font-weight: normal;
-} */
+}
 
 figure {
 	margin: 0;
@@ -40,7 +40,7 @@ figure {
 
 figcaption {
 	display: block;
-	font-size: 14px;
+	font-size: 15px;
 }
 
 table {
@@ -92,15 +92,20 @@ button {
 /* ################################################################################## */
 
 .port-wrap {
-	font-size: 12px;
+	font-size: 16px;
 }
 
 .l-section {
-	padding: 100px 5vw;
+	padding: 15vh 100px;
 	background: white;
 	min-height: 100vh;
 	position: relative;
 	box-sizing: border-box;
+}
+
+.l-section-holder {
+    max-width: 1320px;
+    margin: 0 auto;
 }
 
 .l-section.l-split {
@@ -117,6 +122,7 @@ button {
 
 .l-section .copyright {
 	position: absolute;
+	font-size: 12px;
 	top: 3vh;
 	width: 100%;
 	left: 0;
@@ -258,13 +264,12 @@ button {
 }
 
 .gallery-spec {
-	margin: 2em 0;
+	margin: 1em 0;
 	padding: 0;
 }
 
 .gallery-spec-item {
 	display: block;
-	line-height: 2.4;
 	text-align: -webkit-match-parent;
 }
 
@@ -281,6 +286,7 @@ button {
 .gallery-table {
 	flex: 100%;
 	width: 100%;
+	font-size: 15px;
 }
 
 .gallery-table-col.col1 {
@@ -291,6 +297,10 @@ button {
 .gallery-table-col.col2 {
 	width: 25%;
 	border-right: 1px solid #EEE;
+}
+
+#work-description {
+	margin-top: 30px;
 }
 
 .ui-group {
@@ -2078,3 +2088,134 @@ ul {
 }
 
 /* /// */
+
+
+
+/* #################################################################### */
+/* #################################################################### */
+/* #######################     port footer   ########################## */
+/* #################################################################### */
+/* #################################################################### */
+footer {
+	display: block;
+	line-height: 2;
+}
+
+#footer {
+	background: #282a2f;
+	font-size: 15px;
+}
+
+#footer, #footer a {
+	color: white;
+}
+
+#footerBase {
+    background: #1c1e21;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    text-align: center;
+}
+
+.l-footer {
+	width: 100%;
+	position: static;
+	bottom: auto;
+	z-index: -1;
+}
+
+.l-footer-holder {
+	padding-left: 10vw;
+	padding-right: 10vw;
+	margin: 0 auto;
+}
+
+.footer-widget-group {
+	padding-top: 80px;
+	padding-bottom: 80px;
+	display: flex;
+	flex-flow: row wrap;
+	align-items: left;
+}
+
+.footer-widget {
+	flex: 1 auto;
+	padding: 1em 3em 1em 0;
+}
+
+.footer-heading {
+	text-align: left;
+}
+
+.footer-content {
+	margin-top: 2rem;
+	font-weight: 300;
+}
+
+.credit-list {
+	margin: 0 auto;
+	padding: 0;
+	list-style: none;
+	word-break: keep-all;
+}
+
+.credit-item {
+	display: flex;
+	flex-flow: row nowrap;
+}
+
+.credit-left {
+	padding: 0 10px 0 0;
+	text-align: right;
+	width: fit-content;
+	margin: 0;
+}
+
+.credit-right {
+    margin-left: 1em;
+    opacity: .66;
+}
+
+.unstyled-list {
+	padding: 0;
+	list-style: none;
+	word-break: keep-all;
+	text-align: center;
+}
+
+.unstyled-list li {
+	text-align: left;
+}
+
+.iconed-text {
+	margin-left: .5em;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+.unstyled-list li {
+	position: relative;
+}
+
+.unstyled-list svg {
+	position: absolute;
+	left: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 18px;
+}
+
+.unstyled-list span {
+	padding-left: 10px;
+}

@@ -5,6 +5,7 @@ import AppLayout from '../containers/AppLayout';
 // import {Helmet} from 'react-helmet-async';
 import axios from 'axios';
 import Head from 'next/head';
+import AOS from 'aos';
 
 // modules for Redux connect
 import { createStore, applyMiddleware, compose } from 'redux';
@@ -19,6 +20,7 @@ import styled from 'styled-components';
 import withReduxSaga from 'next-redux-saga' // SSR 렌더링을 위한 사가 설정
 
 import '../css/main.css';
+import 'aos/dist/aos.css';
 
 import 'codemirror/lib/codemirror.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
@@ -28,6 +30,13 @@ import {LOAD_INFORMATION_REQUEST} from '../reducers/information';
 import ManageMenu from '../containers/ManageMenu';
 
 const Home = ({ pathname, Component, store }) => {
+	useEffect(() => {
+		AOS.init({
+			duration: 1500
+		});
+		AOS.refresh();
+	});
+
 	const WrapComponent = () => {
 		const { blogTitle, description, faviconURL } = useSelector(state=>state.information);
 		const LayOut = useCallback(() => {
@@ -38,6 +47,8 @@ const Home = ({ pathname, Component, store }) => {
 					<Head>
 						<title>{blogTitle}</title>
 						<link rel="shortcut icon" href={faviconURL} />
+						<link rel="subresource" href="https://fonts.googleapis.com/css?family=Open+Sans|Quicksand:300,400,500" as="style" crossorigin="anonymous" />
+						<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 					</Head>
 					<Background>
 						<Component/>
