@@ -1,14 +1,16 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Send, AddCircle, Title, } from '@material-ui/icons';
-import { useDispatch } from 'react-redux';
+import { Send, AddCircle, Title, Cancel } from '@material-ui/icons';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
-	ABILITY_ADD_REQUEST,
+	ABILITY_ADD_REQUEST, RESET_ADD_ABILITY_STATUS,
 } from '../../reducers/portfolio';
 import useSetInput from '../../hooks/useSetInput';
 
-const AddAbility = ({ addAbilName, OCAddAbilName, cancelAddAbil }) => {
+const AddAbility = ({ addAbilName, cancelAddAbil, OCAddAbilName, setEachAbOpened }) => {
+	const { isAddedAbility, data } = useSelector(state=>state.portfolio);
+
 	const [addAttr, setAddAttr] = useState(false);
 	const [attrList, setAttrList] = useState([]);
 	const [attrName, setAttrName, OCAttrName] = useSetInput('');
@@ -74,6 +76,17 @@ const AddAbility = ({ addAbilName, OCAddAbilName, cancelAddAbil }) => {
 			alert('요소를 하나 이상 추가하십시오.');
 		}
 	}, [attrList])
+
+	useEffect(() => {
+		if (isAddedAbility === true) {
+			cancelAddAbil();
+			setAttrList([]);
+			dispatch({
+				type: RESET_ADD_ABILITY_STATUS,
+			})
+			setEachAbOpened(Array(data.Abilities.length).fill(false));
+		}
+	}, [isAddedAbility, data.Abilities]);
 
 	return (
 		<>

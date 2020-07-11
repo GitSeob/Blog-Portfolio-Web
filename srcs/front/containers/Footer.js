@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Link from 'next/link';
 import {useSelector} from 'react-redux';
 import style from 'styled-components';
-import { Email, ChatBubbleOutline, Code } from '@material-ui/icons';
+import { Email, ChatBubbleOutline, Code, Web } from '@material-ui/icons';
 
 const Footer = props => {
 	const {data} = useSelector(state=>state.portfolio);
@@ -69,7 +70,7 @@ const Footer = props => {
 								<li>
 									<Email/>
 									<span title="이메일">
-										<span className="iconed-text">{data.email}</span>
+										<span className="iconed-text" >{data.email}</span>
 									</span>
 								</li>
 								<li>
@@ -81,7 +82,13 @@ const Footer = props => {
 								<li>
 									<Code/>
 									<span title="깃허브">
-										<span className="iconed-text">gitHub account</span>
+										<a href={data.github} target="_blank" className="iconed-text">gitHub account</a>
+									</span>
+								</li>
+								<li>
+									<Web/>
+									<span title="블로그">
+										<a href='/' target="_blank" className="iconed-text">anjoy's Blog</a>
 									</span>
 								</li>
 							</ul>

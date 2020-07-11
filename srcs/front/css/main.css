@@ -2239,6 +2239,7 @@ footer {
 	width: 18px;
 }
 
-.unstyled-list span {
+.unstyled-list span,
+.unstyled-list a {
 	padding-left: 10px;
 }

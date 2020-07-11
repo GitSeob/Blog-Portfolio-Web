@@ -1,15 +1,15 @@
-import React, {useState, useCallback, useRef} from 'react';
+import React, {useState, useCallback, useRef, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Title, Category, History, People, Code, Description, InsertPhoto, Create } from '@material-ui/icons';
 
 import axios from 'axios';
 import useSetInput from '../../hooks/useSetInput';
-import { WORK_EDIT_REQUEST, WORK_DELETE_REQUEST, CLICK_WORK_LIST } from '../../reducers/portfolio';
+import { WORK_EDIT_REQUEST, WORK_DELETE_REQUEST, CLICK_WORK_LIST, RESET_EDIT_WORK_STATUS } from '../../reducers/portfolio';
 
 const OpenedWork = ({ idx }) => {
 	const dispatch = useDispatch();
-	const { data } = useSelector(state=>state.portfolio);
+	const { data, isEditedWork } = useSelector(state=>state.portfolio);
 	const [imageWillChanged, setImageWillChanged] = useState('');
 
 	const imageInput = useRef();
@@ -227,6 +227,16 @@ const OpenedWork = ({ idx }) => {
 		imageInput.current.click();
 	}, [imageInput.current]);
 
+	useEffect(() => {
+		if (isEditedWork) {
+			alert('새로운 WORK 데이터가 추가되었습니다.');
+			setEditStatus(false);
+			dispatch({
+				type: RESET_EDIT_WORK_STATUS,
+			})
+		}
+	}, [isEditedWork])
+
 	return (
 		<>
 		<article role="article" id={data.Works[idx].id} className="manage-work-view">
@@ -237,7 +247,7 @@ const OpenedWork = ({ idx }) => {
 						editStatus &&
 						<div className="manage-img-btn">
 							<button onClick={onClickImageUpload}>
-								<InsertPhoto />
+								<InsertPhoto style={{color: 'white'}}/>
 								<p>이미지 변경하기</p>
 							</button>
 							<input type="file" ref={imageInput} onChange={onChangeImg}/>

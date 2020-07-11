@@ -134,6 +134,7 @@ const ReviseAbility = props => {
 						}
 					})
 				}
+				setAbilIndex(-1);
 			}
 		}
 		else {
@@ -172,11 +173,14 @@ const ReviseAbility = props => {
 					})
 				}
 			}
+			setAbilIndex(-1);
 		}
 	}, [editAbilName, editAbilList, isEditAbilList]);
 
-	const cancelAddAbil = useCallback((e) => {
-		e.preventDefault();
+	const cancelAddAbil = useCallback((e = null) => {
+		if (e) {
+			e.preventDefault();
+		}
 		setOpenAddAbil(false);
 		setAddAbilName('');
 	}, [addAbilName]);
@@ -253,17 +257,17 @@ const ReviseAbility = props => {
 											);
 										})}
 										{ abilIndex === ab_i &&
-											<div className="add-attr-bubble">
-												<input type='text' className="manage-add-attr-ipt" value={attrName} onChange={OCAttrName} />
-												<button onClick={onAddAttr}>
-													<AddCircle/>
+											<>
+												<div className="add-attr-bubble">
+													<input type='text' className="manage-add-attr-ipt" value={attrName} onChange={OCAttrName} />
+													<button onClick={onAddAttr}>
+														<AddCircle/>
+													</button>
+												</div>
+												<button className="add-abil-submit-btn" onClick={editAbil(ab_c)}>
+													<Send />
 												</button>
-											</div>
-										}
-										{ abilIndex === ab_i &&
-											<button className="add-abil-submit-btn" onClick={editAbil(ab_c)}>
-												<Send />
-											</button>
+											</>
 										}
 										</div>
 									}
@@ -272,7 +276,7 @@ const ReviseAbility = props => {
 							})
 						}
 						{openAddAbil &&
-							<AddAbility addAbilName={addAbilName} OCAddAbilName={OCAddAbilName} cancelAddAbil={cancelAddAbil} />
+							<AddAbility addAbilName={addAbilName} cancelAddAbil={cancelAddAbil} OCAddAbilName={OCAddAbilName} setEachAbOpened={setEachAbOpened}/>
 						}
 						<button className="manage-bundle-list" onClick={!openAddAbil ? open_add_ability : close_add_ability}>
 							< Add style={{position: 'absolute', left: 0, top: '50%',fontSize: "16px", color: "#B4BAC2", transform: 'translate(50%, -50%)'}} />

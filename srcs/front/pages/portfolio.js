@@ -43,10 +43,4 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
 	await context.store.sagaTask.toPromise();
 })
 
-//Portfolio.getInitialProps = async ( context ) => {
-//	context.store.dispatch({
-//		type: LOAD_PORT_DATA_REQUEST,
-//	})
-//}
-
 export default Portfolio;
