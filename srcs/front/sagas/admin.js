@@ -3,9 +3,7 @@ import { call, all, fork, takeLatest, put, throttle } from 'redux-saga/effects';
 import { LOGIN_ADMIN_REQUEST, LOGIN_ADMIN_SUCCESS, LOGIN_ADMIN_FAILURE, LOAD_ADMIN_REQUEST, LOAD_ADMIN_SUCCESS, LOAD_ADMIN_FAILURE, LOGOUT_ADMIN_SUCCESS, LOGOUT_ADMIN_FAILURE, LOGOUT_ADMIN_REQUEST } from '../reducers/admin';
 
 function loginAPI(loginData){
-	 return axios.post('/user/login', loginData, {
-		 withCredentials: true, // 도메인간 쿠키 주고 받는 옵션
-	 })
+	 return axios.post('/user/login', loginData)
 };
 
 function* login(action){
