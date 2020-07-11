@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Bubble} from '../css/styledCss';
 import styled from 'styled-components';
-import {CheckCircle} from '@material-ui/icons'
 
-const TalkBubble = ({ abil }) => {
+import { Bubble } from '../css/styledCss';
+import { CheckCircle } from '@material-ui/icons'
+
+const AbilityList = ({ abil }) => {
 	return (
 		<Container className="abil">
 			<Bubble>
@@ -75,9 +76,9 @@ const Circle = styled.div`
 	border-radius: 50%;
 `;
 
-TalkBubble.propTypes = {
+AbilityList.propTypes = {
 	id: PropTypes.number,
 	title: PropTypes.string,
 };
 
-export default TalkBubble;
+export default AbilityList;

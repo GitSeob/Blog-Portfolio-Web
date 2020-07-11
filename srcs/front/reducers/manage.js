@@ -1,4 +1,4 @@
-import produce from 'immer';
+import produce from '../util/produce';
 
 const initialState = {
 	menuStatus: {
@@ -10,24 +10,22 @@ const initialState = {
 export const SET_BLOG = 'SET_BLOG';
 export const SET_PORT = 'SET_PORT';
 
-const manage = (state=initialState, action) => {
-	return produce(state, (draft) => {
-		switch(action.type) {
-			case SET_BLOG: {
-				draft.menuStatus.blog = true;
-				draft.menuStatus.port = false;
-				break;
-			}
-			case SET_PORT: {
-				draft.menuStatus.blog = false;
-				draft.menuStatus.port = true;
-				break;
-			}
-			default: {
-				break;
-			}
+const reducer = (state=initialState, action) => produce(state, (draft) => {
+	switch(action.type) {
+		case SET_BLOG: {
+			draft.menuStatus.blog = true;
+			draft.menuStatus.port = false;
+			break;
 		}
-	})
-}
+		case SET_PORT: {
+			draft.menuStatus.blog = false;
+			draft.menuStatus.port = true;
+			break;
+		}
+		default: {
+			break;
+		}
+	}
+})
 
-export default manage;
+export default reducer;

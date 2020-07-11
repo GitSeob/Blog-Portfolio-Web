@@ -1,6 +1,8 @@
 import React from 'react';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
+import axios from 'axios';
+import { END } from 'redux-saga';
+
+import wrapper from '../store/configureStore';
 
 import Door from '../containers/Door';
 import Work from '../containers/Work';
@@ -28,10 +30,23 @@ Portfolio.propTypes = {
 
 };
 
-Portfolio.getInitialProps = async ( context ) => {
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+	const cookie = context.req ? context.req.headers.cookie : '';
+	axios.defaults.headers.Cookie = '';
+	if (context.req && cookie) {
+		axios.defaults.headers.Cookie = cookie;
+	}
 	context.store.dispatch({
 		type: LOAD_PORT_DATA_REQUEST,
 	})
-}
+	context.store.dispatch(END);
+	await context.store.sagaTask.toPromise();
+})
+
+//Portfolio.getInitialProps = async ( context ) => {
+//	context.store.dispatch({
+//		type: LOAD_PORT_DATA_REQUEST,
+//	})
+//}
 
 export default Portfolio;

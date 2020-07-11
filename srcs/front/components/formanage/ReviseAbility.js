@@ -10,7 +10,7 @@ import {
 	ABILITY_EDIT_ONLY_ATTR_REQUEST,
 	ABILITY_EDIT_ONLY_TITLE_REQUEST,
 } from '../../reducers/portfolio';
-import {useSetInput} from './BlogManage';
+import useSetInput from '../../hooks/useSetInput';
 
 const ReviseAbility = props => {
 	const { data } = useSelector(state=>state.portfolio);

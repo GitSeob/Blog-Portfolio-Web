@@ -101,13 +101,11 @@ router.delete('/:id', isLoggedIn, async (req, res, next) => {
 		const editedPosts = await db.Posts.findAll({
 			include: [{
 				model: db.Category,
-				where: {
-					name: decodeURIComponent(req.params.name)
-				},
 				attributes: ['id', 'name'],
 			}],
 			order: [['createdAt', 'DESC']],
 		});
+
 		return res.json({
 			category_id : req.params.id,
 			posts: editedPosts,

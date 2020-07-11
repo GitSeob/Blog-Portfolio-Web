@@ -1,25 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Box, UnderLine, Filter} from '../css/styledCss';
-import TalkBubble from './TalkBubble';
+import { Box } from '../css/styledCss';
+import AbilityList from './AbilityList';
 import Header from './Header';
 import styled from 'styled-components';
-
-const dummy = {
-	abilities: [{
-		id: 0,
-		title: '개잘생김',
-		list: [
-			'눈', '코', '입', '전부다',
-		]
-	},{
-		id: 1,
-		title: '노래잘부름',
-		list: [
-			'2018년 화양리 지그재그 신년회 노래자랑 1등', '2017년 화양리 지그재그 신년회 노래자랑 1등',
-		]
-	}]
-};
 
 const Ability = ({ data }) => {
 	return (
@@ -29,7 +13,7 @@ const Ability = ({ data }) => {
 				<BubbleContainer>
 					{data.Abilities.map((c, i) => {
 						return (
-							<TalkBubble key={(i)} abil={c}/>
+							<AbilityList key={(i)} abil={c}/>
 						);
 					})}
 				</BubbleContainer>

@@ -35,9 +35,7 @@ import {
 
 
 function loadPortfolioAPI(){
-	return axios.get('/portfolio', {
-		withCredentials: true,
-	});
+	return axios.get('/portfolio');
 };
 
 function* loadPortfolio(action){
@@ -61,9 +59,7 @@ function* watchLoadPort(){
 }
 
 function editPortfolioAPI(portData){
-	return axios.patch('/portfolio', portData, {
-		withCredentials: true,
-	});
+	return axios.patch('/portfolio', portData);
 };
 
 function* editPortfolio(action){
@@ -87,9 +83,7 @@ function* watchEditPortfolio(){
 
 
 function addAbilityAPI(abilityData) {
-	return axios.post('/portfolio/add/Ability', abilityData, {
-		withCredentials: true,
-	})
+	return axios.post('/portfolio/add/Ability', abilityData)
 }
 
 function* addAbility(action) {
@@ -113,9 +107,7 @@ function* watchAddAbility() {
 }
 
 function removeAbilityAPI(abilityId) {
-	return axios.post('/portfolio/remove/ability', { abilityId: abilityId}, {
-		withCredentials: true,
-	})
+	return axios.post('/portfolio/remove/ability', { abilityId: abilityId})
 }
 
 function* removeAbility(action) {
@@ -139,9 +131,7 @@ function* watchRemoveAbility() {
 }
 
 function editAbilityAPI(abilityData){
-	return axios.post(`/portfolio/ability/edit/${abilityData.ability_id}`, abilityData, {
-		withCredentials: true,
-	})
+	return axios.post(`/portfolio/ability/edit/${abilityData.ability_id}`, abilityData)
 }
 
 function* editAbility(action) {
@@ -165,9 +155,7 @@ function* watchEditAbility() {
 }
 
 function editAbilityOnlyTitleAPI(abilityData){
-	return axios.post(`/portfolio/ability/EditTitle/${abilityData.ability_id}`, abilityData, {
-		withCredentials: true,
-	})
+	return axios.post(`/portfolio/ability/EditTitle/${abilityData.ability_id}`, abilityData)
 }
 
 function* editAbilityOnlyTitle(action) {
@@ -191,9 +179,7 @@ function* watchEditAbilityOnlyTitle() {
 }
 
 function editAbilityOnlyAttrAPI(abilityData){
-	return axios.post(`/portfolio/ability/EditAttr/${abilityData.ability_id}`, abilityData, {
-		withCredentials: true,
-	})
+	return axios.post(`/portfolio/ability/EditAttr/${abilityData.ability_id}`, abilityData)
 }
 
 function* editAbilityOnlyAttr(action) {
@@ -217,9 +203,7 @@ function* watchEditAbilityOnlyAttr() {
 }
 
 function editWorkAPI(data){
-	return axios.post(`/portfolio/work/${data.id}`, data, {
-		withCredentials: true,
-	})
+	return axios.post(`/portfolio/work/${data.id}`, data)
 }
 
 function* editWork(action) {
@@ -243,9 +227,7 @@ function* watchEditWork() {
 }
 
 function deleteWorkAPI(data){
-	return axios.delete(`/portfolio/work/${data.id}`, data, {
-		withCredentials: true,
-	})
+	return axios.delete(`/portfolio/work/${data.id}`, data)
 }
 
 function* deleteWork(action) {
@@ -269,9 +251,7 @@ function* watchDeleteWork() {
 }
 
 function addWorkAPI(data){
-	return axios.post(`/portfolio/work/`, data, {
-		withCredentials: true,
-	})
+	return axios.post(`/portfolio/work/`, data)
 }
 
 function* addWork(action) {

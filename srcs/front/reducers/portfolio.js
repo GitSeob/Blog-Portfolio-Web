@@ -1,4 +1,4 @@
-import produce from 'immer';
+import produce from '../util/produce';
 
 const initialState = {
 	isLoaded: false,
@@ -68,114 +68,112 @@ export const ADD_DUMY = 'ADD_DUMY';
 // ###########################################################################################
 // ###########################################################################################
 
-const portfolio = (state=initialState, action) => {
-	return produce(state, (draft) => {
-		switch (action.type) {
-			case LOAD_PORT_DATA_REQUEST: {
-				break;
-			}
-			case LOAD_PORT_DATA_SUCCESS: {
-				draft.data = action.data;
-				break;
-			}
-			case LOAD_PORT_DATA_FAILURE: {
-				draft.editPortErrorReason = action.error;
-				break;
-			}
-
-			case PORT_EDIT_REQUEST: {
-				break;
-			}
-			case PORT_EDIT_SUCCESS: {
-				draft.data = action.data;
-				break;
-			}
-			case PORT_EDIT_FAILURE: {
-				draft.isLoaded = false;
-				break;
-			}
-
-			case ABILITY_ADD_REQUEST: {
-				break;
-			}
-			case ABILITY_ADD_SUCCESS: {
-				draft.data.Abilities.push(action.data);
-				break;
-			}
-			case ABILITY_ADD_FAILURE: {
-				draft.addAbilityErrorReason = action.error;
-				break;
-			}
-
-			case ABILITY_EDIT_ONLY_ATTR_REQUEST:
-			case ABILITY_EDIT_ONLY_TITLE_REQUEST:
-			case ABILITY_EDIT_REQUEST:
-			case ABILITY_DELETE_REQUEST: {
-				break;
-			}
-
-			case ABILITY_EDIT_ONLY_ATTR_SUCCESS:
-			case ABILITY_EDIT_ONLY_TITLE_SUCCESS:
-			case ABILITY_EDIT_SUCCESS:
-			case ABILITY_DELETE_SUCCESS: {
-				draft.data.Abilities = action.data;
-				break;
-			}
-			case ABILITY_DELETE_FAILURE: {
-				draft.removeAbilityErrorReason = action.error;
-				break;
-			}
-
-			case ABILITY_EDIT_ONLY_ATTR_FAILURE:
-			case ABILITY_EDIT_ONLY_TITLE_FAILURE:
-			case ABILITY_EDIT_FAILURE: {
-				draft.editAbilityErrorReason = action.error;
-				break;
-			}
-
-			case WORK_EDIT_REQUEST:
-			case WORK_DELETE_REQUEST:
-			case WORK_ADD_REQUEST: {
-				break;
-			}
-			case WORK_EDIT_SUCCESS: {
-				draft.data.Works = action.data;
-				break;
-			}
-			case WORK_EDIT_FAILURE: {
-				draft.editWorkErrorReason = action.error;
-				break;
-			}
-
-			case WORK_DELETE_SUCCESS: {
-				const indez = draft.data.Works.findIndex(v => v.id === action.data);
-				draft.data.Works.splice(index, 1);
-				break;
-			}
-			case WORK_DELETE_FAILURE: {
-				draft.deleteWorkErrorReason = action.error;
-				break;
-			}
-
-			case WORK_ADD_SUCCESS: {
-				draft.data.Works.push(action.data);
-				break;
-			}
-			case WORK_ADD_FAILURE: {
-				draft.addWorkErrorReason = action.error;
-				break;
-			}
-
-			case CLICK_WORK_LIST: {
-				draft.workComponentIndex = action.data;
-				break;
-			}
-
-			default: {
-				break;
-			}
+const reducer = (state=initialState, action) => produce(state, (draft) => {
+	switch (action.type) {
+		case LOAD_PORT_DATA_REQUEST: {
+			break;
 		}
-	})
-}
+		case LOAD_PORT_DATA_SUCCESS: {
+			draft.data = action.data;
+			break;
+		}
+		case LOAD_PORT_DATA_FAILURE: {
+			draft.editPortErrorReason = action.error;
+			break;
+		}
 
-export default portfolio;
+		case PORT_EDIT_REQUEST: {
+			break;
+		}
+		case PORT_EDIT_SUCCESS: {
+			draft.data = action.data;
+			break;
+		}
+		case PORT_EDIT_FAILURE: {
+			draft.isLoaded = false;
+			break;
+		}
+
+		case ABILITY_ADD_REQUEST: {
+			break;
+		}
+		case ABILITY_ADD_SUCCESS: {
+			draft.data.Abilities.push(action.data);
+			break;
+		}
+		case ABILITY_ADD_FAILURE: {
+			draft.addAbilityErrorReason = action.error;
+			break;
+		}
+
+		case ABILITY_EDIT_ONLY_ATTR_REQUEST:
+		case ABILITY_EDIT_ONLY_TITLE_REQUEST:
+		case ABILITY_EDIT_REQUEST:
+		case ABILITY_DELETE_REQUEST: {
+			break;
+		}
+
+		case ABILITY_EDIT_ONLY_ATTR_SUCCESS:
+		case ABILITY_EDIT_ONLY_TITLE_SUCCESS:
+		case ABILITY_EDIT_SUCCESS:
+		case ABILITY_DELETE_SUCCESS: {
+			draft.data.Abilities = action.data;
+			break;
+		}
+		case ABILITY_DELETE_FAILURE: {
+			draft.removeAbilityErrorReason = action.error;
+			break;
+		}
+
+		case ABILITY_EDIT_ONLY_ATTR_FAILURE:
+		case ABILITY_EDIT_ONLY_TITLE_FAILURE:
+		case ABILITY_EDIT_FAILURE: {
+			draft.editAbilityErrorReason = action.error;
+			break;
+		}
+
+		case WORK_EDIT_REQUEST:
+		case WORK_DELETE_REQUEST:
+		case WORK_ADD_REQUEST: {
+			break;
+		}
+		case WORK_EDIT_SUCCESS: {
+			draft.data.Works = action.data;
+			break;
+		}
+		case WORK_EDIT_FAILURE: {
+			draft.editWorkErrorReason = action.error;
+			break;
+		}
+
+		case WORK_DELETE_SUCCESS: {
+			const indez = draft.data.Works.findIndex(v => v.id === action.data);
+			draft.data.Works.splice(index, 1);
+			break;
+		}
+		case WORK_DELETE_FAILURE: {
+			draft.deleteWorkErrorReason = action.error;
+			break;
+		}
+
+		case WORK_ADD_SUCCESS: {
+			draft.data.Works.push(action.data);
+			break;
+		}
+		case WORK_ADD_FAILURE: {
+			draft.addWorkErrorReason = action.error;
+			break;
+		}
+
+		case CLICK_WORK_LIST: {
+			draft.workComponentIndex = action.data;
+			break;
+		}
+
+		default: {
+			break;
+		}
+	}
+});
+
+export default reducer;
