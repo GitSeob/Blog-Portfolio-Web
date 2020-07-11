@@ -16,7 +16,8 @@ function* login(action){
 	} catch(e) {
 		console.error(e);
 		yield put({
-			type: LOGIN_ADMIN_FAILURE
+			type: LOGIN_ADMIN_FAILURE,
+			error: e.response.data,
 		});
 	}
 }

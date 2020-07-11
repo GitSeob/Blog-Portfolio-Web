@@ -84,7 +84,7 @@ const Home = ({ pathname, Component, store }) => {
 			<meta name="description" content={description} />
 			<meta name="og:description" content={description} />
 			<link rel="shortcut icon" href={faviconURL} />
-			<link rel="subresource" href="https://fonts.googleapis.com/css?family=Open+Sans|Quicksand:300,400,500" as="style" crossorigin="anonymous" />
+			<link rel="subresource" href="https://fonts.googleapis.com/css?family=Open+Sans|Quicksand:300,400,500" as="style" crossOrigin="anonymous" />
 			<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 		</Head>
 		{/*//<Provider store={store}>*/}
@@ -132,4 +132,4 @@ Home.getInitialProps = async (context) => {
 	return { pageProps, pathname: ctx.pathname };
 };
 
-export default wrapper.withRedux(withReduxSaga(Home));
+export default wrapper.withRedux(Home);
