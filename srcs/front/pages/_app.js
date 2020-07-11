@@ -5,8 +5,6 @@ import axios from 'axios';
 import AOS from 'aos';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
-import { END } from 'redux-saga';
-import withReduxSaga from 'next-redux-saga';
 
 import '../css/main.css';
 import 'aos/dist/aos.css';
