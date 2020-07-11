@@ -20,13 +20,7 @@ import {
 	EDIT_INFORMATION_REQUEST,
 } from '../../reducers/information';
 
-export const useSetInput = (initialValue = null) => {
-	const [value, setter] = useState(initialValue);
-	const handler = useCallback((e) => {
-		setter(e.target.value);
-	}, [])
-	return [value, setter, handler];
-}
+import useSetInput from '../../hooks/useSetInput';
 
 const SelectCate = ({category_list}) => {
 	const [isClicked, setClick] = useState(false);

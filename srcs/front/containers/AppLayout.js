@@ -4,10 +4,11 @@ import {Close, Menu, Search, Edit, Settings} from '@material-ui/icons'
 import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
 
+import useInput from '../hooks/useInput';
 import { OPEN_POSTING } from '../reducers/posts';
 import {Person, ExitToApp} from '@material-ui/icons';
 import { LOGOUT_ADMIN_REQUEST } from '../reducers/admin';
-import LoginForm, { useInput } from '../components/LoginForm';
+import LoginForm from '../components/LoginForm';
 import Posting from '../containers/Posting';
 import Router from 'next/router';
 

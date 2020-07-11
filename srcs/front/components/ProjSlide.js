@@ -1,7 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 
-const Test = ({ page , id = 1}) => {
+const ProjSlide = ({ page , id = 1}) => {
 	const aosValue = id % 2 === 0 ? 'fade-right' : 'fade-left';
 	const order = {
 		order: `${id % 2 === 0 ? 1 : -1}`
@@ -93,23 +92,9 @@ const Test = ({ page , id = 1}) => {
 	);
 };
 
-const Ttest = styled.div`
-	flex-shrink: 0;
-	display: flex;
-	flex-direction: column;
-	width: 90%;
-	margin: 5% 5%;
-`;
 
-const IMG = styled.img`
-	width: 50%;
-	height: 40vh;
-	left: 0;
-`;
-
-
-Test.propTypes = {
+ProjSlide.propTypes = {
 
 };
 
-export default Test;
+export default ProjSlide;

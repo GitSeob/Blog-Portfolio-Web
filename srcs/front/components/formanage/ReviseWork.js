@@ -1,9 +1,9 @@
-import React, {useState, useCallback, useEffect} from 'react';
+import React, {useState, useCallback} from 'react';
 import PropTypes from 'prop-types';
 import { Reorder, Add } from '@material-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
 
-import {useSetInput} from './BlogManage';
+import useSetInput from '../../hooks/useSetInput';
 import AddWork from './AddWork';
 import OpenedWork from './OpenedWork';
 import { CLICK_WORK_LIST } from '../../reducers/portfolio';
