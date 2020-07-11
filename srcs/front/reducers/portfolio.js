@@ -5,6 +5,8 @@ const initialState = {
 	data: null,
 	workComponentIndex: -1,
 	imageWillChanged: '',
+	isAddedAbility: false,
+	isEditedWork: false,
 	editPortErrorReason: '',
 	addAbilityErrorReason: '',
 	removeAbilityErrorReason: '',
@@ -60,6 +62,8 @@ export const WORK_IMG_UPLOAD_SUCCESS = 'WORK_IMG_UPLOAD_SUCCESS';
 export const WORK_IMG_UPLOAD_FAILURE = 'WORK_IMG_UPLOAD_FAILURE';
 
 export const CLICK_WORK_LIST = 'CLICK_WORK_LIST';
+export const RESET_ADD_ABILITY_STATUS = 'RESET_ADD_ABILITY_STATUS';
+export const RESET_EDIT_WORK_STATUS = 'RESET_EDIT_WORK_STATUS';
 
 export const ADD_DUMY = 'ADD_DUMY';
 
@@ -99,6 +103,7 @@ const reducer = (state=initialState, action) => produce(state, (draft) => {
 		}
 		case ABILITY_ADD_SUCCESS: {
 			draft.data.Abilities.push(action.data);
+			draft.isAddedAbility = true;
 			break;
 		}
 		case ABILITY_ADD_FAILURE: {
@@ -115,11 +120,17 @@ const reducer = (state=initialState, action) => produce(state, (draft) => {
 
 		case ABILITY_EDIT_ONLY_ATTR_SUCCESS:
 		case ABILITY_EDIT_ONLY_TITLE_SUCCESS:
-		case ABILITY_EDIT_SUCCESS:
+		case ABILITY_EDIT_SUCCESS: {
+			draft.data.Abilities = action.data;
+			draft.isAddedAbility = true;
+			break;
+		}
 		case ABILITY_DELETE_SUCCESS: {
 			draft.data.Abilities = action.data;
 			break;
 		}
+
+
 		case ABILITY_DELETE_FAILURE: {
 			draft.removeAbilityErrorReason = action.error;
 			break;
@@ -139,6 +150,7 @@ const reducer = (state=initialState, action) => produce(state, (draft) => {
 		}
 		case WORK_EDIT_SUCCESS: {
 			draft.data.Works = action.data;
+			draft.isEditedWork = true;
 			break;
 		}
 		case WORK_EDIT_FAILURE: {
@@ -167,6 +179,16 @@ const reducer = (state=initialState, action) => produce(state, (draft) => {
 
 		case CLICK_WORK_LIST: {
 			draft.workComponentIndex = action.data;
+			break;
+		}
+
+		case RESET_ADD_ABILITY_STATUS: {
+			draft.isAddedAbility = false;
+			break;
+		}
+
+		case RESET_EDIT_WORK_STATUS: {
+			draft.isEditedWork = false;
 			break;
 		}
 

@@ -56,7 +56,7 @@ router.patch('/', async (req, res, next) => {
 			about_content: req.body.about_content,
 			ability_title: req.body.ability_title,
 			ability_sub_title: req.body.ability_sub_title,
-			work_title: req.body.work_Title,
+			work_title: req.body.work_title,
 			work_sub_title: req.body.work_sub_title,
 			email: req.body.email,
 			kakao: req.body.kakao,
@@ -111,7 +111,6 @@ router.post('/add/Ability', async (req, res, next) => {
 				order: [['id', 'ASC']],
 			}],
 		});
-		console.log(resAbility);
 		return res.json(resAbility)
 	} catch (e) {
 		console.error(e);
@@ -259,7 +258,6 @@ router.post('/work', async (req, res, next) => {
 		await db.Work_row.bulkCreate(workRows, {
 			returning: true
 		});
-		console.log(addedWork);
 		const resRow = await db.Works.findOne({
 			where: {id: addedWork.id},
 			include: [{
@@ -267,7 +265,6 @@ router.post('/work', async (req, res, next) => {
 				order: [['id', 'ASC']],
 			}]
 		})
-		console.log(resRow);
 		return res.json(resRow);
 	} catch(e) {
 		console.error(e);

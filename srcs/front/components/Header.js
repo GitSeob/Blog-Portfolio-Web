@@ -52,7 +52,7 @@ const SubTitle = styled.span`
 	speak: none;
 	display: block;
 	text-align: center;
-	margin-bottom: 14px;
+	margin-bottom: -10px;
 
 	&.work {
 		color: #848383;
