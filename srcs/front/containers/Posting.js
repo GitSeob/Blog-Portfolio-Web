@@ -1,8 +1,8 @@
 import React, {useState, useEffect, useCallback, useRef} from 'react';
 import Router from 'next/router';
 
-import {KeyboardArrowDown, Close} from '@material-ui/icons'
-import {useInput} from '../components/LoginForm';
+import {KeyboardArrowDown} from '@material-ui/icons'
+import useInput from '../hooks/useInput';
 import { useSelector, useDispatch } from 'react-redux';
 import {ADD_POST_REQUEST, EDIT_POST_REQUEST, CLOSE_POSTING} from '../reducers/posts';
 import dynamic from 'next/dynamic';

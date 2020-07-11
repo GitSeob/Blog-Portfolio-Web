@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
-
 import style from 'styled-components';
-import {Email, ChatBubbleOutline, Code} from '@material-ui/icons';
+import { Email, ChatBubbleOutline, Code } from '@material-ui/icons';
 
 const Footer = props => {
 	const {data} = useSelector(state=>state.portfolio);

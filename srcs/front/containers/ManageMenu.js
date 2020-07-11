@@ -7,7 +7,6 @@ import {
 	Container,
 	Aside,
 	ContentContainer,
-	ContentHead,
 	EditBox,
 	SideTitle,
 	SideCate,
@@ -37,8 +36,9 @@ const ManageMenu = ({ children }) => {
 			})
 		}
 		else {
-			console.log('quit');
-			Router.push('/');
+			if (confirm('정말 나가시겠습니까?')) {
+				Router.push('/');
+			}
 		}
 	})
 

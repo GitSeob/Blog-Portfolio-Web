@@ -1,4 +1,4 @@
-import produce from 'immer';
+import produce from '../util/produce';
 
 const initialState = {
 	isLoggedIn: false,
@@ -50,55 +50,54 @@ export const EDIT_BLOG_REQUEST = 'EDIT_BLOG_REQUEST';
 export const EDIT_BLOG_SUCCESS = 'EDIT_BLOG_SUCCESS';
 export const EDIT_BLOG_FAILURE = 'EDIT_BLOG_FAILURE';
 
-const admin = (state=initialState, action) => {
-	return produce(state, (draft) => {
-		switch (action.type) {
-			case LOAD_ADMIN_REQUEST: {
-				break;
-			}
-			case LOAD_ADMIN_SUCCESS: {
-				draft.admin = action.data;
-			}
-			case LOAD_ADMIN_FAILURE: {
-				break;
-			}
-
-			case LOGIN_ADMIN_REQUEST: {
-				draft.isLoggingIn = true;
-				break;
-			}
-			case LOGIN_ADMIN_SUCCESS: {
-				draft.isLoggedIn = true;
-				draft.isLoggingIn = false;
-				draft.admin = action.data;
-				break;
-			}
-			case LOGIN_ADMIN_FAILURE: {
-				draft.isLoggingIn = false;
-				draft.admin = null;
-				draft.logInErrorReason = action.error;
-				break;
-			}
-
-			case LOGOUT_ADMIN_REQUEST: {
-				draft.isLoggingOut = true;
-				break;
-			}
-			case LOGOUT_ADMIN_SUCCESS: {
-				draft.isLoggingOut = false;
-				draft.isLoggedIn = false;
-				draft.admin = null;
-				break;
-			}
-			case LOGOUT_ADMIN_FAILURE: {
-				draft.isLoggingOut = false;
-				break;
-			}
-			default: {
-				break;
-			}
+const reducer = (state=initialState, action) => produce(state, (draft) => {
+	switch (action.type) {
+		case LOAD_ADMIN_REQUEST: {
+			break;
 		}
-	})
-}
+		case LOAD_ADMIN_SUCCESS: {
+			draft.admin = action.data;
+		}
+		case LOAD_ADMIN_FAILURE: {
+			break;
+		}
 
-export default admin;
+		case LOGIN_ADMIN_REQUEST: {
+			draft.isLoggingIn = true;
+			break;
+		}
+		case LOGIN_ADMIN_SUCCESS: {
+			draft.isLoggedIn = true;
+			draft.isLoggingIn = false;
+			draft.admin = action.data;
+			break;
+		}
+		case LOGIN_ADMIN_FAILURE: {
+			draft.isLoggingIn = false;
+			draft.admin = null;
+			draft.logInErrorReason = action.error;
+			break;
+		}
+
+		case LOGOUT_ADMIN_REQUEST: {
+			draft.isLoggingOut = true;
+			break;
+		}
+		case LOGOUT_ADMIN_SUCCESS: {
+			draft.isLoggingOut = false;
+			draft.isLoggedIn = false;
+			draft.admin = null;
+			break;
+		}
+		case LOGOUT_ADMIN_FAILURE: {
+			draft.isLoggingOut = false;
+			break;
+		}
+		default: {
+			break;
+		}
+	}
+})
+
+
+export default reducer;

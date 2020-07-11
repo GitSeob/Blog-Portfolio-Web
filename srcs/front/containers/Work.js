@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Box, Filter, UnderLine} from '../css/styledCss';
+
+import { Box } from '../css/styledCss';
 import Header from '../components/Header';
-import Port from '../components/Port';
-import Test from '../components/Test';
+import ProjSlide from '../components/ProjSlide';
 
 const Work = ({ data }) => {
 	return (
@@ -14,7 +14,7 @@ const Work = ({ data }) => {
 			<div id="portfolio" className="section-content gallery alternate l-section-holder">
 				{data.Works.map((c, i) => {
 					return (
-						<Test key={(i)} page={c} id={i}/>
+						<ProjSlide key={(i)} page={c} id={i}/>
 					);
 				})}
 			</div>

@@ -784,6 +784,11 @@ button {
 	background: transparent;
 }
 
+.Box .errorLoginMessage {
+	color: red;
+	font-size: 16px;
+}
+
 .Box .InputBox label{
 	position: absolute;
 	top: 0;
@@ -817,6 +822,20 @@ button {
 } */
 
 .Box input[type="submit"] {
+	color: rgb(255, 255, 255);
+	cursor: pointer;
+	border-width: initial;
+	border-style: none;
+	border-color: initial;
+	border-image: initial;
+	outline: none;
+	background: rgb(3, 169, 244);
+	padding: 10px 20px;
+	border-radius: 5px;
+	margin-right: 20px;
+}
+
+.Box input[type="button"] {
 	color: rgb(255, 255, 255);
 	cursor: pointer;
 	border-width: initial;
