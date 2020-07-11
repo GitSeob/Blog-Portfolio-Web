@@ -2,9 +2,10 @@ import React ,{useState, useCallback, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import Router from 'next/router';
+import axios from 'axios';
+import { END } from 'redux-saga';
 
-import Posting from '../containers/Posting';
-import {Close, Menu, Search, Edit} from '@material-ui/icons'
+import wrapper from '../store/configureStore';
 import { useSelector, useDispatch } from 'react-redux';
 import { LOAD_MAIN_POSTS_REQUEST, LOAD_CATEGORY_POSTS_REQUEST, LOAD_CATEGORY_REQUEST } from '../reducers/posts';
 
@@ -102,14 +103,22 @@ const Blog = () => {
 	);
 }
 
-Blog.getInitialProps = async ( context ) =>{
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+	const cookie = context.req ? context.req.headers.cookie : '';
+	axios.defaults.headers.Cookie = '';
+	if (context.req && cookie) {
+		axios.defaults.headers.Cookie = cookie;
+	}
 	context.store.dispatch({
 		type: LOAD_MAIN_POSTS_REQUEST,
 	});
 	context.store.dispatch({
 		type: LOAD_CATEGORY_REQUEST,
 	})
-}
+
+	context.store.dispatch(END);
+	await context.store.sagaTask.toPromise();
+})
 
 Blog.propTypes = {
 

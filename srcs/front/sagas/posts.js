@@ -49,9 +49,7 @@ import {
 } from '../reducers/posts';
 
 function addPostAPI(postData) {
-	return axios.post('/post', postData, {
-		withCredentials: true,
-	})
+	return axios.post('/post', postData)
 }
 
 function* addPost(action) {
@@ -196,9 +194,7 @@ function* watchLoadCategoryPosts() {
 }
 
 function editPostAPI(postData) {
-	return axios.patch(`/post/${postData.id}`, postData, {
-		withCredentials: true,
-	})
+	return axios.patch(`/post/${postData.id}`, postData)
 }
 
 function* editPost(action) {
@@ -248,8 +244,6 @@ function* watchLoadSearch() {
 function addCategoryAPI(name) {
 	return axios.post('/category', {
 		name: name
-	}, {
-		withCredentials: true,
 	})
 }
 
@@ -276,8 +270,6 @@ function* watchAddCategory() {
 function editCategoryAPI(data) {
 	return axios.patch(`/category/${data.index}`, {
 		name: data.name,
-	}, {
-		withCredentials: true,
 	})
 }
 
@@ -302,9 +294,7 @@ function* watchEditCategory() {
 }
 
 function removeCategoryAPI(categoryId) {
-	return axios.delete(`/category/${categoryId}`, {
-		withCredentials: true,
-	})
+	return axios.delete(`/category/${categoryId}`)
 }
 
 function* removeCategory(action) {
@@ -352,9 +342,7 @@ function* watchEditPostManage() {
 }
 
 function removeSelectedPostsAPI(postIds) {
-	return axios.post('/posts/remove', postIds, {
-		withCredentials: true,
-	})
+	return axios.post('/posts/remove', postIds)
 }
 
 function* removeSelectedPosts(action) {
@@ -378,9 +366,7 @@ function* watchRemoveSelectedPosts() {
 }
 
 function changeSelectedCategoryAPI(data) {
-	return axios.post('/posts/changeCategory', data, {
-		withCredentials: true,
-	})
+	return axios.post('/posts/changeCategory', data)
 }
 
 function* changeSelectedCategory(action){

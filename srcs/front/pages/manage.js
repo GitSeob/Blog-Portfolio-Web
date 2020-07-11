@@ -1,9 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import Head from 'next/head';
+import axios from 'axios';
+import { END } from 'redux-saga';
 
-import DefaultManage from '../components/formanage/DefaultManage';
+import wrapper from '../store/configureStore';
 import BlogManage from '../components/formanage/BlogManage';
 import PortManage from '../components/formanage/PortManage';
 import { LOAD_CATEGORY_REQUEST, LOAD_MAIN_POSTS_REQUEST } from '../reducers/posts';
@@ -53,7 +54,12 @@ const Manage = () => {
 
 }
 
-Manage.getInitialProps = async(context) => {
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+	const cookie = context.req ? context.req.headers.cookie : '';
+	axios.defaults.headers.Cookie = '';
+	if (context.req && cookie) {
+		axios.defaults.headers.Cookie = cookie;
+	}
 	context.store.dispatch({
 		type: LOAD_CATEGORY_REQUEST,
 	});
@@ -63,8 +69,9 @@ Manage.getInitialProps = async(context) => {
 	context.store.dispatch({
 		type: LOAD_PORT_DATA_REQUEST
 	})
-}
-
+	context.store.dispatch(END);
+	await context.store.sagaTask.toPromise();
+})
 Manage.propTypes = {
 
 };

@@ -12,9 +12,7 @@ import { UPLOAD_FAV_REQUEST,
 } from '../reducers/information';
 
 function changeFavAPI(dataForm) {
-	return axios.post('/information/image', dataForm, {
-		withCredentials: true,
-	})
+	return axios.post('/information/image', dataForm)
 }
 
 function* changeFav(action) {
@@ -39,9 +37,7 @@ function* watchChangeFav() {
 }
 
 function editInformationAPI(infoData) {
-	return axios.post('/information', infoData, {
-		withCredentials: true,
-	})
+	return axios.post('/information', infoData)
 }
 
 function* editInformation(action) {
@@ -65,9 +61,7 @@ function* watchEditInformation() {
 }
 
 function loadInfoAPI() {
-	return axios.get('/information', {
-		withCredentials: true,
-	})
+	return axios.get('/information')
 }
 
 function* loadInfo() {

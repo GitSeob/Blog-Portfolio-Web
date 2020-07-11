@@ -1,10 +1,14 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import PropTypes from 'prop-types';
+import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
 import Router from 'next/router';
+import axios from 'axios';
+import { END } from 'redux-saga';
 
-import { LOAD_ONE_POST_REQUEST, REMOVE_POST_REQUEST, LOAD_CATEGORY_POSTS_REQUEST, ON_EDIT, OPEN_POSTING } from '../reducers/posts';
+import wrapper from '../../store/configureStore';
+import { LOAD_ONE_POST_REQUEST, REMOVE_POST_REQUEST, LOAD_CATEGORY_POSTS_REQUEST, ON_EDIT, OPEN_POSTING } from '../../reducers/posts';
 import { useSelector, useDispatch } from 'react-redux';
 
 const OnePost = ({ id, postData }) => {
@@ -19,16 +23,6 @@ const OnePost = ({ id, postData }) => {
 				data: postData.id,
 			})
 		}
-	}, []);
-
-	const getCategoryPosts = useCallback(name => () => {
-		if (name === ''){
-			return ;
-		}
-		dispatch({
-			type: LOAD_CATEGORY_POSTS_REQUEST,
-			data: name,
-		})
 	}, []);
 
 	const onEditPost = useCallback((e) => {
@@ -57,10 +51,6 @@ const OnePost = ({ id, postData }) => {
 
 	return (
 		<>
-		<Head>
-			<title>{postData.title} :: anjoy</title>
-			<meta property="og:url" content={`http://localhost:3060/post/${id}`} />
-		</Head>
 		<div className="post-category-list index-type-common index-type-horizontal">
 			<ul className="post-list-horizontal">
 				<li className="category-content-area">
@@ -106,12 +96,21 @@ const OnePost = ({ id, postData }) => {
 	);
 }
 
-const Post = ({ id }) => {
+const Post = ( ) => {
+	const router = useRouter();
+	const { id } = router.query;
 	const { postData, category_list } = useSelector(state=>state.posts);
 
 	if (postData) {
 		return (
 			<>
+			<Head>
+				<title>{postData.title} :: anjoy</title>
+				<meta property="og:url" content={`http://localhost:3060/post/${postData.id}`} />
+				<meta name="description" content={postData.content} />
+				<meta property="og:title" content={`[${postData.title}] 게시글`} />
+				<meta property="og:description" content={postData.content} />
+			</Head>
 			<OnePost postData={postData} category_list={category_list}/>
 			</>
 		);
@@ -122,14 +121,21 @@ const Post = ({ id }) => {
 	}
 };
 
-Post.getInitialProps = async ( context ) =>{
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+	const cookie = context.req ? context.req.headers.cookie : '';
+	axios.defaults.headers.Cookie = '';
+	if (context.req && cookie) {
+		axios.defaults.headers.Cookie = cookie;
+	}
+
 	context.store.dispatch({
 		type: LOAD_ONE_POST_REQUEST,
-		data: context.query.id,
+		data: context.params.id,
 	})
 
-	return { id: parseInt(context.query.id, 10)}
-};
+	context.store.dispatch(END);
+	await context.store.sagaTask.toPromise();
+})
 
 Post.propTypes = {
 
