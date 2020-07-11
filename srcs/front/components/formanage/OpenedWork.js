@@ -1,10 +1,10 @@
-import React, {useState, useCallback, useEffect, useRef} from 'react';
+import React, {useState, useCallback, useRef} from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Title, Category, History, People, Code, Description, InsertPhoto, Create } from '@material-ui/icons';
 
 import axios from 'axios';
-import {useSetInput} from './BlogManage';
+import useSetInput from '../../hooks/useSetInput';
 import { WORK_EDIT_REQUEST, WORK_DELETE_REQUEST, CLICK_WORK_LIST } from '../../reducers/portfolio';
 
 const OpenedWork = ({ idx }) => {

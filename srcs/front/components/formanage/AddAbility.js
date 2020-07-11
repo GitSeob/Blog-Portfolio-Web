@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import {
 	ABILITY_ADD_REQUEST,
 } from '../../reducers/portfolio';
-import {useSetInput} from './BlogManage';
+import useSetInput from '../../hooks/useSetInput';
 
 const AddAbility = ({ addAbilName, OCAddAbilName, cancelAddAbil }) => {
 	const [addAttr, setAddAttr] = useState(false);

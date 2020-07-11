@@ -4,8 +4,7 @@ import axios from 'axios';
 import { useDispatch} from 'react-redux';
 import { Title, Category, History, People, Code, Description, InsertPhoto, Create } from '@material-ui/icons';
 
-import {useInput} from '../LoginForm';
-import {useSetInput} from './BlogManage';
+import useSetInput from '../../hooks/useSetInput';
 import { WORK_ADD_REQUEST } from '../../reducers/portfolio';
 
 const AddWork = ({ close_add_work}) => {

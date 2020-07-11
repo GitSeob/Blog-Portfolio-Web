@@ -1,24 +1,19 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import Router from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { LOGIN_ADMIN_REQUEST } from '../reducers/admin';
 import { CarrotSvg } from '../containers/Door';
-
-export const useInput = (initValue = null) => {
-    const [value, setter] = useState(initValue)
-    const handler = useCallback((e) =>{
-        setter(e.target.value)
-    }, [])
-    return [value, handler]
-}
+import useInput from '../hooks/useInput';
 
 const LoginForm = ({setClickedLogin}) => {
+	const { logInErrorReason } = useSelector(state=>state.admin);
+	const dispatch = useDispatch();
+
+	const [loginStatus, setLoginStatus] = useState('');
 	const [id, onChangeId] = useInput('')
 	const [password, onChangePassword] = useInput('')
-	const dispatch = useDispatch();
 	const [toggleID, setToggleID] = useState('label');
 	const [togglePW, setTogglePW] = useState('label');
-	const { admin, isloggedIn, isLoggingIn, logInErrorReason } = useSelector(state=>state.admin);
 
 	const onSubmitForm = useCallback((e) => {
 		e.preventDefault();
@@ -57,9 +52,7 @@ const LoginForm = ({setClickedLogin}) => {
 		else {
 			setTogglePW('label');
 		}
-		if (logInErrorReason !== '') {
-			alert(logInErrorReason);
-		}
+		setLoginStatus(logInErrorReason);
 	}, [id, password, toggleID, togglePW, logInErrorReason])
 
 		return (
@@ -91,6 +84,11 @@ const LoginForm = ({setClickedLogin}) => {
 								reguired=""></input>
 								<label className={togglePW}>Password</label>
 							</div>
+							{ loginStatus !== '' &&
+								<div className="errorLoginMessage">
+									{loginStatus}
+								</div>
+							}
 							<input
 								type="submit"
 								name=""

@@ -1,9 +1,6 @@
 import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-
-import {useSetInput} from './BlogManage';
-
 import RevisePortfolio from './RevisePortfolio';
 import ReviseAbility from './ReviseAbility';
 import ReviseWork from './ReviseWork';

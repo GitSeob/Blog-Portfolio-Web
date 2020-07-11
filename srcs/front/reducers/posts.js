@@ -271,7 +271,6 @@ const reducer = (state=initialState, action) => produce(state, (draft) => {
 
 		case EDIT_CATEGORY_SUCCESS: {
 			draft.category_list = action.data.category;
-			draft.mainPosts = action.data.posts;
 			break;
 		}
 

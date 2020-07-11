@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { Title, Description, Subtitles, AlternateEmail, ContactPhone, Code, Comment } from '@material-ui/icons';
 
-import {useSetInput} from './BlogManage';
+import useSetInput from '../../hooks/useSetInput';
 import { PORT_EDIT_REQUEST } from '../../reducers/portfolio';
 
 const RevisePortfolio = props => {
