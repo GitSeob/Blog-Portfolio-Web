@@ -39,6 +39,11 @@ const LoginForm = ({setClickedLogin}) => {
 		});
 	}, [id, password]);
 
+	const closeLoginForm = useCallback((e) => {
+		e.preventDefault();
+		setClickedLogin(false);
+	})
+
 	useEffect(() => {
 		if (id){
 			setToggleID('valid');
@@ -51,6 +56,9 @@ const LoginForm = ({setClickedLogin}) => {
 		}
 		else {
 			setTogglePW('label');
+		}
+		if (logInErrorReason !== '') {
+			alert(logInErrorReason);
 		}
 	}, [id, password, toggleID, togglePW, logInErrorReason])
 
@@ -87,6 +95,11 @@ const LoginForm = ({setClickedLogin}) => {
 								type="submit"
 								name=""
 								value="submit">
+							</input>
+							<input
+								type="button"
+								value="cancel"
+								onClick={closeLoginForm}>
 							</input>
 						</form>
 					</div>
