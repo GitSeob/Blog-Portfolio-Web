@@ -1,11 +1,10 @@
 import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import AppLayout from '../containers/AppLayout';
-// import Helmet from 'react-helmet';
-// import {Helmet} from 'react-helmet-async';
 import axios from 'axios';
 import Head from 'next/head';
 import AOS from 'aos';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 // modules for Redux connect
 import { createStore, applyMiddleware, compose } from 'redux';
@@ -45,12 +44,12 @@ const Home = ({ pathname, Component, store }) => {
 			{
 				return (
 					<>
-					<Head>
+					<Helmet>
 						<title>{blogTitle}</title>
 						<link rel="shortcut icon" href={faviconURL} />
 						<link rel="subresource" href="https://fonts.googleapis.com/css?family=Open+Sans|Quicksand:300,400,500" as="style" crossorigin="anonymous" />
 						<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-					</Head>
+					</Helmet>
 					<Background>
 						<Component/>
 					</Background>
@@ -61,10 +60,10 @@ const Home = ({ pathname, Component, store }) => {
 			{
 				return (
 					<>
-					<Head>
+					<Helmet>
 						<title>관리자 페이지</title>
 						<link rel="shortcut icon" href={faviconURL} />
-					</Head>
+					</Helmet>
 					<Background>
 						<ManageMenu>
 							<Component/>
@@ -77,10 +76,10 @@ const Home = ({ pathname, Component, store }) => {
 			{
 				return (
 					<>
-					<Head>
+					<Helmet>
 						<title>{blogTitle}</title>
 						<link rel="shortcut icon" href={faviconURL} />
-					</Head>
+					</Helmet>
 					<AppLayout pathname={pathname}>
 						<Component />
 					</AppLayout>
@@ -95,9 +94,11 @@ const Home = ({ pathname, Component, store }) => {
 	}
 
 	return (
-		<Provider store={store}>
-			<WrapComponent />
-		</Provider>
+		<HelmetProvider>
+			<Provider store={store}>
+				<WrapComponent />
+			</Provider>
+		</HelmetProvider>
 	);
 };
 
