@@ -37,43 +37,43 @@ const Container = styled.figure`
 `;
 
 const ListContainer = styled.ul`
-	display: flex;
-	flex-direction: column;
 	position: relative;
 	max-width: 40em;
 	padding: 0;
 	margin-bottom: 2em;
-	// margin-left: auto;
-	// margin-right: auto;
 
-	// li {
-	// 	display: list-item;
-	// 	margin: 0;
-	// 	padding-right: 1em;
-	// 	position: relative;
-	// 	text-align: -webkit-match-parent;
-	// }
+	@media screen and (max-width: 1259px) {
+		margin-left: auto;
+		margin-right: auto;
+	}
+
 `;
 
 const ListOne = styled.li`
-	display: flex;
-	flex-direction: row;
+	position: relative;
 	margin: 0;
 	padding-right: 1em;
+	padding-left: 12px;
 	margin-bottom: .5em;
+
+	& svg {
+		position: absolute;
+		left: 0;
+		top: -2px;
+	}
+	@media screen and (max-width: 1259px) {
+		display: inline-block;
+		margin: 0 .5em
+	}
+
+	@media screen and (max-width: 600px) {
+		display: list-item;
+	}
 
 	& p {
 		margin-left: .5em;
 		text-align: left;
 	}
-`;
-
-const Circle = styled.div`
-	width: 10px;
-	height: 10px;
-	margin-right: 10px;
-	background-color: #000;
-	border-radius: 50%;
 `;
 
 AbilityList.propTypes = {

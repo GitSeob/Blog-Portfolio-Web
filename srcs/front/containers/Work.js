@@ -5,11 +5,11 @@ import { Box } from '../css/styledCss';
 import Header from '../components/Header';
 import ProjSlide from '../components/ProjSlide';
 
-const Work = ({ data }) => {
+const Work = ({ data, classname }) => {
 	return (
-		<Box className='work' role='region' className="l-section">
+		<Box id="work" role='region' className="l-section">
 			<div data-aos='fade-up'>
-				<Header classname='work' subTitle={data.work_sub_title} title={data.work_title} />
+				<Header classname="work" subTitle={data.work_sub_title} title={data.work_title} />
 			</div>
 			<div id="portfolio" className="section-content gallery alternate l-section-holder">
 				{data.Works.map((c, i) => {

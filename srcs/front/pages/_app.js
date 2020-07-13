@@ -20,7 +20,7 @@ import { LOAD_CATEGORY_REQUEST } from '../reducers/posts';
 import AppLayout from '../containers/AppLayout';
 import ManageMenu from '../containers/ManageMenu';
 
-const Home = ({ pathname, Component, store }) => {
+const Home = ({ pathname, Component, windowSize }) => {
 	const { blogTitle, description, faviconURL } = useSelector(state=>state.information);
 
 	useEffect(() => {
@@ -61,7 +61,7 @@ const Home = ({ pathname, Component, store }) => {
 			{
 				return (
 					<>
-					<AppLayout pathname={pathname}>
+					<AppLayout pathname={pathname} windowSize={windowSize}>
 						<Component />
 					</AppLayout>
 					</>
@@ -81,6 +81,7 @@ const Home = ({ pathname, Component, store }) => {
 			<meta charSet='utf-8' />
 			<meta name="description" content={description} />
 			<meta name="og:description" content={description} />
+			<meta name="viewport" content="width=device-width, initial-scale=1" />
 			<link rel="shortcut icon" href={faviconURL} />
 			<link rel="subresource" href="https://fonts.googleapis.com/css?family=Open+Sans|Quicksand:300,400,500" as="style" crossOrigin="anonymous" />
 			<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />

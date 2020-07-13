@@ -10,7 +10,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { LOAD_MAIN_POSTS_REQUEST, LOAD_CATEGORY_POSTS_REQUEST, LOAD_CATEGORY_REQUEST } from '../reducers/posts';
 
 export const PostList = ({ mainPosts, boardTitle }) => {
-	const dispatch = useDispatch();
 
 	const getCategoryPosts = useCallback(name => () => {
 		if (name === ''){
@@ -60,7 +59,7 @@ export const PostList = ({ mainPosts, boardTitle }) => {
 											</strong>
 										</a>
 									</Link>
-									<div className="post-info-post">
+									<div className="post-info-post post-list">
 										<button className="post-link-category" onClick={getCategoryPosts(c.Category ? c.Category.name : '')}>
 											<span className="post-category">
 												{c.Category && c.Category.name}
@@ -77,7 +76,7 @@ export const PostList = ({ mainPosts, boardTitle }) => {
 										as={`/post/${c.id}`}
 									>
 										<a
-											className="post-link-article">
+											className="post-link-article post-txt-container">
 											<p className="post-txt-post">
 												{c.thumbnail_content}
 											</p>

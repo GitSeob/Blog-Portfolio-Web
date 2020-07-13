@@ -4,14 +4,13 @@ import styled from 'styled-components';
 
 const Header = ({ classname, title, subTitle }) => {
 	return (
-		<Container className={classname}>
+		<Container id="header" className={"section-heading " + classname}>
 			<SubTitle className={classname}>
 				{subTitle}
 			</SubTitle>
-			<Title className={classname}>
+			<Title className={"section-heading-title " + classname }>
 				{title}
 			</Title>
-			<UnderBar className={classname}/>
 		</Container>
 	);
 };
@@ -19,30 +18,11 @@ const Header = ({ classname, title, subTitle }) => {
 const Container = styled.div`
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	align-items: inherit;
 	margin-bottom: 20px;
-	text-align: right;
-
-	&.right {
-		align-items: flex-end;
-	}
-
-	&.left {
-		align-items: flex-start
-	}
+	text-align: inherit;
 `;
 
-const Line = styled.div`
-	position: absolute;
-	top: 0;
-	width: 0px;
-	height: 50px;
-	border-left: 1px solid #FFFFFF;
-	margin-bottom: 50px;
-	&.work {
-		border-left: 1px solid #000;
-	}
-`;
 
 const SubTitle = styled.span`
 	color: white;
@@ -51,9 +31,11 @@ const SubTitle = styled.span`
 	font-weight: 400;
 	speak: none;
 	display: block;
-	text-align: center;
 	margin-bottom: -10px;
 
+	@media screen and (max-width: 640px) {
+		font-size: 16px;
+	}
 	&.work {
 		color: #848383;
 	}
@@ -63,20 +45,42 @@ const Title = styled.span`
 	color: #FFFFFF;
 	padding-bottom: 16px;
 	font-size: 64px;
-	text-align: center;
-
+	position: relative;
+	@media screen and (max-width: 640px) {
+		font-size: 39px;
+	}
 	&.work {
 		color: #000;
+		&::after {
+			margin-left: -.625em;
+			left: 50%
+		}
+	}
+
+	&::after {
+		background: #45bbe7;
+		border-radius: .25em;
+		display: block;
+		width: 1.25em;
+		height: 2px;
+		position: absolute;
+		bottom: 0;
+		content: "";
+		@media screen and (max-width: 1259px) {
+			left: auto;
+		}
+	}
+
+	&.about::after {
+		right: 0;
+		margin: 0;
+	}
+	&.ability::after {
+		margin: 0;
+		left: 0;
 	}
 `;
 
-const UnderBar = styled.hr`
-	width: 100px;
-	border: 1px solid #45bbe7;
-	border-radius: 5px;
-
-
-`;
 
 Header.propTypes = {
 	title: PropTypes.string,

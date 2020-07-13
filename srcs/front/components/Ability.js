@@ -9,7 +9,7 @@ const Ability = ({ data }) => {
 	return (
 		<Box id='ability' role='region' className="l-section">
 			<div data-aos="zoom-in-left">
-				<Header classname="left" subTitle={data.ability_sub_title} title={data.ability_title} />
+				<Header classname="ability" subTitle={data.ability_sub_title} title={data.ability_title} />
 				<BubbleContainer>
 					{data.Abilities.map((c, i) => {
 						return (

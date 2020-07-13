@@ -12,6 +12,91 @@ import LoginForm from '../components/LoginForm';
 import Posting from '../containers/Posting';
 import Router from 'next/router';
 
+export const MobileMenuBar = ({onMenu, clickedLoginBtn, setClickedLogin}) => {
+	const { admin } = useSelector(state=>state.admin);
+	const { category_list } = useSelector(state=>state.posts)
+	const dispatch = useDispatch();
+
+	const getCategoryPosts = useCallback(name => () => {
+		if (name === ''){
+			return ;
+		}
+		Router.push({ pathname: '/category', query: { name: name } }, `/category/${name}`);
+	}, []);
+
+	const openMenu = {
+		display: onMenu ? 'block' : 'none',
+	};
+
+	const logoutCliked = useCallback(() => {
+		dispatch({
+			type: LOGOUT_ADMIN_REQUEST,
+		})
+	});
+
+	const loginClicked = useCallback(() => {
+		setClickedLogin(true);
+	}, [clickedLoginBtn]);
+
+	return (
+		<>
+			<div className="mobile-menu-wrap" style={openMenu}>
+				<nav className="mobile-menu-navigation">
+					<ul className="list-gnb">
+						<li className="t_menu">
+							<Link
+								href="/">
+								<a className="link-gnb link-lnb">
+									홈
+								</a>
+							</Link>
+						</li>
+					</ul>
+					<ul className="tt-category">
+						<li>
+							<ul className="post-category-list list-gnb" >
+								{
+									category_list.map((c, i) => {
+										return (
+											<li key={(i)} className="">
+												<button onClick={getCategoryPosts(c.name)} >
+													<a className="link-item link-gnb link-lnb">
+														{c.name}
+													</a>
+												</button>
+											</li>
+										);
+									})
+								}
+							</ul>
+						</li>
+					</ul>
+					<ul className="header-login-btn-wrap">
+						{ admin && <li>
+							<Link href="/manage">
+								<a className="header-login-btn">
+									<Settings /> 블로그 관리
+								</a>
+							</Link>
+						</li>}
+						<li>
+							{!admin ?
+								<button className="header-login-btn" onClick={loginClicked}>
+									<Person /> 로그인
+								</button>
+								:
+								<button className="header-login-btn" onClick={logoutCliked}>
+									<ExitToApp /> 로그아웃
+								</button>
+							}
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</>
+	);
+}
+
 export const MenuBar = ({onMenu, clickedLoginBtn, setClickedLogin}) => {
 	const { admin } = useSelector(state=>state.admin);
 	const { category_list } = useSelector(state=>state.posts)
@@ -96,10 +181,11 @@ export const MenuBar = ({onMenu, clickedLoginBtn, setClickedLogin}) => {
 }
 
 export const MainHeader = ({ onMenu, changeMenu, onSearch, changeSearch}) => {
+	const { blogTitle } = useSelector(state=>state.information);
 	const [keyword, OCKeyword] = useInput('');
 
 	const showSearchWindow = {
-		display: `${onSearch ? 'block' : 'none'}`
+		marginTop: `${onSearch ? 160 : 80}px`
 	}
 
 	const getSearchPost = useCallback((e) => {
@@ -112,16 +198,17 @@ export const MainHeader = ({ onMenu, changeMenu, onSearch, changeSearch}) => {
 	}, [keyword]);
 
 	return (
+		<>
 		<header id="post-header">
 			<div className="inner-header">
 				<h1 className="post-logo">
 					<Link href="/">
 						<a className="post-link-logo" title="title">
 							<span className="blind">
-								title
+								{blogTitle}
 							</span>
 							<span className="post-title-text">
-								title
+								{blogTitle}
 							</span>
 						</a>
 					</Link>
@@ -142,32 +229,43 @@ export const MainHeader = ({ onMenu, changeMenu, onSearch, changeSearch}) => {
 
 					</span>
 				</button>
-				<div className="post-area-search thema-apply" style={showSearchWindow}>
-					<form onSubmit={getSearchPost}>
-						<input
-							value={keyword}
-							name="keyword"
-							onChange={OCKeyword}
-							type="text"
-							placeholder="Search"
-							className="post-inp-search"
-						></input>
-					</form>
-				</div>
 			</div>
 		</header>
+		<div className="post-div-search" style={showSearchWindow}>
+			<div className="post-area-search thema-apply-for-mobile">
+				<form onSubmit={getSearchPost}>
+					<input
+						value={keyword}
+						name="keyword"
+						onChange={OCKeyword}
+						type="text"
+						placeholder="Search"
+						className="post-inp-search"
+					></input>
+				</form>
+			</div>
+		</div>
+		</>
 	);
 }
 
 const PostMain = ({ onMenu, changeMenu, onSearch, changeSearch, Component}) => {
-	const openMenu = {
+	const [isWeb, setWeb] = useState(true);
+	const openMenu = isWeb ? {
 		left: `${onMenu ? 380 : 0}px`
-	};
+	} : null;
+	const onOpendSearch = {
+		marginTop: `${onSearch ? 240 : 160}px`
+	}
+
+	useEffect(() => {
+		setWeb(window.innerWidth > 800);
+	}, [window.innerWidth]);
 
 	return (
 		<div id="post-container" style={openMenu}>
 			<MainHeader onMenu={onMenu} changeMenu={changeMenu.bind(null, onMenu)} onSearch={onSearch} changeSearch={changeSearch.bind(null, onSearch)}/>
-			<main id="post-main">
+			<main id="post-main" style={onOpendSearch}>
 				{Component}
 			</main>
 			<footer id="post-footer">
@@ -182,6 +280,7 @@ const AppLayout = ({ pathname, children }) => {
 	const { postingWindowOpen, category_list } = useSelector(state=>state.posts);
 	const dispatch = useDispatch();
 
+	const [isWeb, setWeb] = useState(true);
 	const [clickedLoginBtn, setClickedLogin] = useState(false);
 	const [onMenu, setMenu] = useState(false);
 	const [onSearch, setSearch] = useState(false);
@@ -211,15 +310,29 @@ const AppLayout = ({ pathname, children }) => {
 		);
 	}
 
+	const SideMenuBar = () => {
+		return (
+			<>
+				{!isWeb ?
+					<MobileMenuBar onMenu={onMenu} clickedLoginBtn={clickedLoginBtn} setClickedLogin={setClickedLogin}/>
+					:
+					<MenuBar onMenu={onMenu} clickedLoginBtn={clickedLoginBtn} setClickedLogin={setClickedLogin}/>
+				}
+			</>
+		)
+	}
+
 	useEffect(() => {
 		if (isLoggedIn) {
 			setClickedLogin(false);
 		}
-	}, [isLoggedIn]);
+		setWeb(window.innerWidth > 800);
+	}, [isLoggedIn, window.innerWidth]);
 
 	return (
 		<div id="post-wrap">
-			<MenuBar onMenu={onMenu} clickedLoginBtn={clickedLoginBtn} setClickedLogin={setClickedLogin}/>
+			<SideMenuBar />
+			{/*<MenuBar onMenu={onMenu} clickedLoginBtn={clickedLoginBtn} setClickedLogin={setClickedLogin}/>*/}
 			<PostMain onMenu={onMenu} changeMenu={changeMenu.bind(null, onMenu)} onSearch={onSearch} changeSearch={changeSearch.bind(null, onSearch)} Component={<Blogwrap/>}/>
 			{
 				admin &&
