@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Filter, AboutContent, UnderLine} from '../css/styledCss';
+import { Box, AboutContent } from '../css/styledCss';
 import Header from './Header';
 
 const About = ({ data }) => {
@@ -7,7 +7,7 @@ const About = ({ data }) => {
 	return (
 		<Box id='about' role='region' className="l-section">
 			<div data-aos="zoom-in-right" className="l-section-inner">
-				<Header classname="right" subTitle={data.about_sub_title} title={data.about_title}/>
+				<Header classname="about" subTitle={data.about_sub_title} title={data.about_title}/>
 				<AboutContent>
 					{contentValue.map((c, i) => {
 						return (

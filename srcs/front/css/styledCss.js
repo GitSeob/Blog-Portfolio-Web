@@ -2,9 +2,11 @@ import styled from 'styled-components';
 
 export const Box = styled.section`
 	position: relative;
-	// background-color: rgb(255, 188, 126, 0.2);
-	// display: flex;
 	flexDirection: column;
+
+	@media screen and (max-width: 1499px) {
+		padding: 100px 5vw;
+	}
 
 	&.work {
 		background-color: white;
@@ -85,8 +87,14 @@ export const AboutContent = styled.div`
 	color: #FFFFFF;
 	font-size: 12pt;
 	font-align: center;
+	max-width: 35rem;
 	margin-top: 5rem;
 	margin-left: auto;
+
+	@media screen and (max-width: 1259px) {
+		margin-left: auto;
+		margin-right: auto;
+	}
 
 	& p {
 		font-family: "Roboto",system-ui,-apple-system,BlinkMacSystemFont,"Malgun Gothic",Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
@@ -120,7 +128,8 @@ export const Bubble = styled.div`
 	padding: 0;
 
 	& figcaption {
-		margin-bottom: 1em;
+		margin-bottom: .5em;
+		font-size: 18px;
 	}
 
 	& h1 {

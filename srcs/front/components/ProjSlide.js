@@ -2,17 +2,15 @@ import React from 'react';
 
 const ProjSlide = ({ page , id = 1}) => {
 	const aosValue = id % 2 === 0 ? 'fade-right' : 'fade-left';
-	const order = {
-		order: `${id % 2 === 0 ? 1 : -1}`
-	}
+
 	return (
-		<div data-aos={aosValue}>
+		<div data-aos={aosValue} className="for-aos">
 		<article role='article' id={id} className="gallery-item">
 			<figure role="group" className="gallery-figure">
 				<div className="gallery-image">
 					<img className="gallery-image-thumb" src={page.imgSrc} alt={page.proj_name} />
 				</div>
-				<figcaption style={order} className="gallery-caption">
+				<figcaption className="gallery-caption">
 					<h3 className="gallery-title">
 						{page.proj_name}
 					</h3>

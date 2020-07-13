@@ -8,13 +8,12 @@ import Door from '../containers/Door';
 import Work from '../containers/Work';
 import Footer from '../containers/Footer';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { LOAD_PORT_DATA_REQUEST } from '../reducers/portfolio';
 import Introduction from '../containers/Introduction';
 
-const Portfolio = props => {
-	const dispatch = useDispatch();
-	const { data, isLoaded } = useSelector(state => state.portfolio);
+const Portfolio = ( ) => {
+	const { data } = useSelector(state => state.portfolio);
 
 	return (
 		<div className="port-wrap">
