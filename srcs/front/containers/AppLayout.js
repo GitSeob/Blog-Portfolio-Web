@@ -11,6 +11,7 @@ import { LOGOUT_ADMIN_REQUEST } from '../reducers/admin';
 import LoginForm from '../components/LoginForm';
 import Posting from '../containers/Posting';
 import Router from 'next/router';
+import useWindowSize from '../hooks/useWindowSize';
 
 export const MobileMenuBar = ({onMenu, clickedLoginBtn, setClickedLogin}) => {
 	const { admin } = useSelector(state=>state.admin);
@@ -249,18 +250,13 @@ export const MainHeader = ({ onMenu, changeMenu, onSearch, changeSearch}) => {
 	);
 }
 
-const PostMain = ({ onMenu, changeMenu, onSearch, changeSearch, Component}) => {
-	const [isWeb, setWeb] = useState(true);
+const PostMain = ({ onMenu, changeMenu, onSearch, changeSearch, Component, isWeb}) => {
 	const openMenu = isWeb ? {
 		left: `${onMenu ? 380 : 0}px`
 	} : null;
 	const onOpendSearch = {
 		marginTop: `${onSearch ? 240 : 160}px`
 	}
-
-	useEffect(() => {
-		setWeb(window.innerWidth > 800);
-	}, [window.innerWidth]);
 
 	return (
 		<div id="post-container" style={openMenu}>
@@ -284,6 +280,8 @@ const AppLayout = ({ pathname, children }) => {
 	const [clickedLoginBtn, setClickedLogin] = useState(false);
 	const [onMenu, setMenu] = useState(false);
 	const [onSearch, setSearch] = useState(false);
+
+	const windowSize = useWindowSize();
 
 	const changeMenu = (onMenu) => {
 		if(onMenu) {
@@ -326,14 +324,14 @@ const AppLayout = ({ pathname, children }) => {
 		if (isLoggedIn) {
 			setClickedLogin(false);
 		}
-		setWeb(window.innerWidth > 800);
-	}, [isLoggedIn, window.innerWidth]);
+		setWeb(windowSize > 800);
+	}, [windowSize, isWeb]);
 
 	return (
 		<div id="post-wrap">
 			<SideMenuBar />
 			{/*<MenuBar onMenu={onMenu} clickedLoginBtn={clickedLoginBtn} setClickedLogin={setClickedLogin}/>*/}
-			<PostMain onMenu={onMenu} changeMenu={changeMenu.bind(null, onMenu)} onSearch={onSearch} changeSearch={changeSearch.bind(null, onSearch)} Component={<Blogwrap/>}/>
+			<PostMain onMenu={onMenu} changeMenu={changeMenu.bind(null, onMenu)} onSearch={onSearch} changeSearch={changeSearch.bind(null, onSearch)} Component={<Blogwrap/>} isWeb={isWeb}/>
 			{
 				admin &&
 					<button className="posting-btn" onClick={() => { dispatch({ type: OPEN_POSTING }) }}>
