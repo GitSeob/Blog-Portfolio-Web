@@ -106,12 +106,11 @@ const reducer = (state=initialState, action) => produce(state, (draft) => {
 		}
 
 		case LOAD_MAIN_POSTS_REQUEST: {
-			draft.mainPosts = [];
 			draft.isLoadingPosts = true;
 			break;
 		}
 		case LOAD_MAIN_POSTS_SUCCESS: {
-			draft.mainPosts = action.data;
+			draft.mainPosts = draft.mainPosts.concat(action.data);
 			draft.isAddedPost = false;
 			draft.isEditedPost = false;
 			draft.isRemovedPost = false;
@@ -131,7 +130,7 @@ const reducer = (state=initialState, action) => produce(state, (draft) => {
 		}
 		case LOAD_CATEGORY_POSTS_SUCCESS: {
 			draft.isLoadingPosts = false;
-			draft.mainPosts = action.data.posts;
+			draft.mainPosts = draft.mainPosts.concat(action.data.posts);
 			draft.boardTitle = action.data.name;
 			draft.hasMorePosts = action.data.posts.length === 10;
 			break;
@@ -220,13 +219,13 @@ const reducer = (state=initialState, action) => produce(state, (draft) => {
 		case SEARCH_POSTS_SUCCESS: {
 			draft.isLoadingPosts = false;
 			draft.isLoadedPosts = true;
-			draft.mainPosts = action.data.posts;
+			draft.mainPosts = draft.mainPosts.concat(action.data.posts);
 			draft.boardTitle = action.data.keyword;
 			break;
 		}
 		case SEARCH_POSTS_FAILURE: {
 			draft.isLoadingPosts = false;
-			errorReason = action.error;
+			draft.errorReason = action.error;
 			break;
 		}
 

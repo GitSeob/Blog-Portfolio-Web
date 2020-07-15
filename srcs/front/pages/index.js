@@ -97,12 +97,14 @@ export const PostList = ({ mainPosts, boardTitle }) => {
 
 const Blog = () => {
 	const {mainPosts, boardTitle, hasMorePosts, isLoadingPosts } = useSelector(state=>state.posts)
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		const onScroll = () => {
-			if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
+			if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 180) {
 				if (hasMorePosts && !isLoadingPosts) {
 					const lastId = mainPosts[mainPosts.length - 1]?.id;
+					console.log('load request');
 					dispatch({
 						type: LOAD_MAIN_POSTS_REQUEST,
 						lastId,
