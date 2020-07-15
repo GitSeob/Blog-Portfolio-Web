@@ -1,12 +1,19 @@
 const express = require('express');
 const db = require('../models');
+const { Op } = require('sequelize');
 
 const { isLoggedIn } = require('./middleware');
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
 	try {
+		const where = {};
+		if (parseInt(req.query.lastId, 10)) { // 초기 로딩이 아닐 때
+		  where.id = { [Op.lt]: parseInt(req.query.lastId, 10)}
+		} // 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1
 		const posts = await db.Posts.findAll({
+			where,
+			limit: 10,
 			include: [{
 				model: db.Category,
 				attributes: ['id', 'name'],
@@ -22,12 +29,18 @@ router.get('/', async (req, res, next) => {
 
 router.get('/search/:keyword', async (req, res, next) => {
 	try {
+		const where = {
+			title: {
+				[db.Sequelize.Op.like]: "%" + req.params.keyword + "%",
+			}
+		};
+		if (parseInt(req.query.lastId, 10)) { // 초기 로딩이 아닐 때
+		  where.id = { [Op.lt]: parseInt(req.query.lastId, 10)}
+		} // 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1
+
 		const posts = await db.Posts.findAll({
-			where: {
-				title: {
-					[db.Sequelize.Op.like]: "%" + req.params.keyword + "%",
-				}
-			},
+			where,
+			limit: 10,
 			include: [{
 				model: db.Category,
 				attributes: ['id', 'name'],

@@ -72,8 +72,7 @@ const OnePost = ({ id, postData }) => {
 									<span className='post-date'>
 										{moment(postData.createdAt).format('YYYY.MM.DD')}
 									</span>
-								</div>
-								{(admin && admin.id) === postData.UserId &&
+									{(admin && admin.id) === postData.UserId &&
 									<div className="edit-post">
 										<button onClick={onEditPost}>
 											수정
@@ -84,6 +83,7 @@ const OnePost = ({ id, postData }) => {
 										</button>
 									</div>
 								}
+								</div>
 							</div>
 							<div className="article-view">
 								<Content />

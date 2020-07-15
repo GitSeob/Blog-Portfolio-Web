@@ -1,5 +1,6 @@
 const express = require('express');
 const db = require('../models');
+const { Op } = require('sequelize');
 
 const router = express.Router();
 const { isLoggedIn } = require('./middleware');
@@ -19,7 +20,13 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:name', async (req, res, next) => {
 	try {
+		const where = {};
+		if (parseInt(req.query.lastId, 10)) {
+			where.id = { [Op.lt]: parseInt(req.query.lastId, 10)}
+		};
 		const posts = await db.Posts.findAll({
+			where,
+			limit: 10,
 			include: [{
 				model: db.Category,
 				where: {

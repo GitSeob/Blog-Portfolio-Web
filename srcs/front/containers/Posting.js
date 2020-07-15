@@ -66,7 +66,7 @@ const SelectCate = ({category_list, setCategory, category_index}) => {
 	);
 }
 
-const Posting = ({category_list}) => {
+const Posting = ({category_list, pathname}) => {
 	const { isAddedPost, isAddingPost, isEdittingPost, isEditedPost, postEditMode, postData } = useSelector(state=>state.posts);
 	const { admin } = useSelector(state=>state.admin);
 	const dispatch = useDispatch();
@@ -137,7 +137,9 @@ const Posting = ({category_list}) => {
 			dispatch({
 				type: CLOSE_POSTING,
 			})
-			Router.push('/');
+			if (pathname !== '/') {
+				Router.push('/');
+			}
 		}
 		if (isEditedPost) {
 			alert("글이 수정되었습니다.");
