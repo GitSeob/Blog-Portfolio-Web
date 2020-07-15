@@ -37,6 +37,7 @@ const Toast = ({ editorValue, OCV}) => {
 			useCommandShortcut={true}
 			ref={editorRef}
 			onChange={handleChange}
+			hideModeSwitch={true}
 			hooks = {{
 				addImageBlobHook : (blob, callback, source) => {
 					uploadImage(blob).then(res => {
