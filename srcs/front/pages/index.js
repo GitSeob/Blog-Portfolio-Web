@@ -105,7 +105,6 @@ const Blog = () => {
 			if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 180) {
 				if (hasMorePosts && !isLoadingPosts) {
 					const lastId = mainPosts[mainPosts.length - 1]?.id;
-					console.log('load request');
 					dispatch({
 						type: LOAD_MAIN_POSTS_REQUEST,
 						lastId,

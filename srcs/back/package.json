@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "start": "cross-env NODE_ENV=production pm2 start app.js"
   },
   "author": "anjoy",
   "license": "MIT",
@@ -16,6 +17,7 @@
     "dotenv": "^8.0.0",
     "express": "^4.17.0",
     "express-session": "^1.16.1",
+    "greenlock-express": "^4.0.3",
     "helmet": "^3.18.0",
     "hpp": "^0.2.2",
     "morgan": "^1.9.1",
