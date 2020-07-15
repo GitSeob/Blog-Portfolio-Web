@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Router from 'next/router';
 import axios from 'axios';
 import { END } from 'redux-saga';
+import moment from 'moment';
 
 import wrapper from '../store/configureStore';
 import { useSelector, useDispatch } from 'react-redux';
@@ -31,7 +32,7 @@ export const PostList = ({ mainPosts, boardTitle }) => {
 				mainPosts.map((c, i) => {
 					return (
 						<li key={(i)} className="list-horizontal-item">
-							<div className="article-content">
+							<div className="article-content post-list">
 								<div className="thumbnail-zone">
 									<Link href={{
 										pathname: '/post',
@@ -66,7 +67,7 @@ export const PostList = ({ mainPosts, boardTitle }) => {
 											</span>
 										</button>
 										<div className="post-date">
-											{c.createdAt}
+											{moment(c.createdAt).format('YYYY.MM.DD')}
 										</div>
 									</div>
 									<Link href={{

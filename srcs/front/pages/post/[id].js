@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Router from 'next/router';
 import axios from 'axios';
 import { END } from 'redux-saga';
+import moment from 'moment';
 
 import wrapper from '../../store/configureStore';
 import { LOAD_ONE_POST_REQUEST, REMOVE_POST_REQUEST, LOAD_CATEGORY_POSTS_REQUEST, ON_EDIT, OPEN_POSTING } from '../../reducers/posts';
@@ -69,7 +70,7 @@ const OnePost = ({ id, postData }) => {
 										</a>
 									</Link>
 									<span className='post-date'>
-										{postData.createdAt}
+										{moment(postData.createdAt).format('YYYY.MM.DD')}
 									</span>
 								</div>
 								{(admin && admin.id) === postData.UserId &&
