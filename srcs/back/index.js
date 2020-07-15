@@ -5,8 +5,6 @@ const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
 const dotenv = require("dotenv");
 const passport = require('passport');
-//const path = require('path');
-//const helmet = require('helmet');
 
 const passportConfig = require('./passport');
 const db = require('./models');
@@ -21,6 +19,13 @@ const informationAPIRouter = require('./routes/information');
 
 dotenv.config();
 const app = express();
+
+//require('greenlock-express').init({
+//	packageRoot: __dirname,
+//	configDir: './greenlock.d',
+//	maintainerEmail: 'anhs0220@gmail.com'
+//}).server(app);
+
 db.sequelize.sync()
 	.then(() => {
 		console.log('✓ DB connection success.');
@@ -54,7 +59,7 @@ app.use('/globalImg', express.static('globalImg'));
 app.use('/img_for_portfolio', express.static('img_for_portfolio'));
 app.use('/', express.static('uploads')) // uploads 폴더를 다른 서버에서 자유롭게 가져갈 수 있게 해준다
 app.use(cors({
-	origin: 'http://localhost:3060', // 요청 주소랑 같게
+	origin: true,
 	credentials: true, // 서버쪽에서도 쿠키 주고받을 수 있게
 })) // 다른 서버에서 요청을 받을 수 있게 허용하게 해준다. 추가안하면 서버에서 거절함
 app.use(express.json({

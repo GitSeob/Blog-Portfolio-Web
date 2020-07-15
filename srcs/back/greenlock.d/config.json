@@ -1,0 +1,6 @@
+{
+	"sites": [{
+		"subject": "localhost",
+		"altnames": ["localhost"]
+	}]
+}
