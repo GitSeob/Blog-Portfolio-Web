@@ -251,9 +251,8 @@ export const MainHeader = ({ onMenu, changeMenu, onSearch, changeSearch}) => {
 }
 
 const PostMain = ({ onMenu, changeMenu, onSearch, changeSearch, Component, isWeb}) => {
-	const openMenu = isWeb ? {
-		left: `${onMenu ? 380 : 0}px`
-	} : null;
+	const openMenu = isWeb ? {left: `${onMenu ? 380 : 0}px`} : {left: '0px'};
+
 	const onOpendSearch = {
 		marginTop: `${onSearch ? 240 : 160}px`
 	}
@@ -308,29 +307,32 @@ const AppLayout = ({ pathname, children }) => {
 		);
 	}
 
-	const SideMenuBar = () => {
-		return (
-			<>
-				{!isWeb ?
-					<MobileMenuBar onMenu={onMenu} clickedLoginBtn={clickedLoginBtn} setClickedLogin={setClickedLogin}/>
-					:
-					<MenuBar onMenu={onMenu} clickedLoginBtn={clickedLoginBtn} setClickedLogin={setClickedLogin}/>
-				}
-			</>
-		)
-	}
-
 	useEffect(() => {
 		if (isLoggedIn) {
+			if (clickedLoginBtn) {
+				alert(`환영합니다 ${admin.nickname} 님`);
+			}
 			setClickedLogin(false);
 		}
-		setWeb(windowSize > 800);
-	}, [windowSize, isWeb]);
+		setWeb(windowSize.width > 800);
+	}, [windowSize, isWeb, isLoggedIn]);
 
 	return (
 		<div id="post-wrap">
-			<SideMenuBar />
-			{/*<MenuBar onMenu={onMenu} clickedLoginBtn={clickedLoginBtn} setClickedLogin={setClickedLogin}/>*/}
+
+			{ isWeb ?
+				<MenuBar
+					onMenu={onMenu}
+					clickedLoginBtn={clickedLoginBtn}
+					setClickedLogin={setClickedLogin}
+				/>
+				:
+				<MobileMenuBar
+					onMenu={onMenu}
+					clickedLoginBtn={clickedLoginBtn}
+					setClickedLogin={setClickedLogin}
+				/>
+			}
 			<PostMain onMenu={onMenu} changeMenu={changeMenu.bind(null, onMenu)} onSearch={onSearch} changeSearch={changeSearch.bind(null, onSearch)} Component={<Blogwrap/>} isWeb={isWeb}/>
 			{
 				admin &&
@@ -338,7 +340,7 @@ const AppLayout = ({ pathname, children }) => {
 						<Edit />
 					</button>
 			}
-			{ postingWindowOpen && <Posting category_list={category_list}/> }
+			{ postingWindowOpen && <Posting category_list={category_list} pathname={pathname}/> }
 			{ clickedLoginBtn && <LoginForm setClickedLogin={setClickedLogin}/> }
 		</div>
 	);

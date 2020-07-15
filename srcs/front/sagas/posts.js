@@ -217,7 +217,7 @@ function* watchEditPost() {
 	yield takeLatest(EDIT_POST_REQUEST, editPost);
 }
 
-function loadSearchPostAPI(keyword) {
+function loadSearchPostAPI(keyword, lastId) {
 	return axios.get(`/posts/search/${encodeURIComponent(keyword)}?lastId=${lastId || 0}`);
 } // SSR 환경에서 특수문자, 한글을 URL으로 전송할 때 디코딩이 필수 !
 

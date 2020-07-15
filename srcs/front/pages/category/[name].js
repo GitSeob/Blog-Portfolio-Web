@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { END } from 'redux-saga';
@@ -6,18 +6,19 @@ import Head from 'next/head';
 
 import wrapper from '../../store/configureStore';
 import { useRouter } from 'next/router';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {LOAD_CATEGORY_POSTS_REQUEST} from '../../reducers/posts';
 import {PostList} from '../index';
 
 const Category = ( ) => {
 	const router = useRouter();
+	const dispatch = useDispatch();
 	const { name } = router.query;
 	const {mainPosts, boardTitle, hasMorePosts, isLoadingPosts} = useSelector(state=>state.posts)
 
 	useEffect(() => {
 		const onScroll = () => {
-			if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
+			if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 180) {
 				if (hasMorePosts && !isLoadingPosts) {
 					const lastId = mainPosts[mainPosts.length - 1]?.id;
 					dispatch({
