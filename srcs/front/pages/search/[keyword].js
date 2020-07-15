@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { SEARCH_POSTS_REQUEST } from '../../reducers/posts';
 import { PostList } from '../index';
 import Head from 'next/head';
+import { LOAD_ADMIN_REQUEST } from '../../reducers/admin';
 
 
 const Search = ( ) => {
@@ -52,6 +53,12 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
 	axios.defaults.headers.Cookie = '';
 	if (context.req && cookie) {
 		axios.defaults.headers.Cookie = cookie;
+	}
+	const state = context.store.getState();
+	if (!state.admin.admin) {
+		context.store.dispatch({
+			type: LOAD_ADMIN_REQUEST,
+		})
 	}
 	const keyword = context.params.keyword;
 	context.store.dispatch({
