@@ -4,7 +4,7 @@ const initialState = {
 	category_list: [],
 	mainPosts: [],
 	boardTitle: '전체',
-	// 아래는 posting
+	hasMorePosts: true,
 	isAddingPost: false,
 	isAddedPost: false,
 	postData: null,
@@ -107,6 +107,7 @@ const reducer = (state=initialState, action) => produce(state, (draft) => {
 
 		case LOAD_MAIN_POSTS_REQUEST: {
 			draft.mainPosts = [];
+			draft.isLoadingPosts = true;
 			break;
 		}
 		case LOAD_MAIN_POSTS_SUCCESS: {
@@ -114,10 +115,13 @@ const reducer = (state=initialState, action) => produce(state, (draft) => {
 			draft.isAddedPost = false;
 			draft.isEditedPost = false;
 			draft.isRemovedPost = false;
+			draft.isLoadingPosts = false;
 			draft.boardTitle = '전체';
+			draft.hasMorePosts = action.data.length === 10;
 			break;
 		}
 		case LOAD_MAIN_POSTS_FAILURE: {
+			draft.isLoadingPosts = false;
 			break;
 		}
 
@@ -129,6 +133,7 @@ const reducer = (state=initialState, action) => produce(state, (draft) => {
 			draft.isLoadingPosts = false;
 			draft.mainPosts = action.data.posts;
 			draft.boardTitle = action.data.name;
+			draft.hasMorePosts = action.data.posts.length === 10;
 			break;
 		}
 		case LOAD_CATEGORY_POSTS_FAILURE: {

@@ -14,8 +14,27 @@ import Head from 'next/head';
 const Search = ( ) => {
 	const router = useRouter();
 	const { keyword } = router.query;
-	const {mainPosts, boardTitle} = useSelector(state=>state.posts)
+	const {mainPosts, boardTitle, isLoadingPosts, hasMorePosts} = useSelector(state=>state.posts)
 	const title = "[ " + boardTitle + " ] 키워드의 검색 결과";
+
+	useEffect(() => {
+		const onScroll = () => {
+			if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
+				if (hasMorePosts && !isLoadingPosts) {
+					const lastId = mainPosts[mainPosts.length - 1]?.id;
+					dispatch({
+						type: SEARCH_POSTS_REQUEST,
+						data: keyword,
+						lastId,
+					})
+				}
+			}
+		};
+		window.addEventListener('scroll', onScroll);
+		return () => {
+			window.removeEventListener('scroll', onScroll);
+		}
+	}, [hasMorePosts, isLoadingPosts, mainPosts]);
 
 	return (
 		<>
