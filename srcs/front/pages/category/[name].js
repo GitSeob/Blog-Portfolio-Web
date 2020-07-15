@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import {useSelector, useDispatch} from 'react-redux';
 import {LOAD_CATEGORY_POSTS_REQUEST} from '../../reducers/posts';
 import {PostList} from '../index';
+import { LOAD_ADMIN_REQUEST } from '../../reducers/admin';
 
 const Category = ( ) => {
 	const router = useRouter();
@@ -52,7 +53,12 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
 	if (context.req && cookie) {
 		axios.defaults.headers.Cookie = cookie;
 	}
-
+	const state = context.store.getState();
+	if (!state.admin.admin) {
+		context.store.dispatch({
+			type: LOAD_ADMIN_REQUEST,
+		})
+	}
 	context.store.dispatch({
 		type: LOAD_CATEGORY_POSTS_REQUEST,
 		data: name,
