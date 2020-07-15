@@ -5,7 +5,7 @@ import axios from 'axios';
 import { END } from 'redux-saga';
 
 import wrapper from '../../store/configureStore';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { SEARCH_POSTS_REQUEST } from '../../reducers/posts';
 import { PostList } from '../index';
 import Head from 'next/head';
@@ -13,9 +13,29 @@ import Head from 'next/head';
 
 const Search = ( ) => {
 	const router = useRouter();
+	const dispatch = useDispatch();
 	const { keyword } = router.query;
-	const {mainPosts, boardTitle} = useSelector(state=>state.posts)
+	const {mainPosts, boardTitle, isLoadingPosts, hasMorePosts} = useSelector(state=>state.posts)
 	const title = "[ " + boardTitle + " ] 키워드의 검색 결과";
+
+	useEffect(() => {
+		const onScroll = () => {
+			if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 180) {
+				if (hasMorePosts && !isLoadingPosts) {
+					const lastId = mainPosts[mainPosts.length - 1]?.id;
+					dispatch({
+						type: SEARCH_POSTS_REQUEST,
+						data: keyword,
+						lastId,
+					})
+				}
+			}
+		};
+		window.addEventListener('scroll', onScroll);
+		return () => {
+			window.removeEventListener('scroll', onScroll);
+		}
+	}, [hasMorePosts, isLoadingPosts, mainPosts]);
 
 	return (
 		<>

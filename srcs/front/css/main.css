@@ -1301,12 +1301,14 @@ ul {
 	margin: 0 5px;
 }
 
-.area-view-content .view-info-post,
-.area-view-content .edit-post {
+.area-view-content .view-info-post {
 	margin-bottom: 10px;
 	padding-bottom: 10px;
-	border-bottom: 1px solid #eee;
 	font-size: 12px;
+}
+
+.area-view-content .edit-post {
+
 }
 
 .article-content .article-view {
