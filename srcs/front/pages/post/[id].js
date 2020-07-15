@@ -11,6 +11,7 @@ import moment from 'moment';
 import wrapper from '../../store/configureStore';
 import { LOAD_ONE_POST_REQUEST, REMOVE_POST_REQUEST, LOAD_CATEGORY_POSTS_REQUEST, ON_EDIT, OPEN_POSTING } from '../../reducers/posts';
 import { useSelector, useDispatch } from 'react-redux';
+import { LOAD_ADMIN_REQUEST } from '../../reducers/admin';
 
 const OnePost = ({ id, postData }) => {
 	const { admin, isLoggedIn } = useSelector(state=>state.admin);
@@ -128,7 +129,12 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
 	if (context.req && cookie) {
 		axios.defaults.headers.Cookie = cookie;
 	}
-
+	const state = context.store.getState();
+	if (!state.admin.admin) {
+		context.store.dispatch({
+			type: LOAD_ADMIN_REQUEST,
+		})
+	}
 	context.store.dispatch({
 		type: LOAD_ONE_POST_REQUEST,
 		data: context.params.id,
