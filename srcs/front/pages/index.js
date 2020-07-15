@@ -96,7 +96,25 @@ export const PostList = ({ mainPosts, boardTitle }) => {
 }
 
 const Blog = () => {
-	const {mainPosts, boardTitle} = useSelector(state=>state.posts)
+	const {mainPosts, boardTitle, hasMorePosts, isLoadingPosts } = useSelector(state=>state.posts)
+
+	useEffect(() => {
+		const onScroll = () => {
+			if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
+				if (hasMorePosts && !isLoadingPosts) {
+					const lastId = mainPosts[mainPosts.length - 1]?.id;
+					dispatch({
+						type: LOAD_MAIN_POSTS_REQUEST,
+						lastId,
+					})
+				}
+			}
+		};
+		window.addEventListener('scroll', onScroll);
+		return () => {
+			window.removeEventListener('scroll', onScroll);
+		}
+	}, [hasMorePosts, isLoadingPosts, mainPosts]);
 
 	return (
 		<PostList mainPosts={mainPosts} boardTitle={boardTitle}/>

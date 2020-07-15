@@ -72,13 +72,13 @@ function* watchAddPost() {
 	yield takeLatest(ADD_POST_REQUEST, addPost);
 }
 
-function loadAllPostsAPI() {
-	return axios.get('/posts');
+function loadAllPostsAPI(lastId) {
+	return axios.get(`/posts?lastId=${lastId || 0}`);
 }
 
 function* loadAllPosts(action) {
 	try {
-		const result = yield call(loadAllPostsAPI);
+		const result = yield call(loadAllPostsAPI, action.lastId);
 		yield put({
 			type: LOAD_MAIN_POSTS_SUCCESS,
 			data: result.data,
@@ -169,13 +169,13 @@ function* watchRemovePost() {
 	yield takeLatest(REMOVE_POST_REQUEST, removePost);
 }
 
-function loadCategoryPostsAPI(categoryName) {
-	return axios.get(`/category/${encodeURIComponent(categoryName)}`)
+function loadCategoryPostsAPI(categoryName, lastId) {
+	return axios.get(`/category/${encodeURIComponent(categoryName)}?lastId=${lastId || 0}`);
 }
 
 function* loadCategoryPosts(action) {
 	try {
-		const result = yield call(loadCategoryPostsAPI, action.data)
+		const result = yield call(loadCategoryPostsAPI, action.data, action.lastId)
 		yield put({
 			type: LOAD_CATEGORY_POSTS_SUCCESS,
 			data: result.data
@@ -218,12 +218,12 @@ function* watchEditPost() {
 }
 
 function loadSearchPostAPI(keyword) {
-	return axios.get(`/posts/search/${encodeURIComponent(keyword)}`);
+	return axios.get(`/posts/search/${encodeURIComponent(keyword)}?lastId=${lastId || 0}`);
 } // SSR 환경에서 특수문자, 한글을 URL으로 전송할 때 디코딩이 필수 !
 
 function* loadSearchPost(action) {
 	try {
-		const result = yield call(loadSearchPostAPI, action.data);
+		const result = yield call(loadSearchPostAPI, action.data, action.lastId);
 		yield put({
 			type: SEARCH_POSTS_SUCCESS,
 			data: result.data,
