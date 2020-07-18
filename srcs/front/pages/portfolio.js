@@ -36,7 +36,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
 	if (context.req && cookie) {
 		axios.defaults.headers.Cookie = cookie;
 	}
-	ctx.store.dispatch({
+	context.store.dispatch({
 		type: LOAD_INFORMATION_REQUEST,
 	})
 	context.store.dispatch({

@@ -2,6 +2,7 @@ import React, { useCallback, useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Cancel,Reorder, Add, Title, Description, Grade, KeyboardArrowDown } from '@material-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
 import {
 	EDIT_CATEGORY_REQUEST,
@@ -148,6 +149,7 @@ const ChangeCate = ({category_list, checkedPostsId}) => {
 
 const BlogManage = ({ category_list, mainPosts }) => {
 	const { blogTitle, description, faviconURL, IconURLWillChanged } = useSelector(state=>state.information);
+	const { hasMorePosts, isLoadingPosts } = useSelector(state=>state.posts);
 
 	const [openAddCate, setOpenAddCate] = useState(false);
 	const [isChanged, setChanged] = useState(false);
@@ -160,6 +162,7 @@ const BlogManage = ({ category_list, mainPosts }) => {
 	const [checkedPostsId, setCheckedPostsId] = useState([]);
 	const [checkAllPosts, setCheckAllPosts] = useState(false);
 	const [faviconURLValue, setFaviconURL] = useState(faviconURL);
+
 	const imageInput = useRef();
 
 	const dispatch = useDispatch();
@@ -317,6 +320,17 @@ const BlogManage = ({ category_list, mainPosts }) => {
 			}
 		}
 	})
+
+	const loadMorePosts = useCallback((e) => {
+		e.preventDefault();
+		if (hasMorePosts && !isLoadingPosts) {
+			const lastId = mainPosts[mainPosts.length - 1]?.id;
+			dispatch({
+				type: LOAD_MAIN_POSTS_REQUEST,
+				lastId,
+			})
+		}
+	}, [hasMorePosts, isLoadingPosts])
 
 	useEffect(() => {
 		favChanged = faviconURL !== IconURLWillChanged;
@@ -480,14 +494,14 @@ const BlogManage = ({ category_list, mainPosts }) => {
 					<div className="manage-list-order">
 						{mainPosts.map((c, i) => {
 							return (
-								<div key={(c.id)} className="manage-bundle-list">
+								<div key={(i)} className="manage-bundle-list">
 									<input type="checkbox" onChange={selectPost(i, c)} checked={checkEachPost[i]} name="one_post" className="manage-post-checkbox"/>
 									<div className="manage-post-list-wrap">
 										<h4>{c.title}</h4>
 										<div>
 											<span className="text-category">{c.Category.name}</span>
 											<span className="text-info">공개</span>
-											<span className="text-info">{c.createdAt}</span>
+											<span className="text-info">{moment(c.createdAt).format('YYYY.MM.DD')}</span>
 										</div>
 										<div className="manage-btn-container">
 											<button className="manage-cate-btn" onClick={onEditPost(c)}>
@@ -501,6 +515,14 @@ const BlogManage = ({ category_list, mainPosts }) => {
 								</div>
 							);
 						})}
+						{ hasMorePosts &&
+							<div className="manage-bundle-list">
+								<button onClick={loadMorePosts}>
+								< Add style={{position: 'absolute', left: 0, top: '50%',fontSize: "16px", color: "#B4BAC2", transform: 'translate(50%, -50%)'}} />
+									더 불러오기
+								</button>
+							</div>
+						}
 					</div>
 				</div>
 			</div>

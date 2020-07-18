@@ -49,7 +49,7 @@ function* loadPortfolio(action){
 	} catch(e){
 		yield put({
 			type: LOAD_PORT_DATA_FAILURE,
-			error: e
+			error: e.response.data,
 		})
 	}
 }
@@ -72,7 +72,7 @@ function* editPortfolio(action){
 	} catch(e){
 		yield put({
 			type: PORT_EDIT_FAILURE,
-			error: e
+			error: e.response.data,
 		})
 	}
 }
@@ -97,7 +97,7 @@ function* addAbility(action) {
 		console.error(e);
 		yield put({
 			type: ABILITY_ADD_FAILURE,
-			error: e,
+			error: e.response.data,
 		})
 	}
 }
@@ -121,7 +121,7 @@ function* removeAbility(action) {
 		console.error(e);
 		yield put({
 			type: ABILITY_DELETE_FAILURE,
-			error: e,
+			error: e.response.data,
 		})
 	}
 }
@@ -145,7 +145,7 @@ function* editAbility(action) {
 		console.error(e);
 		yield put({
 			type: ABILITY_EDIT_FAILURE,
-			error: e,
+			error: e.response.data,
 		})
 	}
 }
@@ -169,7 +169,7 @@ function* editAbilityOnlyTitle(action) {
 		console.error(e);
 		yield put({
 			type: ABILITY_EDIT_ONLY_TITLE_FAILURE,
-			error: e,
+			error: e.response.data,
 		})
 	}
 }
@@ -193,7 +193,7 @@ function* editAbilityOnlyAttr(action) {
 		console.error(e);
 		yield put({
 			type: ABILITY_EDIT_ONLY_ATTR_FAILURE,
-			error: e,
+			error: e.response.data,
 		})
 	}
 }
@@ -217,7 +217,7 @@ function* editWork(action) {
 		console.error(e);
 		yield put({
 			type: WORK_EDIT_FAILURE,
-			error: e,
+			error: e.response.data,
 		})
 	}
 }
@@ -241,7 +241,7 @@ function* deleteWork(action) {
 		console.error(e);
 		yield put({
 			type: WORK_DELETE_FAILURE,
-			error: e,
+			error: e.response.data,
 		})
 	}
 }
@@ -265,7 +265,7 @@ function* addWork(action) {
 		console.error(e);
 		yield put({
 			type: WORK_ADD_FAILURE,
-			error: e,
+			error: e.response.data,
 		})
 	}
 }

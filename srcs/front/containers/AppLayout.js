@@ -18,13 +18,6 @@ export const MobileMenuBar = ({onMenu, clickedLoginBtn, setClickedLogin}) => {
 	const { category_list } = useSelector(state=>state.posts)
 	const dispatch = useDispatch();
 
-	const getCategoryPosts = useCallback(name => () => {
-		if (name === ''){
-			return ;
-		}
-		Router.push({ pathname: '/category', query: { name: name } }, `/category/${name}`);
-	}, []);
-
 	const openMenu = {
 		display: onMenu ? 'block' : 'none',
 	};
@@ -60,11 +53,11 @@ export const MobileMenuBar = ({onMenu, clickedLoginBtn, setClickedLogin}) => {
 									category_list.map((c, i) => {
 										return (
 											<li key={(i)} className="">
-												<button onClick={getCategoryPosts(c.name)} >
+												<Link href="/category/[name]" as={`/category/${c.name}`}>
 													<a className="link-item link-gnb link-lnb">
 														{c.name}
 													</a>
-												</button>
+												</Link>
 											</li>
 										);
 									})
@@ -103,13 +96,6 @@ export const MenuBar = ({onMenu, clickedLoginBtn, setClickedLogin}) => {
 	const { category_list } = useSelector(state=>state.posts)
 	const dispatch = useDispatch();
 
-	const getCategoryPosts = useCallback(name => () => {
-		if (name === ''){
-			return ;
-		}
-		Router.push({ pathname: '/category', query: { name: name } }, `/category/${name}`);
-	}, []);
-
 	const openMenu = {
 		left: `${onMenu ? 0 : -380}px`
 	};
@@ -144,11 +130,11 @@ export const MenuBar = ({onMenu, clickedLoginBtn, setClickedLogin}) => {
 								category_list.map((c, i) => {
 									return (
 										<li key={(i)} className="">
-											<button onClick={getCategoryPosts(c.name)} >
+											<Link href="/category/[name]" as={`/category/${c.name}`}>
 												<a className="link-item link-gnb link-lnb">
 													{c.name}
 												</a>
-											</button>
+											</Link>
 										</li>
 									);
 								})
@@ -192,7 +178,7 @@ export const MainHeader = ({ onMenu, changeMenu, onSearch, changeSearch}) => {
 	const getSearchPost = useCallback((e) => {
 		e.preventDefault();
 		if (keyword) {
-			Router.push({ pathname: '/search', query: { keyword: keyword } }, `/search/${keyword}`);
+			Router.push({ pathname: '/search/[keyword]', query: { keyword: keyword } }, `/search/${keyword}`);
 		} else {
 			alert("검색어를 입력하세요.");
 		}
@@ -319,7 +305,6 @@ const AppLayout = ({ pathname, children }) => {
 
 	return (
 		<div id="post-wrap">
-
 			{ isWeb ?
 				<MenuBar
 					onMenu={onMenu}

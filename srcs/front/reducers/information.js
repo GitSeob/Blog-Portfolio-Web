@@ -38,7 +38,6 @@ const reducer = (state=initialState, action) => produce(state, (draft) => {
 			break;
 		}
 		case LOAD_INFORMATION_FAILURE: {
-			draft.loadInfoErrorReason = action.error;
 			break;
 		}
 

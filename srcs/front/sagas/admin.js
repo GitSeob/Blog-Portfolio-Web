@@ -44,7 +44,7 @@ function* loadUser(action) {
 		// console.error(e);
 		yield put({
 			type: LOAD_ADMIN_FAILURE,
-			error: e,
+			error: e.response.data,
 		})
 	}
 }
@@ -69,6 +69,7 @@ function* logout(action) {
 		console.error(e);
 		yield put({
 			type: LOGOUT_ADMIN_FAILURE,
+			error: e.response.data,
 		})
 	}
 }

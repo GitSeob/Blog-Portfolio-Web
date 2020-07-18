@@ -63,7 +63,7 @@ function* addPost(action) {
 		console.error(e);
 		yield put({
 			type: ADD_POST_FAILURE,
-			error: e,
+			error: e.response.data,
 		});
 	}
 }
@@ -87,7 +87,7 @@ function* loadAllPosts(action) {
 		console.error(e);
 		yield put({
 			type: LOAD_MAIN_POSTS_FAILURE,
-			error: e,
+			error: e.response.data,
 		})
 	}
 }
@@ -110,7 +110,7 @@ function* loadOnePost(action) {
 	} catch(e) {
 		yield put({
 			type: LOAD_ONE_POST_FAILURE,
-			error: e,
+			error: e.response.data,
 		})
 	}
 }
@@ -134,7 +134,7 @@ function* loadCategory(action) {
 		console.error(e);
 		yield put({
 			type: LOAD_CATEGORY_FAILURE,
-			error: e,
+			error: e.response.data,
 		})
 	}
 }
@@ -160,7 +160,7 @@ function* removePost(action) {
 		console.error(e);
 		yield put({
 			type: REMOVE_POST_FAILURE,
-			error: e,
+			error: e.response.data,
 		})
 	}
 }
@@ -208,7 +208,7 @@ function* editPost(action) {
 		console.error(e);
 		yield put({
 			type: EDIT_POST_FAILURE,
-			error: e,
+			error: e.response.data,
 		})
 	}
 }
@@ -232,7 +232,7 @@ function* loadSearchPost(action) {
 		console.error(e);
 		yield put({
 			type: SEARCH_POSTS_FAILURE,
-			error: e,
+			error: e.response.data,
 		})
 	}
 }
@@ -258,7 +258,7 @@ function* addCategory(action) {
 		console.error(e);
 		yield put({
 			type: ADD_CATEGORY_FAILURE,
-			error: e,
+			error: e.response.data,
 		})
 	}
 }
@@ -284,7 +284,7 @@ function* editCategory(action) {
 		console.error(e);
 		yield put({
 			type: EDIT_CATEGORY_FAILURE,
-			error: e,
+			error: e.response.data,
 		})
 	}
 }
@@ -308,7 +308,7 @@ function* removeCategory(action) {
 		console.error(e);
 		yield put({
 			type: REMOVE_CATEGORY_FAILURE,
-			error: e,
+			error: e.response.data,
 		})
 	}
 }
@@ -332,7 +332,7 @@ function* editPostManage(action) {
 		console.error(e);
 		yield put({
 			type: EDIT_POST_MANAGE_FAILURE,
-			error: e,
+			error: e.response.data,
 		})
 	}
 }
@@ -356,7 +356,7 @@ function* removeSelectedPosts(action) {
 		console.error(e);
 		yield put({
 			type: REMOVE_SELECTED_POST_FAILURE,
-			error: e,
+			error: e.response.data,
 		})
 	}
 }
@@ -380,7 +380,7 @@ function* changeSelectedCategory(action){
 		console.error(e);
 		yield put({
 			type: CHANGE_SELECTED_POSTS_CATEGORY_FAILURE,
-			error: e,
+			error: e.response.data,
 		})
 	}
 }

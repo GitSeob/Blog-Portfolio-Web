@@ -27,7 +27,7 @@ function* changeFav(action) {
 		console.error(e);
 		yield put({
 			type: UPLOAD_FAV_FAILURE,
-			error: e,
+			error: e.response.data,
 		})
 	}
 }
@@ -51,7 +51,7 @@ function* editInformation(action) {
 		console.error(e);
 		yield put({
 			type: EDIT_INFORMATION_FAILURE,
-			error: e,
+			error: e.response.data,
 		})
 	}
 }
@@ -75,7 +75,7 @@ function* loadInfo() {
 		console.error(e);
 		yield put({
 			type: LOAD_INFORMATION_FAILURE,
-			error: e,
+			error: e.response.data,
 		})
 	}
 }

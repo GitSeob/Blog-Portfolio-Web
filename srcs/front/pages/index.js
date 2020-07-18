@@ -1,7 +1,6 @@
 import React ,{useState, useCallback, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
-import Router from 'next/router';
 import axios from 'axios';
 import { END } from 'redux-saga';
 import moment from 'moment';
@@ -13,14 +12,6 @@ import { LOAD_ADMIN_REQUEST } from '../reducers/admin';
 import { LOAD_INFORMATION_REQUEST } from '../reducers/information';
 
 export const PostList = ({ mainPosts, boardTitle }) => {
-
-	const getCategoryPosts = useCallback(name => () => {
-		if (name === ''){
-			return ;
-		}
-		Router.push(`/category/${name}`);
-	}, []);
-
 	return (
 		<>
 		<div className="post-category-list index-type-common index-type-horizontal">
@@ -36,7 +27,7 @@ export const PostList = ({ mainPosts, boardTitle }) => {
 						<li key={(i)} className="list-horizontal-item">
 							<div className="article-content post-list">
 								<div className="thumbnail-zone">
-									<Link href={`/post/${c.id}`} prefetch={false}>
+									<Link href="/post/[id]" as={`/post/${c.id}`} prefetch={false}>
 										<a
 											className="thumbnail-post" style={{
 											backgroundImage: `url(\'${c.thumbnail_img}\')`,
@@ -44,25 +35,27 @@ export const PostList = ({ mainPosts, boardTitle }) => {
 									</Link>
 								</div>
 								<div className="post-box-content">
-									<Link href={`/post/${c.id}`} prefetch={false}>
-										<a
-											className="post-link-title">
+									<Link href="/post/[id]" as={`/post/${c.id}`} prefetch={false}>
+										<a className="post-link-title">
 											<strong className="post-title-post">
 												{c.title}
 											</strong>
 										</a>
 									</Link>
 									<div className="post-info-post post-list">
-										<button className="post-link-category" onClick={getCategoryPosts(c.Category ? c.Category.name : '')}>
-											<span className="post-category">
-												{c.Category && c.Category.name}
-											</span>
-										</button>
+										<Link href="/category/[name]" as={`/category/${c.Category.name}`} prefetch={false}>
+										{/* onClick={getCategoryPosts(c.Category ? c.Category.name : '')}> */}
+											<a className="post-category">
+												{/* <span className="post-category"> */}
+													{c.Category && c.Category.name}
+												{/* </span> */}
+											</a>
+										</Link>
 										<div className="post-date">
 											{moment(c.createdAt).format('YYYY.MM.DD')}
 										</div>
 									</div>
-									<Link href={`/post/${c.id}`} prefetch={false}>
+									<Link href="/post/[id]" as={`/post/${c.id}`} prefetch={false}>
 										<a
 											className="post-link-article post-txt-container">
 											<p className="post-txt-post">

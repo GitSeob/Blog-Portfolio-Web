@@ -1,6 +1,5 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
 import Router from 'next/router';
@@ -64,7 +63,7 @@ const OnePost = ({ postData }) => {
 									{postData.title}
 								</div>
 								<div className="view-info-post">
-									<Link href={`/category/${postData.Category ? encodeURIComponent(postData.Category.name) : '/'}`} prefetch={false}>
+									<Link href={`/category/[name]`} as={`/category/${postData.Category ? encodeURIComponent(postData.Category.name) : '/'}`} prefetch={false}>
 										<a className="post-link-category">
 											<span className="post-category">
 												{postData.Category ? postData.Category.name : '카테고리없음'}
@@ -100,8 +99,6 @@ const OnePost = ({ postData }) => {
 }
 
 const Post = ( ) => {
-	const router = useRouter();
-	const { id } = router.query;
 	const { postData, category_list } = useSelector(state=>state.posts);
 
 	if (postData) {
