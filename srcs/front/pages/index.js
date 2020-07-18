@@ -18,7 +18,7 @@ export const PostList = ({ mainPosts, boardTitle }) => {
 		if (name === ''){
 			return ;
 		}
-		Router.push({ pathname: '/category', query: { name: name } }, `/category/${name}`);
+		Router.push(`/category/${name}`);
 	}, []);
 
 	return (
@@ -36,12 +36,7 @@ export const PostList = ({ mainPosts, boardTitle }) => {
 						<li key={(i)} className="list-horizontal-item">
 							<div className="article-content post-list">
 								<div className="thumbnail-zone">
-									<Link href={{
-										pathname: '/post',
-										query: {id : c.id},
-										}}
-										as={`/post/${c.id}`}
-									>
+									<Link href={`/post/${c.id}`} prefetch={false}>
 										<a
 											className="thumbnail-post" style={{
 											backgroundImage: `url(\'${c.thumbnail_img}\')`,
@@ -49,12 +44,7 @@ export const PostList = ({ mainPosts, boardTitle }) => {
 									</Link>
 								</div>
 								<div className="post-box-content">
-									<Link 	href={{
-										pathname: '/post',
-										query: {id: c.id},
-										}}
-										as={`/post/${c.id}`}
-										>
+									<Link href={`/post/${c.id}`} prefetch={false}>
 										<a
 											className="post-link-title">
 											<strong className="post-title-post">
@@ -72,12 +62,7 @@ export const PostList = ({ mainPosts, boardTitle }) => {
 											{moment(c.createdAt).format('YYYY.MM.DD')}
 										</div>
 									</div>
-									<Link href={{
-										pathname: '/post',
-										query: {id: c.id},
-										}}
-										as={`/post/${c.id}`}
-									>
+									<Link href={`/post/${c.id}`} prefetch={false}>
 										<a
 											className="post-link-article post-txt-container">
 											<p className="post-txt-post">

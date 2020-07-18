@@ -64,7 +64,7 @@ const OnePost = ({ postData }) => {
 									{postData.title}
 								</div>
 								<div className="view-info-post">
-									<Link href={`/category/${postData.Category ? postData.Category.name : '/'}`}>
+									<Link href={`/category/${postData.Category ? encodeURIComponent(postData.Category.name) : '/'}`} prefetch={false}>
 										<a className="post-link-category">
 											<span className="post-category">
 												{postData.Category ? postData.Category.name : '카테고리없음'}
