@@ -3,3 +3,6 @@ package-lock.json/
 .next/
 .env
 uploads/
+srcs.zip
+package-lock-json
+.DS_Store
