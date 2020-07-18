@@ -10,6 +10,7 @@ import Footer from '../containers/Footer';
 
 import { useSelector } from 'react-redux';
 import { LOAD_PORT_DATA_REQUEST } from '../reducers/portfolio';
+import { LOAD_INFORMATION_REQUEST } from '../reducers/information';
 import Introduction from '../containers/Introduction';
 
 const Portfolio = ( ) => {
@@ -35,6 +36,9 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
 	if (context.req && cookie) {
 		axios.defaults.headers.Cookie = cookie;
 	}
+	ctx.store.dispatch({
+		type: LOAD_INFORMATION_REQUEST,
+	})
 	context.store.dispatch({
 		type: LOAD_PORT_DATA_REQUEST,
 	})

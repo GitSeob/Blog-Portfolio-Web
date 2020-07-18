@@ -9,12 +9,13 @@ import { END } from 'redux-saga';
 import moment from 'moment';
 
 import wrapper from '../../store/configureStore';
-import { LOAD_ONE_POST_REQUEST, REMOVE_POST_REQUEST, LOAD_CATEGORY_POSTS_REQUEST, ON_EDIT, OPEN_POSTING } from '../../reducers/posts';
+import { LOAD_ONE_POST_REQUEST, REMOVE_POST_REQUEST, ON_EDIT, OPEN_POSTING, LOAD_CATEGORY_REQUEST } from '../../reducers/posts';
 import { useSelector, useDispatch } from 'react-redux';
 import { LOAD_ADMIN_REQUEST } from '../../reducers/admin';
+import { LOAD_INFORMATION_REQUEST } from '../../reducers/information';
 
-const OnePost = ({ id, postData }) => {
-	const { admin, isLoggedIn } = useSelector(state=>state.admin);
+const OnePost = ({ postData }) => {
+	const { admin } = useSelector(state=>state.admin);
 	const { isRemovedPost } = useSelector(state=>state.posts);
 	const dispatch = useDispatch();
 
@@ -135,6 +136,12 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
 			type: LOAD_ADMIN_REQUEST,
 		})
 	}
+	context.store.dispatch({
+		type: LOAD_INFORMATION_REQUEST,
+	})
+	context.store.dispatch({
+		type: LOAD_CATEGORY_REQUEST,
+	})
 	context.store.dispatch({
 		type: LOAD_ONE_POST_REQUEST,
 		data: context.params.id,

@@ -7,7 +7,8 @@ import Head from 'next/head';
 import wrapper from '../../store/configureStore';
 import { useRouter } from 'next/router';
 import {useSelector, useDispatch} from 'react-redux';
-import {LOAD_CATEGORY_POSTS_REQUEST} from '../../reducers/posts';
+import { LOAD_CATEGORY_POSTS_REQUEST, LOAD_CATEGORY_REQUEST } from '../../reducers/posts';
+import { LOAD_INFORMATION_REQUEST } from '../../reducers/information';
 import {PostList} from '../index';
 import { LOAD_ADMIN_REQUEST } from '../../reducers/admin';
 
@@ -59,6 +60,12 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
 			type: LOAD_ADMIN_REQUEST,
 		})
 	}
+	context.store.dispatch({
+		type: LOAD_INFORMATION_REQUEST,
+	})
+	context.store.dispatch({
+		type: LOAD_CATEGORY_REQUEST,
+	})
 	context.store.dispatch({
 		type: LOAD_CATEGORY_POSTS_REQUEST,
 		data: name,

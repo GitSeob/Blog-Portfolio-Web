@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
@@ -10,6 +10,7 @@ import PortManage from '../components/formanage/PortManage';
 import { LOAD_ADMIN_REQUEST } from '../reducers/admin';
 import { LOAD_CATEGORY_REQUEST, LOAD_MAIN_POSTS_REQUEST } from '../reducers/posts';
 import { LOAD_PORT_DATA_REQUEST } from '../reducers/portfolio';
+import { LOAD_INFORMATION_REQUEST } from '../reducers/information';
 
 const Manage = () => {
 	const { menuStatus } = useSelector(state=>state.manage);
@@ -61,6 +62,10 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
 	if (context.req && cookie) {
 		axios.defaults.headers.Cookie = cookie;
 	}
+
+	context.store.dispatch({
+		type: LOAD_INFORMATION_REQUEST,
+	})
 	context.store.dispatch({
 		type: LOAD_ADMIN_REQUEST,
 	})

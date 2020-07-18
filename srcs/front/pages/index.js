@@ -8,8 +8,9 @@ import moment from 'moment';
 
 import wrapper from '../store/configureStore';
 import { useSelector, useDispatch } from 'react-redux';
-import { LOAD_MAIN_POSTS_REQUEST, LOAD_CATEGORY_POSTS_REQUEST, LOAD_CATEGORY_REQUEST } from '../reducers/posts';
+import { LOAD_MAIN_POSTS_REQUEST, LOAD_CATEGORY_REQUEST } from '../reducers/posts';
 import { LOAD_ADMIN_REQUEST } from '../reducers/admin';
+import { LOAD_INFORMATION_REQUEST } from '../reducers/information';
 
 export const PostList = ({ mainPosts, boardTitle }) => {
 
@@ -140,6 +141,9 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
 	});
 	context.store.dispatch({
 		type: LOAD_CATEGORY_REQUEST,
+	})
+	context.store.dispatch({
+		type: LOAD_INFORMATION_REQUEST,
 	})
 
 	context.store.dispatch(END);
