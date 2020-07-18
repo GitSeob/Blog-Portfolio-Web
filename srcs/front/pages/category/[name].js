@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import axios from 'axios';
 import { END } from 'redux-saga';
 import Head from 'next/head';
