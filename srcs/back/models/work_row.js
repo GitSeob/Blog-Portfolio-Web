@@ -12,6 +12,9 @@ module.exports = (sequelize, DataType) => {
 			type: DataType.TEXT,
 			allowNull: false,
 		}
+	}, {
+		charset: 'utf8',
+		collate: 'utf8_general_ci'
 	})
 
 	Work_row.associate = (db) => {
