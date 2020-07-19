@@ -81,6 +81,10 @@ export const CHANGE_SELECTED_POSTS_CATEGORY_REQUEST = 'CHANGE_SELECTED_POSTS_CAT
 export const CHANGE_SELECTED_POSTS_CATEGORY_SUCCESS = 'CHANGE_SELECTED_POSTS_CATEGORY_SUCCESS';
 export const CHANGE_SELECTED_POSTS_CATEGORY_FAILURE = 'CHANGE_SELECTED_POSTS_CATEGORY_FAILURE';
 
+export const SET_CATEGORY_POSTS_REQUEST = 'SET_CATEGORY_POSTS_REQUEST';
+export const SET_CATEGORY_POSTS_SUCCESS = 'SET_CATEGORY_POSTS_SUCCESS';
+export const SET_CATEGORY_POSTS_FAILURE = 'SET_CATEGORY_POSTS_FAILURE';
+
 const reducer = (state=initialState, action) => produce(state, (draft) => {
 	switch (action.type) {
 		case OPEN_POSTING: {
@@ -124,6 +128,25 @@ const reducer = (state=initialState, action) => produce(state, (draft) => {
 			break;
 		}
 
+		case SET_CATEGORY_POSTS_REQUEST: {
+			draft.isLoadingPosts = true;
+			break;
+		}
+
+		case SET_CATEGORY_POSTS_SUCCESS: {
+			draft.isLoadingPosts = false;
+			draft.hasMorePosts = action.data.posts.length === 10;
+			draft.boardTitle = action.data.name;
+			draft.mainPosts = action.data.posts;
+			break;
+		}
+
+		case SET_CATEGORY_POSTS_FAILURE: {
+			draft.isLoadingPosts = false;
+			draft.errorReason = action.error;
+			break;
+		}
+
 		case LOAD_CATEGORY_POSTS_REQUEST: {
 			draft.isLoadingPosts = true;
 			break;
@@ -138,6 +161,7 @@ const reducer = (state=initialState, action) => produce(state, (draft) => {
 		case LOAD_CATEGORY_POSTS_FAILURE: {
 			draft.isLoadingPosts = false;
 			draft.errorReason = action.error;
+			break;
 		}
 
 		case LOAD_CATEGORY_REQUEST:
@@ -210,6 +234,7 @@ const reducer = (state=initialState, action) => produce(state, (draft) => {
 		case REMOVE_POST_FAILURE: {
 			draft.isRemovingPost = false;
 			draft.errorReason = action.error;
+			break;
 		}
 
 		case SEARCH_POSTS_REQUEST: {

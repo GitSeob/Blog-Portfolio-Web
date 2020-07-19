@@ -58,7 +58,7 @@ router.post('/', async (req, res, next) => {
 
 router.post('/image', upload.single('image'), async (req, res) => {
 	res.json({
-		url: `http://localhost:3065/${req.file.filename}`
+		url: `http://api.anjoy.info/${req.file.filename}`
 	});
 })
 

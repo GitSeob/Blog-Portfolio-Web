@@ -44,11 +44,8 @@ export const PostList = ({ mainPosts, boardTitle }) => {
 									</Link>
 									<div className="post-info-post post-list">
 										<Link href="/category/[name]" as={`/category/${c.Category.name}`} prefetch={false}>
-										{/* onClick={getCategoryPosts(c.Category ? c.Category.name : '')}> */}
 											<a className="post-category">
-												{/* <span className="post-category"> */}
 													{c.Category && c.Category.name}
-												{/* </span> */}
 											</a>
 										</Link>
 										<div className="post-date">

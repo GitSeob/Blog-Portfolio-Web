@@ -92,7 +92,7 @@ const Home = ({ pathname, Component, windowSize }) => {
 			<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 		</Head>
 		<WrapComponent />
-		{isLoaded && <Loading />}
+		{/*{isLoaded && <Loading />}*/}
 		</>
 	);
 };

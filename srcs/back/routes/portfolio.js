@@ -234,7 +234,7 @@ router.post('/ability/editAttr/:ability_id', async (req, res, next) => {
 
 router.post('/work/imgUpload', upload.single('image'), async (req, res) => {
 	res.json({
-		url: `http://localhost:3065/${req.file.filename}`
+		url: `http://api.anjoy.info/${req.file.filename}`
 	});
 })
 
@@ -287,7 +287,7 @@ router.post('/work/:work_id', async (req, res, next) => {
 			members: req.body.members,
 			repo: req.body.repo,
 			description: req.body.description,
-			imgSrc: req.body.imgSrc === '' ? 'http://localhost:3065/globalImg/noImg.png' : req.body.imgSrc,
+			imgSrc: req.body.imgSrc === '' ? 'http://api.anjoy.info/globalImg/noImg.png' : req.body.imgSrc,
 		}, {
 			where: {id: req.params.work_id}
 		})

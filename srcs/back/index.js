@@ -36,10 +36,21 @@ app.use(morgan('dev'))
 app.use('/globalImg', express.static('globalImg'));
 app.use('/img_for_portfolio', express.static('img_for_portfolio'));
 app.use('/', express.static('uploads'))
-app.use(cors({
-	origin: 'http://anjoy.info',
-	credentials: true,
-}))
+if (process.env.NODE_ENV === 'production') {
+	app.use(morgan('combined'));
+	app.use(hpp());
+	app.use(helmet());
+	app.use(cors({
+	  origin: 'http://anjoy.info',
+	  credentials: true,
+	}));
+  } else {
+	app.use(morgan('dev'));
+	app.use(cors({
+	  origin: true,
+	  credentials: true,
+	}));
+  }
 app.use(express.json({
 	limit: "50mb",
 }))
@@ -64,13 +75,13 @@ app.use(expressSession({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/api/user', userAPIRouter);
-app.use('/api/post', postAPIRouter);
-app.use('/api/posts', postsAPIRouter);
-app.use('/api/image', imageAPIRouter);
-app.use('/api/category', categoryAPIRouter);
-app.use('/api/information', informationAPIRouter);
-app.use('/api/portfolio', portAPIRouter);
+app.use('/user', userAPIRouter);
+app.use('/post', postAPIRouter);
+app.use('/posts', postsAPIRouter);
+app.use('/image', imageAPIRouter);
+app.use('/category', categoryAPIRouter);
+app.use('/information', informationAPIRouter);
+app.use('/portfolio', portAPIRouter);
 
 app.listen(80, () => {
 	console.log('server is running !');

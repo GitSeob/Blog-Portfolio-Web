@@ -14,6 +14,7 @@ import {
 	LOAD_MAIN_POSTS_REQUEST,
 	REMOVE_SELECTED_POST_REQUEST,
 	CHANGE_SELECTED_POSTS_CATEGORY_REQUEST,
+	SET_CATEGORY_POSTS_REQUEST,
 } from '../../reducers/posts';
 import {
 	UPLOAD_FAV_REQUEST,
@@ -51,7 +52,7 @@ const SelectCate = ({category_list}) => {
 		} else {
 			setCateName(c.name);
 			dispatch({
-				type: LOAD_CATEGORY_POSTS_REQUEST,
+				type: SET_CATEGORY_POSTS_REQUEST,
 				data: c.name,
 			})
 		}

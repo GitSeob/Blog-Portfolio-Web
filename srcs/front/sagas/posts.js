@@ -46,6 +46,9 @@ import {
 	CHANGE_SELECTED_POSTS_CATEGORY_REQUEST,
 	CHANGE_SELECTED_POSTS_CATEGORY_SUCCESS,
 	CHANGE_SELECTED_POSTS_CATEGORY_FAILURE,
+	SET_CATEGORY_POSTS_REQUEST,
+	SET_CATEGORY_POSTS_FAILURE,
+	SET_CATEGORY_POSTS_SUCCESS,
 } from '../reducers/posts';
 
 function addPostAPI(postData) {
@@ -389,6 +392,30 @@ function* watchChangeSelectedCategory() {
 	yield takeLatest(CHANGE_SELECTED_POSTS_CATEGORY_REQUEST, changeSelectedCategory);
 }
 
+function setCategoryPostsAPI(categoryName, lastId) {
+	return axios.get(`/category/${encodeURIComponent(categoryName)}?lastId=${lastId || 0}`);
+}
+
+function* setCategoryPosts(action) {
+	try {
+		const result = yield call(setCategoryPostsAPI, action.data, action.lastId);
+		yield put({
+			type: SET_CATEGORY_POSTS_SUCCESS,
+			data: result.data,
+		})
+	} catch(e){
+		console.error(e);
+		yield put({
+			type: SET_CATEGORY_POSTS_FAILURE,
+			error: e.response.data,
+		})
+	}
+}
+
+function* watchSetCategoryPosts() {
+	yield takeLatest(SET_CATEGORY_POSTS_REQUEST, setCategoryPosts);
+}
+
 export default function* postSaga(){
 	yield all([
 		fork(watchAddPost),
@@ -405,5 +432,6 @@ export default function* postSaga(){
 		fork(watchEditPostManage),
 		fork(watchRemoveSelectedPosts),
 		fork(watchChangeSelectedCategory),
+		fork(watchSetCategoryPosts),
 	])
 }

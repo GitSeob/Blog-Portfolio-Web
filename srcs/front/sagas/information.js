@@ -18,7 +18,6 @@ function changeFavAPI(dataForm) {
 function* changeFav(action) {
 	try {
 		const result = yield call(changeFavAPI, action.data);
-		console.log(result);
 		yield put({
 			type: UPLOAD_FAV_SUCCESS,
 			data: result.data.url,

@@ -4,8 +4,9 @@ import portfolio from './portfolio';
 import admin from './admin';
 import posts from './posts';
 import information from './information';
+import { backUrl } from '../config/config';
 
-axios.defaults.baseURL = 'http://localhost:3065/api'
+axios.defaults.baseURL = backUrl;
 axios.defaults.withCredentials = true;
 
 export default function* rootSaga(){

@@ -1,6 +1,6 @@
 {
 	"sites": [{
-		"subject": "localhost",
-		"altnames": ["localhost"]
+		"subject": "api.anjoy.info",
+		"altnames": ["api.anjoy.info"]
 	}]
 }

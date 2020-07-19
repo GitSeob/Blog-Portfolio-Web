@@ -23,7 +23,7 @@ function* login(action){
 }
 
 function* watchLogin() {
-	yield throttle(1000, LOGIN_ADMIN_REQUEST, login) // takeLastest 해도 request가는 건 막을 수 없다. 따라서, throttle을 쓴다.
+	yield takeLatest(LOGIN_ADMIN_REQUEST, login) // takeLastest 해도 request가는 건 막을 수 없다. 따라서, throttle을 쓴다.
     // throttle은 써준 시간동안 같은 리퀘스트를 받을 수 없게 해준다. ex) 1초동안 Action 1번만 ,,
 }
 
@@ -82,7 +82,6 @@ export default function* adminSaga(){
 	yield all([
 		fork(watchLogin),
 		fork(watchLoadUser),
-		fork(watchLogin),
 		fork(watchLogout),
 	])
 }
