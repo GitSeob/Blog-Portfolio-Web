@@ -81,8 +81,5 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
 	context.store.dispatch(END);
 	await context.store.sagaTask.toPromise();
 })
-Manage.propTypes = {
-
-};
 
 export default Manage;

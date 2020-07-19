@@ -108,8 +108,9 @@ const Post = ( ) => {
 				<title>{postData.title} :: anjoy</title>
 				<meta property="og:url" content={`http://localhost:3060/post/${postData.id}`} />
 				<meta name="description" content={postData.content} />
+				<meta name="og:image" content={postData.thumbnail_img} />
 				<meta property="og:title" content={`[${postData.title}] 게시글`} />
-				<meta property="og:description" content={postData.content} />
+				<meta property="og:description" content={postData.thumbnail_content} />
 			</Head>
 			<OnePost postData={postData} category_list={category_list}/>
 			</>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 
 import { Editor } from '@toast-ui/react-editor';
-
+import { backUrl } from '../config/config';
 
 const Toast = ({ editorValue, OCV}) => {
 	const editorRef = useRef();
@@ -14,10 +14,11 @@ const Toast = ({ editorValue, OCV}) => {
 
 	const uploadImage = (blob) => {
 		let imageFormData = new FormData();
+		const url = backUrl + "/post/images";
 
 		imageFormData.append('image', blob);
 		return axios.post(
-			'http://localhost:3065/api/post/images', imageFormData, {
+			url, imageFormData, {
 				withCredentials: true,
 			}
 		).then(res => {

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { call, all, fork, takeLatest, put, throttle } from 'redux-saga/effects';
+import { call, all, fork, takeLatest, put } from 'redux-saga/effects';
 
 import {
 	ADD_POST_REQUEST,
@@ -37,9 +37,7 @@ import {
 	REMOVE_CATEGORY_FAILURE,
 	EDIT_POST_MANAGE_REQUEST,
 	EDIT_POST_MANAGE_FAILURE,
-	OPEN_POSTING,
 	EDIT_POST_MANAGE_SUCCESS,
-	ON_EDIT,
 	REMOVE_SELECTED_POST_REQUEST,
 	REMOVE_SELECTED_POST_SUCCESS,
 	REMOVE_SELECTED_POST_FAILURE,
@@ -147,9 +145,7 @@ function* watchLoadCategory(){
 }
 
 function removePostAPI(postId) {
-	return axios.delete(`/post/${postId}`, {
-		withCredentials: true
-	});
+	return axios.delete(`/post/${postId}`);
 }
 
 function* removePost(action) {
@@ -193,7 +189,7 @@ function* loadCategoryPosts(action) {
 }
 
 function* watchLoadCategoryPosts() {
-	yield throttle(2000, LOAD_CATEGORY_POSTS_REQUEST, loadCategoryPosts);
+	yield takeLatest(LOAD_CATEGORY_POSTS_REQUEST, loadCategoryPosts);
 }
 
 function editPostAPI(postData) {

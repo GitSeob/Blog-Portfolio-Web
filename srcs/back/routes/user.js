@@ -6,10 +6,23 @@ const { isLoggedIn } = require('./middleware');
 
 const router = express.Router();
 
-router.get('/', isLoggedIn, (req, res) => {
-	const user = Object.assign({}, req.user.toJSON());
-	delete user.password;
-	return res.json(user);
+router.get('/', async (req, res, next) => {
+	try {
+		if (req.user) {
+			const fullUserWithoutPassword = await db.User.findOne({
+				where: {id : req.user.id},
+				attributes: {
+					exclude: ['password']
+				}
+			})
+			res.status(200).json(fullUserWithoutPassword);
+		} else {
+			res.status(200).json(null);
+		}
+	} catch (e) {
+		console.error(e);
+		next(e);
+	}
 })
 
 router.post('/login', (req, res, next) => {
