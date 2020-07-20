@@ -14,8 +14,6 @@ import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import wrapper from '../store/configureStore';
 import AppLayout from '../containers/AppLayout';
 import ManageMenu from '../containers/ManageMenu';
-import Loading from '../components/Loading';
-import { LOAD_ADMIN_REQUEST } from '../reducers/admin';
 
 const Home = ({ pathname, Component, windowSize }) => {
 	const { blogTitle, description, faviconURL, isLoading } = useSelector(state=>state.information);
@@ -93,7 +91,6 @@ const Home = ({ pathname, Component, windowSize }) => {
 			<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 		</Head>
 		<WrapComponent />
-		{/*{isLoaded && <Loading />}*/}
 		</>
 	);
 };
