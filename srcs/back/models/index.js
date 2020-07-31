@@ -3,7 +3,13 @@ const env = process.env.NODE_ENV || 'development';
 const config = require('../config/config')[env];
 const db = {};
 
-const sequelize = new Sequelize(config.database, config.username, config.password, config);
+const sequelize = new Sequelize(config.database, config.username, config.password, {
+	host: 'blog-db.cvjt8y9opoga.ap-northeast-2.rds.amazonaws.com',
+	port: 3306,
+	dialect: 'mysql',
+	pool: { maxConnections: 5, maxIdleTime: 30},
+	language: 'utf8'
+});
 
 db.Abilities = require('./abilities')(sequelize, Sequelize);
 db.Ab_list = require('./ab_list')(sequelize, Sequelize);
