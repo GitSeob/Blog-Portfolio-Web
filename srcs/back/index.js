@@ -16,7 +16,6 @@ const portAPIRouter = require('./routes/portfolio');
 const userAPIRouter = require('./routes/user');
 const postAPIRouter = require('./routes/post');
 const postsAPIRouter = require('./routes/posts');
-const imageAPIRouter = require('./routes/image');
 const categoryAPIRouter = require('./routes/category');
 const informationAPIRouter = require('./routes/information');
 
@@ -33,13 +32,16 @@ db.sequelize.sync()
 		console.log('✗ DB connection error. Please make sure DB is running.');
 		process.exit();
 });
+
 passportConfig();
+
 if (process.env.NODE_ENV === 'production') {
+	app.set('trust proxy', 1);
 	app.use(morgan('combined'));
 	app.use(hpp());
 	app.use(helmet());
 	app.use(cors({
-		origin: 'http://anjoy.info',
+		origin: 'https://anjoy.info',
 		credentials: true,
 	}));
 } else {
@@ -66,10 +68,11 @@ app.use(cookieParser(process.env.COOKIE_SECRET))
 app.use(session({
 	saveUninitialized: false,
 	resave: false,
+	proxy: true,
 	secret: process.env.COOKIE_SECRET,
 	cookie: {
 		httpOnly: true,
-		secure: false,
+		secure: true,
 		domain: process.env.NODE_ENV === 'production' && '.anjoy.info'
 	},
 }));
@@ -80,14 +83,13 @@ app.use(passport.session());
 app.use('/user', userAPIRouter);
 app.use('/post', postAPIRouter);
 app.use('/posts', postsAPIRouter);
-app.use('/image', imageAPIRouter);
 app.use('/category', categoryAPIRouter);
 app.use('/information', informationAPIRouter);
 app.use('/portfolio', portAPIRouter);
 
 app.get('/', (req, res) => {
 	res.send('hello express');
-  });
+});
 
 app.listen(3065, () => {
 	console.log('server is running !');

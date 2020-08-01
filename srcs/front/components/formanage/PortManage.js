@@ -1,5 +1,4 @@
-import React, { useCallback, useState, useEffect, useMemo } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 
 import RevisePortfolio from './RevisePortfolio';
 import ReviseAbility from './ReviseAbility';

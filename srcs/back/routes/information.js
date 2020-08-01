@@ -33,7 +33,7 @@ router.get('/', async (req, res, next) => {
 	}
 })
 
-router.post('/', async (req, res, next) => {
+router.post('/', isLoggedIn, async (req, res, next) => {
 	try {
 		await db.Blog.update({
 			title: req.body.blogTitle,
@@ -56,9 +56,9 @@ router.post('/', async (req, res, next) => {
 	}
 })
 
-router.post('/image', upload.single('image'), async (req, res) => {
+router.post('/image', isLoggedIn, upload.single('image'), async (req, res) => {
 	res.json({
-		url: `http://api.anjoy.info/${req.file.filename}`
+		url: `https://api.anjoy.info/${req.file.filename}`
 	});
 })
 

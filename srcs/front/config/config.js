@@ -1,1 +1,1 @@
-export const backUrl = 'http://api.anjoy.info';
+export const backUrl = 'https://api.anjoy.info';

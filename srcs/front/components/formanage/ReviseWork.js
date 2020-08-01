@@ -12,7 +12,6 @@ const ReviseWork = props => {
 	const dispatch = useDispatch();
 	const { data, workComponentIndex } = useSelector(state=>state.portfolio);
 
-	// const [workComponentIndex, setWorkComponentIndex] = useState(-1);
 	const [openAddWork, setOpenAddWork] = useState(false);
 
 	const openWork = useCallback((i) => (e) => {
@@ -21,12 +20,10 @@ const ReviseWork = props => {
 			type: CLICK_WORK_LIST,
 			data: i,
 		})
-		// setWorkComponentIndex(i);
 	}, [workComponentIndex]);
 
 	const closeWork = useCallback((e) => {
 		e.preventDefault();
-		// setWorkComponentIndex(-1);
 		dispatch({
 			type: CLICK_WORK_LIST,
 			data: -1,
@@ -42,23 +39,6 @@ const ReviseWork = props => {
 		e.preventDefault();
 		setOpenAddWork(false);
 	}, [openAddWork]);
-
-	const cancelAddWork = useCallback((e) => {
-		e.preventDefault();
-		setOpenAddWork(false);
-	}, [openAddWork])
-
-	const clickedCancelEditWorkBtn = useCallback((e) => {
-		e.preventDefault();
-	})
-
-	const clickedAbilWorkBtn = useCallback((i, c) => (e) => {
-		e.preventDefault();
-	})
-
-	const removeWork = useCallback((c) => (e) => {
-		e.preventDefault();
-	});
 
 	return (
 		<div className="manage-attr-wrap">

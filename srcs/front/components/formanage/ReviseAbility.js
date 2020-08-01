@@ -12,20 +12,15 @@ import {
 } from '../../reducers/portfolio';
 import useSetInput from '../../hooks/useSetInput';
 
-const ReviseAbility = props => {
+const ReviseAbility = () => {
 	const { data } = useSelector(state=>state.portfolio);
 	const dispatch = useDispatch();
 
 	const [editAbilName, setEditAbilName, OCEditAbilName] = useSetInput('');
-	// 어빌리티 타이틀 input에 필요한 state
 	const [addAbilName, setAddAbilName, OCAddAbilName] = useSetInput('');
-	// 어빌리티를 추가할 때 타이틀 input에 필요한 state
 	const [editAbilList, setEditAbilList] = useState([]);
-	// 어빌리티에 속하는 Attribute가 수정될 때 필요한 Array State
 	const [attrName, setAttrName, OCAttrName] = useSetInput('');
-	// 어빌리티에 속하는 Attribute를 추가할때 필요한 state,
 	const [isEditAbilList, setIsEditAbilList] = useState(false);
-	// 어빌리티에 속하는 Attribute가 수정되었는지 아닌지 확인하는 state
 
 	const [openAddAbil, setOpenAddAbil] = useState(false);
 	const [abilIndex, setAbilIndex] = useState(-1);

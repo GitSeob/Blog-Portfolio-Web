@@ -48,7 +48,7 @@ router.get('/', async (req, res, next) => {
 
 
 
-router.patch('/', async (req, res, next) => {
+router.patch('/', isLoggedIn, async (req, res, next) => {
 	try {
 		await db.Portfolio.update({
 			about_title: req.body.about_title,
@@ -90,7 +90,7 @@ router.patch('/', async (req, res, next) => {
 	}
 })
 
-router.post('/add/Ability', async (req, res, next) => {
+router.post('/add/Ability', isLoggedIn, async (req, res, next) => {
 	try {
 		const newAbility = await db.Abilities.create({
 			list_title: req.body.title,
@@ -118,18 +118,13 @@ router.post('/add/Ability', async (req, res, next) => {
 	}
 })
 
-router.post('/remove/ability', async (req, res, next) => {
+router.post('/remove/ability', isLoggedIn, async (req, res, next) => {
 	try {
 		const ability = await db.Abilities.findOne({ where: {id: req.body.abilityId}});
 		if (!ability) {
 			return res.status(404).send('존재하지 않는 어빌리티입니다.');
 		}
 		await db.Abilities.destroy({ where: { id: req.body.abilityId }});
-		// await db.Ab_list.destroy({
-		// 	where: {
-		// 		AbilityId: req.body.abilityId
-		// 	}
-		// });
 
 		const abilities = await db.Abilities.findAll({
 			include: [{
@@ -146,7 +141,7 @@ router.post('/remove/ability', async (req, res, next) => {
 	}
 })
 
-router.post('/ability/edit/:ability_id', async (req, res, next) => {
+router.post('/ability/edit/:ability_id', isLoggedIn, async (req, res, next) => {
 	try {
 		await db.Abilities.update({
 			list_title: req.body.title
@@ -180,7 +175,7 @@ router.post('/ability/edit/:ability_id', async (req, res, next) => {
 	}
 });
 
-router.post('/ability/editTitle/:ability_id', async (req, res, next) => {
+router.post('/ability/editTitle/:ability_id', isLoggedIn, async (req, res, next) => {
 	try {
 		await db.Abilities.update({
 			list_title: req.body.title
@@ -203,7 +198,7 @@ router.post('/ability/editTitle/:ability_id', async (req, res, next) => {
 	}
 });
 
-router.post('/ability/editAttr/:ability_id', async (req, res, next) => {
+router.post('/ability/editAttr/:ability_id', isLoggedIn, async (req, res, next) => {
 	try {
 		await db.Ab_list.destroy({
 			where: {AbilityId: req.params.ability_id}
@@ -232,7 +227,7 @@ router.post('/ability/editAttr/:ability_id', async (req, res, next) => {
 	}
 })
 
-router.post('/work/imgUpload', upload.single('image'), async (req, res) => {
+router.post('/work/imgUpload', isLoggedIn, upload.single('image'), async (req, res) => {
 	res.json({
 		url: `http://api.anjoy.info/${req.file.filename}`
 	});
@@ -272,7 +267,7 @@ router.post('/work', async (req, res, next) => {
 	}
 })
 
-router.post('/work/:work_id', async (req, res, next) => {
+router.post('/work/:work_id', isLoggedIn, async (req, res, next) => {
 	try {
 		const work = await db.Works.findOne({
 			where: {id: req.params.work_id}
@@ -312,7 +307,7 @@ router.post('/work/:work_id', async (req, res, next) => {
 	}
 })
 
-router.delete('/work/:work_id', async (req, res, next) => {
+router.delete('/work/:work_id', isLoggedIn, async (req, res, next) => {
 	try {
 		const work = await db.Works.findOne({ where: { id: req.params.work_id}})
 		if (!work) {

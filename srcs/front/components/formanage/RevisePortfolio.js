@@ -25,10 +25,6 @@ const RevisePortfolio = props => {
 
 	const [isChanged, setIsChanged] = useState(true);
 
-	// const resetValues = useCallback(() => {
-
-	// })
-
 	const submitChangedValue = useCallback((e) => {
 		e.preventDefault();
 		if (confirm(`변경사항을 저장하시겠습니까?`)) {

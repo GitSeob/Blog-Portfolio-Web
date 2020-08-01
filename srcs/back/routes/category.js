@@ -103,7 +103,6 @@ router.delete('/:id', isLoggedIn, async (req, res, next) => {
 		}, {
 			where: {CategoryId: req.params.id},
 		})
-		// 해당 카테고리의 게시물들의 CategoryId를 카테고리 없음(id = 1)로 바꾸어줘야함.
 		await db.Category.destroy({ where: {id: req.params.id }});
 		const editedPosts = await db.Posts.findAll({
 			include: [{

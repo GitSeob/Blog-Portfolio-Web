@@ -110,7 +110,7 @@ const Post = ( ) => {
 				<meta name="description" content={postData.content} />
 				<meta name="og:image" content={postData.thumbnail_img} />
 				<meta property="og:title" content={`[${postData.title}] 게시글`} />
-				<meta property="og:description" content={postData.thumbnail_content} />
+				<meta name="og:description" content={postData.thumbnail_content} />
 			</Head>
 			<OnePost postData={postData} category_list={category_list}/>
 			</>

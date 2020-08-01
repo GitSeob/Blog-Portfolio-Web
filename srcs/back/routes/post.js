@@ -32,7 +32,7 @@ router.post('/', isLoggedIn, async (req, res, next) => {
 		if (thumb_imgs) {
 			thumb_img = thumb_imgs[0].replace(/<img[^>]+src="/g, "");
 		} else {
-			thumb_img = "http://api.anjoy.info/globalImg/noImg.png";
+			thumb_img = "https://api.anjoy.info/globalImg/noImg.png";
 		}
 		console.log(req.body);
 		const newPost = await db.Posts.create({
@@ -93,7 +93,7 @@ router.patch('/:id', isLoggedIn, async (req, res, next) => {
 		if (thumb_imgs) {
 			thumb_img = thumb_imgs[0].replace(/<img[^>]+src="/g, "");
 		} else {
-			thumb_img = "http://api.anjoy.info/globalImg/noImg.png";
+			thumb_img = "https://api.anjoy.info/globalImg/noImg.png";
 		}
 
 		await db.Posts.update({
@@ -138,9 +138,9 @@ router.delete('/:id', isLoggedIn, async (req, res, next) => {
 	}
 })
 
-router.post('/images', upload.single('image'), (req, res) => {
+router.post('/images', isLoggedIn, upload.single('image'), (req, res) => {
 	res.json({
-		url: `http://api.anjoy.info/${req.file.filename}`
+		url: `https://api.anjoy.info/${req.file.filename}`
 	});
 });
 

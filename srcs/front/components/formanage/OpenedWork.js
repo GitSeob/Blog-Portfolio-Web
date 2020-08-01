@@ -66,7 +66,6 @@ const OpenedWork = ({ idx }) => {
 		e.preventDefault();
 		setEditStatus(false);
 		resetAllValue();
-		// + 정보 날리기
 	}, [editStatus])
 
 	const deleteWork = useCallback((e) => {
@@ -150,7 +149,6 @@ const OpenedWork = ({ idx }) => {
 	}, [tableValue])
 
 	const applyRow = useCallback((row, idx) => (e) => {
-		// e.preventDefault();
 		if (rowValue.row_name === row.row_name && rowValue.row_descript === row.row_descript && rowValue.row_content === row.row_content) {
 			alert('변경된 값이 없습니다.');
 			return ;

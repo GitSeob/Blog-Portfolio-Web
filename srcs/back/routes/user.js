@@ -2,7 +2,7 @@ const express = require('express');
 const db = require('../models');
 const passport = require('passport');
 
-const { isLoggedIn } = require('./middleware');
+const { isLoggedIn, isNotLoggedIn } = require('./middleware');
 
 const router = express.Router();
 
@@ -25,7 +25,7 @@ router.get('/', async (req, res, next) => {
 	}
 })
 
-router.post('/login', (req, res, next) => {
+router.post('/login', isNotLoggedIn, (req, res, next) => {
 	passport.authenticate('local', (err, user, info) => {
 		if (err){
 			console.errer(err);
@@ -51,7 +51,7 @@ router.post('/login', (req, res, next) => {
 	})(req, res, next)
 })
 
-router.post('/logout', (req, res) => {
+router.post('/logout', isLoggedIn, (req, res) => {
 	req.logout();
 	req.session.destroy();
 	res.send('logout 성공');
